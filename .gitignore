@@ -4,3 +4,11 @@
 *.jar
 *.war
 *.ear
+
+# intellij
+*.iml
+.idea/
+out/
+*.db
+
+exception.txt
