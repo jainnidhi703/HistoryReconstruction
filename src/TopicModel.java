@@ -8,8 +8,7 @@ import java.util.*;
 
 public class TopicModel {
 
-    // returns <filename, topicID>
-    public List<Cluster> Model(List<XmlDocument> documentList, int numTopics) throws Exception {
+    public List<Cluster> getClusters(List<XmlDocument> documentList, int numTopics) throws Exception {
 
         MalletDataImporter importer = new MalletDataImporter(MalletDataImporter.PipeType.Array);
 
