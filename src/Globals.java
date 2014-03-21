@@ -8,4 +8,8 @@ public class Globals {
     public static final String INDEX_STORE_DIR = "index/";
 
     public static int RETRIEVAL_RESULT_COUNT = 100;
+
+    public static int SENTENCES_FROM_EACH_CLUSTER = 10;
+
+    public static int TOPIC_TITLE_WORD_COUNT = 5;
 }

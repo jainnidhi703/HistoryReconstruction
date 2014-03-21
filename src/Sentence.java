@@ -1,3 +1,4 @@
+import java.util.Random;
 
 public class Sentence {
 
@@ -37,5 +38,12 @@ public class Sentence {
 
     public int getClusterID() {
         return clusterID;
+    }
+
+
+    // FIXME : the trouble maker :P
+    public double getSimilarity(Sentence s) {
+        Random rand = new Random(System.currentTimeMillis());
+        return rand.nextDouble();
     }
 }

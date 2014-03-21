@@ -1,12 +1,15 @@
 //package cc.mallet.examples;
 
 import cc.mallet.topics.ParallelTopicModel;
+import cc.mallet.types.IDSorter;
 import cc.mallet.types.InstanceList;
 import cc.mallet.types.LabelSequence;
 
 import java.util.*;
 
 public class TopicModel {
+
+    private List<String> topicTitles;
 
     public List<Cluster> getClusters(List<XmlDocument> documentList, int numTopics) throws Exception {
 
@@ -82,7 +85,37 @@ public class TopicModel {
             Arrays.fill(topicCounts, 0);
         }
 
+        topicTitles = getTopics(model, Globals.TOPIC_TITLE_WORD_COUNT);
+
         return clusters;
+    }
+
+    private List<String> getTopics(ParallelTopicModel model, int numWords) {
+
+        List<String> topicList = new ArrayList<String>();
+
+        ArrayList<TreeSet<IDSorter>> topicSortedWords = model.getSortedWords();
+
+        // Print results for each topic
+        for (int topic = 0; topic < model.getNumTopics(); topic++) {
+            StringBuilder out = new StringBuilder();
+            TreeSet<IDSorter> sortedWords = topicSortedWords.get(topic);
+            int word = 1;
+            Iterator<IDSorter> iterator = sortedWords.iterator();
+
+            while (iterator.hasNext() && word < numWords) {
+                IDSorter info = iterator.next();
+                out.append(model.alphabet.lookupObject(info.getID())).append(" ");
+                word++;
+            }
+            topicList.add(topic, out.toString());
+        }
+
+        return topicList;
+    }
+
+    public List<String> getTopicTitles() {
+        return topicTitles;
     }
 
 }
