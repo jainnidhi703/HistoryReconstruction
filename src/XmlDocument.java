@@ -16,6 +16,11 @@ public class XmlDocument {
         }
     }
 
+    public XmlDocument() {
+        filename = null;
+        content = null;
+        title = null;
+    }
 
     public XmlDocument(String filename) throws XMLStreamException, IOException {
         XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -98,6 +103,18 @@ public class XmlDocument {
 
     public boolean isError() {
         return error;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
 

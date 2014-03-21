@@ -1,20 +1,48 @@
 import cc.mallet.pipe.*;
 import cc.mallet.pipe.iterator.FileIterator;
+import cc.mallet.types.Instance;
 import cc.mallet.types.InstanceList;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class MalletDataImporter {
+
     Pipe pipe;
 
-    public MalletDataImporter() {
-        pipe = buildPipe();
+    public enum PipeType {Array, File}
+
+    public MalletDataImporter(PipeType pt) {
+        if(pt == PipeType.File)
+            pipe = buildPipeForFile();
+        else
+            pipe = buildPipeForArray();
     }
 
-    private Pipe buildPipe() {
+    private Pipe buildPipeForArray() {
+        ArrayList<Pipe> pipeList = new ArrayList<Pipe>();
+
+        // tokenize raw strings
+        pipeList.add(new CharSequence2TokenSequence());
+
+        // Normalize all tokens to all lowercase
+        pipeList.add(new TokenSequenceLowercase());
+
+        // Remove stopwords from a standard English stoplist.
+        //  options: [case sensitive] [mark deletions]
+        pipeList.add( new TokenSequenceRemoveStopwords(new File("en.txt"), "UTF-8", false, false, false) );
+
+        // Rather than storing tokens as strings, convert
+        //  them to integers by looking them up in an alphabet.
+        pipeList.add(new TokenSequence2FeatureSequence());
+
+        return new SerialPipes(pipeList);
+    }
+
+    private Pipe buildPipeForFile() {
         ArrayList<Pipe> pipeList = new ArrayList<Pipe>();
 
         // Read data from File Objects
@@ -75,6 +103,14 @@ public class MalletDataImporter {
         // Now process each instance provided by the iterator.
         instances.addThruPipe(iterator);
 
+        return instances;
+    }
+
+    public InstanceList readXmlDocuments(List<XmlDocument> xmldocs) {
+        InstanceList instances = new InstanceList(pipe);
+        for (XmlDocument doc : xmldocs) {
+            instances.addThruPipe(new Instance(doc.getTitle()+" "+doc.getContent(),null,doc.getFilename(),null));
+        }
         return instances;
     }
 

@@ -7,4 +7,5 @@ public class Globals {
 
     public static final String INDEX_STORE_DIR = "index/";
 
+    public static int RETRIEVAL_RESULT_COUNT = 100;
 }

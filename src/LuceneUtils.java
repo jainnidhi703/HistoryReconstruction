@@ -9,11 +9,11 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class LuceneUtil {
+public final class LuceneUtils {
 
     public enum Stemmer {Porter, Morpho, Porter2}
 
-    private LuceneUtil() {}
+    private LuceneUtils() {}
 
     public static List<String> tokenizeString(Analyzer analyzer, String string) {
         List<String> result = new ArrayList<String>();
