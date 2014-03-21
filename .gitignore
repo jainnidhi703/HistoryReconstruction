@@ -13,3 +13,7 @@ out/
 
 exception.txt
 topics.txt
+
+# project related folders
+temp/ # contains text files of the retrieved documents
+index/ # stores indexed data
