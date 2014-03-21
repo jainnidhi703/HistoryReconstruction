@@ -4,15 +4,12 @@ import cc.mallet.topics.ParallelTopicModel;
 import cc.mallet.types.InstanceList;
 import cc.mallet.types.LabelSequence;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TopicModel {
 
     // returns <filename, topicID>
-    public HashMap<String, Integer> Model(List<XmlDocument> documentList, int numTopics) throws Exception {
+    public List<Cluster> Model(List<XmlDocument> documentList, int numTopics) throws Exception {
 
         MalletDataImporter importer = new MalletDataImporter(MalletDataImporter.PipeType.Array);
 
@@ -41,10 +38,21 @@ public class TopicModel {
 //        File file = new File("topics.txt");
 //        model.printDocumentTopics(file);
 
+        HashMap<String, Document> docMap = new HashMap<String, Document>();
+        for(XmlDocument xmlDoc : documentList) {
+            Document d = new Document(-1,xmlDoc.getFilename(),xmlDoc.getTitle() + " " + xmlDoc.getContent());
+            docMap.put(xmlDoc.getFilename(), d);
+        }
+
         numTopics = model.getNumTopics();
         int[] topicCounts = new int[ numTopics ];
 
-        HashMap<String, Integer> documentTopics = new HashMap<String, Integer>();
+        List<Cluster> clusters = new ArrayList<Cluster>(numTopics);
+        for(int i = 0; i < numTopics; ++i) {
+            Cluster c = new Cluster(i, null);
+            clusters.add(i, c);
+        }
+
         for(int doc = 0; doc < model.data.size(); ++doc) {
             LabelSequence topicSequence = model.data.get(doc).topicSequence;
             int[] currentDocTopics = topicSequence.getFeatures();
@@ -68,23 +76,14 @@ public class TopicModel {
                 }
             }
 
-            documentTopics.put(model.data.get(doc).instance.getName().toString(),mxTopic);
+            Document dd = docMap.get(model.data.get(doc).instance.getName().toString());
+            dd.setClusterID(mxTopic);
+            clusters.get(mxTopic).addDocument(dd);
 
             Arrays.fill(topicCounts, 0);
         }
 
-//        printDocumentTopics(documentTopics);
-
-        return documentTopics;
-    }
-
-    public void printDocumentTopics(HashMap<String, Integer> documentTopics) {
-        for(Map.Entry<String, Integer> entry : documentTopics.entrySet()) {
-            String key = entry.getKey();
-            Integer value = entry.getValue();
-
-            System.out.println(key + " => " + value);
-        }
+        return clusters;
     }
 
 }
