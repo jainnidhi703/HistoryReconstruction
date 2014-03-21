@@ -1,4 +1,6 @@
 *.class
+temp/
+index/
 
 # Package Files #
 # *.jar (required for libs)
@@ -14,6 +16,3 @@ out/
 exception.txt
 topics.txt
 
-# project related folders
-temp/ # contains text files of the retrieved documents
-index/ # stores indexed data
