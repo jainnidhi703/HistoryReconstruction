@@ -48,13 +48,6 @@ public class MalletDataImporter {
         //  which has an index in a Label alphabet.
         pipeList.add(new Target2Label());
 
-        // Now convert the sequence of features to a sparse vector,
-        //  mapping feature IDs to counts.
-        pipeList.add(new FeatureSequence2FeatureVector());
-
-        // Print out the features and the label
-        pipeList.add(new PrintInputAndTarget());
-
         return new SerialPipes(pipeList);
     }
 
@@ -62,7 +55,7 @@ public class MalletDataImporter {
         return readDirectories(new File[] {directory});
     }
 
-    private InstanceList readDirectories(File[] directories) {
+    public InstanceList readDirectories(File[] directories) {
         // Construct a file iterator, starting with the
         //  specified directories, and recursing through subdirectories.
         // The second argument specifies a FileFilter to use to select
