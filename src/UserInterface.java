@@ -11,8 +11,10 @@ import java.awt.event.MouseEvent;
 public class UserInterface extends JFrame implements ActionListener {
 
     static JPanel p1;
-    static JButton button;
-    static JLabel testLabel, inputLabel, advancedLabel;
+    static JButton button, browse;
+    JFileChooser chooser;
+    String choosertitle;
+    static JLabel testLabel, inputLabel, advancedLabel, filename;
     JTextField input;
     private JLabel rangeSliderLabel1 = new JLabel();
     private JLabel rangeSliderValue1 = new JLabel();
@@ -59,15 +61,48 @@ public class UserInterface extends JFrame implements ActionListener {
             }
         });
 
+        browse = new JButton("Browse");
+        filename = new JLabel("Click Browse to add Folder");
+
+        browse.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                chooser = new JFileChooser();
+                chooser.setCurrentDirectory(new java.io.File("."));
+                chooser.setDialogTitle(choosertitle);
+                // Choose only folders - no files
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+                // Disable the File Type bar
+                chooser.setAcceptAllFileFilterUsed(false);
+
+                if (chooser.showOpenDialog(UserInterface.this) == JFileChooser.APPROVE_OPTION) {
+                    System.out.println("getCurrentDirectory(): "
+                            + chooser.getCurrentDirectory());
+                    System.out.println("getSelectedFile() : "
+                            + chooser.getSelectedFile());
+                    filename.setText("" + chooser.getSelectedFile());
+                } else {
+                    System.out.println("No Selection ");
+                }
+
+            }
+        });
+
         advancedLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent arg0) {
                 advancedLabel
                         .setText("<html><font color=\"purple\"><u>Advanced Options</u></font></html>");
+
                 rangeSlider.setVisible(true);
                 rangeSliderLabel1.setVisible(true);
                 rangeSliderValue1.setVisible(true);
                 rangeSliderLabel2.setVisible(true);
                 rangeSliderValue2.setVisible(true);
+                browse.setVisible(true);
+                filename.setVisible(true);
+
             }
         });
 
@@ -97,10 +132,17 @@ public class UserInterface extends JFrame implements ActionListener {
         p1.add(testLabel);
         gb.gridy = 2;
         p1.add(advancedLabel, gb);
+        gb.gridx = 0;
+        gb.gridy = 6;
+        p1.add(filename, gb);
+        gb.gridy = 5;
+        p1.add(browse, gb);
 
         rangeSlider.setValue(2001);
         rangeSlider.setUpperValue(2010);
 
+        filename.setVisible(false);
+        browse.setVisible(false);
         rangeSlider.setVisible(false);
         rangeSliderLabel1.setVisible(false);
         rangeSliderValue1.setVisible(false);
@@ -115,7 +157,10 @@ public class UserInterface extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // On Clicking Button
-        JOptionPane.showConfirmDialog(testLabel, input.getText());
+        JOptionPane.showConfirmDialog(testLabel, "Summarizing details for "
+                + input.getText() + " from year: " + rangeSliderValue1.getText()
+                + " to year: " + rangeSliderValue2.getText());
+
     }
 
 }
