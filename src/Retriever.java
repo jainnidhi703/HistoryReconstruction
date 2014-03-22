@@ -12,6 +12,7 @@ import org.apache.lucene.util.Version;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Retriever {
 
@@ -42,7 +43,7 @@ public class Retriever {
         }
     }
 
-    public ArrayList<XmlDocument> topRelevantResults(String searchFor, int maxHits) throws ParseException, IOException {
+    public List<XmlDocument> topRelevantResults(String searchFor, int maxHits) throws ParseException, IOException {
         QueryParser parser1 = new QueryParser(Version.LUCENE_46, "title",standardAnalyzer);
         Query qry1 = parser1.parse(searchFor);
         qry1.setBoost((float) 2.0);

@@ -12,4 +12,6 @@ public class Globals {
     public static int SENTENCES_FROM_EACH_CLUSTER = 10;
 
     public static int TOPIC_TITLE_WORD_COUNT = 5;
+
+    public static double LAMBDA_FOR_SENTENCE_SCORING = 0.5;
 }

@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Cluster {
@@ -78,4 +80,37 @@ public class Cluster {
         return sb.toString();
     }
 
+    private double F1(int indx, Sentence sentence, List<Sentence> sentences) {
+        double sum = 0.0;
+        for(int i = 0; i < sentences.size(); ++i) {
+            if(i == indx) continue;
+            sum += sentence.getSimilarity(sentences.get(i));
+        }
+        sum /= (sentences.size() - 1);
+        return sum;
+    }
+
+    private double F2(Sentence sentence, String title) {
+        return sentence.getSimilarity(new Sentence(-1, null,null, title));
+    }
+
+    private double getSentenceScore(int indx, Sentence s, List<Sentence> sentences, double lambda) {
+        return (lambda*F1(indx,s, sentences)) + lambda * F2(s, title);
+    }
+
+    public List<Sentence> getTopKSentences(int K) {
+        for(int i = 0; i < this.sentences.size(); ++i) {
+            double score = getSentenceScore(i, sentences.get(i), sentences, Globals.LAMBDA_FOR_SENTENCE_SCORING);
+            sentences.get(i).setScore(score);
+        }
+
+        Collections.sort(this.sentences, new Comparator<Sentence>() {
+            @Override
+            public int compare(Sentence s1, Sentence s2) {
+                return Double.compare(s2.getScore(), s1.getScore());
+            }
+        });
+
+        return sentences;
+    }
 }
