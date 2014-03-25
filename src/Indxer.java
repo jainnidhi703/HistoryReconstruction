@@ -58,7 +58,7 @@ public class Indxer {
 
     public void indxFile(File file) throws IOException, XMLStreamException {
         FileInputStream fis = new FileInputStream( file );
-        Document doc = new Document();
+        org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
         XmlDocument xmldoc = new XmlDocument(file.getAbsolutePath());
         if(xmldoc.isError()) {
             fis.close();
