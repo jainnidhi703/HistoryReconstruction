@@ -1,8 +1,12 @@
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.xml.stream.XMLStreamException;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Class for Graphical User Interface
@@ -54,7 +58,16 @@ public class GUI {
         startIndexingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // start Indexing
+                try {
+                    Indxer indxer = new Indxer(storeDirField.getText());
+                    progressBar1.setIndeterminate(true);
+                    progressBar1.setStringPainted(true);
+                    indxer.indxDir(dataDirField.getText());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (XMLStreamException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -101,6 +114,36 @@ public class GUI {
                 // start retrieving
             }
         });
+
+        DocumentListener documentListener = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                check();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                check();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                check();
+            }
+
+            public void check() {
+                if (!dataDirField.getText().isEmpty() && !storeDirField.getText().isEmpty()) {
+                    startIndexingButton.setEnabled(true);
+                    progressBar1.setEnabled(true);
+                } else {
+                    startIndexingButton.setEnabled(false);
+                    progressBar1.setEnabled(false);
+                }
+            }
+        };
+
+        dataDirField.getDocument().addDocumentListener(documentListener);
+        storeDirField.getDocument().addDocumentListener(documentListener);
     }
 
     /**
@@ -138,6 +181,19 @@ public class GUI {
         lengthSpinner.setEnabled(false);
         fromSpinner.setEnabled(false);
         toSpinner.setEnabled(false);
+        startIndexingButton.setEnabled(false);
+
+        progressBar1.setEnabled(false);
+    }
+
+    /**
+     * Updates the value of progressBar
+     * used to show indexing progress
+     * @param value % of completion
+     */
+    public void updateProgressBar(int value) {
+        progressBar1.setValue(value);
+        progressBar1.setStringPainted(true);
     }
 
 
@@ -146,28 +202,32 @@ public class GUI {
      */
     public void show() {
 
-        try
-        {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try
+                {
 //            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-            UIManager.LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
-            for(UIManager.LookAndFeelInfo f : lafs) {
-                System.out.println(f.getName());
-                if(f.getName().equals("GTK+") || f.getName().equals("Windows") || f.getName().contains("Macintosh")) {
-                    UIManager.setLookAndFeel(f.getClassName());
+                    UIManager.LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
+                    for(UIManager.LookAndFeelInfo f : lafs) {
+                        System.out.println(f.getName());
+                        if(f.getName().equals("GTK+") || f.getName().equals("Windows") || f.getName().contains("Macintosh")) {
+                            UIManager.setLookAndFeel(f.getClassName());
+                        }
+                    }
                 }
-            }
-        }
-        catch(Exception ignored) {}
+                catch(Exception ignored) {}
 
 
-        JFrame frame = new JFrame("AuTo Summarizer");
-        frame.setContentPane(new GUI().rootJpanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(Globals.GUI_WIDTH, Globals.GUI_HEIGHT);
-        frame.setResizable(false);
+                JFrame frame = new JFrame("AuTo Summarizer");
+                frame.setContentPane(new GUI().rootJpanel);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(Globals.GUI_WIDTH, Globals.GUI_HEIGHT);
+                frame.setResizable(false);
 //        frame.pack();
-        frame.setVisible(true);
-
+                frame.setVisible(true);
+            }
+        });
     }
 
     private JPanel rootJpanel;
