@@ -91,10 +91,14 @@ public class GUI {
                     @Override
                     protected void done() {
                         startIndexingButton.setEnabled(true);
+                        storeDirField.setEnabled(true);
+                        dataDirField.setEnabled(true);
                     }
                 };
 
                 startIndexingButton.setEnabled(false);
+                storeDirField.setEnabled(false);
+                dataDirField.setEnabled(false);
                 worker.execute();
             }
         });
@@ -105,10 +109,10 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser(new File("."));
                 fileChooser.setDialogTitle("Select data directory");
-                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 final int chooseStatus = fileChooser.showSaveDialog(rootJpanel);
                 if (chooseStatus == JFileChooser.APPROVE_OPTION) {
-                    storeDirField.setText(fileChooser.getSelectedFile().getAbsolutePath());
+                    exportField.setText(fileChooser.getSelectedFile().getAbsolutePath());
                 }
             }
         });
