@@ -111,6 +111,8 @@ public class Cluster {
             }
         });
 
+        sentences = sentences.subList(0, K);
+
         return sentences;
     }
 }

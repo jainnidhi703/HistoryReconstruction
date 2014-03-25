@@ -22,4 +22,6 @@ public class Globals {
     public static final int GUI_WIDTH = 600;
 
     public static final int GUI_HEIGHT = 450;
+
+    public static final int NUM_CLUSTERS = 5;
 }

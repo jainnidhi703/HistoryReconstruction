@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -144,6 +147,73 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // start retrieving
+                SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        publish("Retrieving . . .");
+                        Retriever r = new Retriever(storeDirField.getText());
+                        List<XmlDocument> docs = r.topRelevantResults(queryField.getText(), Globals.RETRIEVAL_RESULT_COUNT);
+
+                        publish("Topic Modelling . . .");
+                        TopicModel modeller = new TopicModel();
+                        List<Cluster> clusters = modeller.getClusters(docs, Globals.NUM_CLUSTERS);
+
+                        publish("Getting Top " + ((Integer)lengthSpinner.getValue()).toString() + " sentences . . .");
+                        List<Sentence> sentences = new ArrayList<Sentence>((Integer) lengthSpinner.getValue());
+                        for (Cluster c : clusters) {
+                            sentences.addAll(c.getTopKSentences(
+                                    (int) Math.ceil((Integer) lengthSpinner.getValue()/(double) clusters.size())));
+                        }
+
+                        publish("Sorting chronologically . . .");
+                        Collections.sort(sentences, new Comparator<Sentence>() {
+                            @Override
+                            public int compare(Sentence s1, Sentence s2) {
+                                return s2.getDate().compareTo(s1.getDate());
+                            }
+                        });
+
+                        publish("Exporting to file");
+                        String output = ExportDocument.generateContent(sentences);
+                        if(exportField.getText().endsWith(".txt")) {
+                            ExportDocument.toText(exportField.getText(), queryField.getText(), output);
+                        } else if(exportField.getText().endsWith(".pdf")) {
+                            ExportDocument.toPDF(exportField.getText(), queryField.getText(), output);
+                        }
+
+                        publish("Ready!");
+                        return null;
+                    }
+
+                    @Override
+                    protected void process(List<String> chunks) {
+                        statusLabel.setText(chunks.get(chunks.size() - 1));
+                    }
+
+                    @Override
+                    protected void done() {
+                        // re-enable after thread finishes
+                        queryField.setEnabled(true);
+                        exportField.setEnabled(true);
+                        filterResultsCheckBox.setEnabled(true);
+                        customizeSummaryLengthCheckBox.setEnabled(true);
+                        fromSpinner.setEnabled(true);
+                        toSpinner.setEnabled(true);
+                        lengthSpinner.setEnabled(true);
+                    }
+                };
+
+                // these paramaters shouldn't be allowed to change
+                // while execution is running
+                queryField.setEnabled(false);
+                exportField.setEnabled(false);
+                filterResultsCheckBox.setEnabled(false);
+                customizeSummaryLengthCheckBox.setEnabled(false);
+                fromSpinner.setEnabled(false);
+                toSpinner.setEnabled(false);
+                lengthSpinner.setEnabled(false);
+
+                worker.execute();
             }
         });
 

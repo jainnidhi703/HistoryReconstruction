@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * Exports results to Various file formats
@@ -77,5 +79,26 @@ public class ExportDocument {
         doc.addCreationDate();
         doc.add(new Paragraph(contentToWrite));
         doc.close();
+    }
+
+
+    public static String generateContent(List<Sentence> sentences) {
+        LinkedHashSet<String> set = new LinkedHashSet<String>();
+        StringBuilder sb = new StringBuilder();
+        int docIndx = 0;
+        for (Sentence s : sentences) {
+            if(set.add(s.getFilename())) {
+                docIndx++;
+            }
+            sb.append(s.toString()).append("[").append(docIndx).append("]").append("\n");
+        }
+        sb.append("\n");
+        sb.append("References:\n");
+        sb.append("------------------------------------------------------------\n");
+        docIndx = 1;
+        for (String s : set) {
+            sb.append("[").append(docIndx++).append("] : ").append(s).append("\n");
+        }
+        return sb.toString();
     }
 }
