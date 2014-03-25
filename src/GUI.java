@@ -3,10 +3,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.xml.stream.XMLStreamException;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
-import java.io.IOException;
+import java.util.List;
 
 /**
  * Class for Graphical User Interface
@@ -58,16 +60,42 @@ public class GUI {
         startIndexingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Indxer indxer = new Indxer(storeDirField.getText());
-                    progressBar1.setIndeterminate(true);
-                    progressBar1.setStringPainted(true);
-                    indxer.indxDir(dataDirField.getText());
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (XMLStreamException e1) {
-                    e1.printStackTrace();
-                }
+                SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        Indxer indxer = new Indxer(storeDirField.getText());
+                        final File docDir = new File(dataDirField.getText());
+                        File[] files = docDir.listFiles();
+                        if(files == null) {
+                            System.out.println("[ dataDir ] is empty!");
+                            return null;
+                        }
+
+                        for (int i = 0; i < files.length; i++) {
+                            File f = files[i];
+                            publish((int) Math.ceil((i * 100) / (double) files.length));
+                            if (f.isDirectory()) {
+                                indxer.indxDir(f.getAbsolutePath());
+                            } else {
+                                indxer.indxFile(f);
+                            }
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void process(List<Integer> chunks) {
+                        updateProgressBar(chunks.get(chunks.size()-1));
+                    }
+
+                    @Override
+                    protected void done() {
+                        startIndexingButton.setEnabled(true);
+                    }
+                };
+
+                startIndexingButton.setEnabled(false);
+                worker.execute();
             }
         });
 

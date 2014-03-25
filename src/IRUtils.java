@@ -15,7 +15,13 @@ public class IRUtils {
             String month = matcher.group(2);
             String date = matcher.group(12);
             String year = matcher.group(14);
-            if(year == null) year = String.valueOf(yearFromFileName(title));
+            if(year == null) {
+                int yrTmp = yearFromFileName(title);
+                if (yrTmp != -1)
+                    year = String.valueOf(yrTmp);
+                else
+                    year = "";
+            }
             String dt = dateToString(date, month, year);
             lst.add(dt);
         }
