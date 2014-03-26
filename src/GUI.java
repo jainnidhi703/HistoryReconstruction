@@ -102,6 +102,11 @@ public class GUI {
                 startIndexingButton.setEnabled(false);
                 storeDirField.setEnabled(false);
                 dataDirField.setEnabled(false);
+
+                // store index path
+                Settings.setStoreDir(storeDirField.getText());
+
+                // start indexing
                 worker.execute();
             }
         });
@@ -286,6 +291,16 @@ public class GUI {
         startIndexingButton.setEnabled(false);
 
         progressBar1.setEnabled(false);
+
+        getSettings();
+    }
+
+    /**
+     * Restore last stored config
+     */
+    private void getSettings() {
+        storeDirField.setText(Settings.getStoreDir());
+        exportField.setText(Settings.getExportFile());
     }
 
     /**
