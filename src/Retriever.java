@@ -1,4 +1,5 @@
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -18,11 +19,13 @@ public class Retriever {
 
     private IndexSearcher searcher;
     private Analyzer standardAnalyzer;
+    private Analyzer whiteSpaceAnalyzer;
 
     public Retriever(String indxDir) throws IOException, ParseException {
         IndexReader reader = DirectoryReader.open(FSDirectory.open(new File(indxDir)));
         searcher = new IndexSearcher(reader);
         standardAnalyzer = new StandardAnalyzer(Version.LUCENE_46);
+        whiteSpaceAnalyzer = new WhitespaceAnalyzer(Version.LUCENE_46);
     }
 
     // depreciated
@@ -55,6 +58,46 @@ public class Retriever {
         finalQuery.add(qry2, BooleanClause.Occur.SHOULD);
 
         TopDocs results = searcher.search(finalQuery, maxHits);
+        ScoreDoc[] hits = results.scoreDocs;
+
+        int numTotalHits = results.totalHits;
+        System.out.println(numTotalHits + " total matching documents");
+
+        ArrayList<XmlDocument> xmlDocuments = new ArrayList<XmlDocument>();
+        for (ScoreDoc hit : hits) {
+            Document doc = searcher.doc(hit.doc);
+            XmlDocument xml = new XmlDocument();
+            xml.setFilename(doc.get("filename"));
+            xml.setTitle(doc.get("title"));
+            xml.setContent(doc.get("contents"));
+            xmlDocuments.add(xml);
+        }
+
+        return xmlDocuments;
+    }
+
+    public List<XmlDocument> searchXinY(String x, String[] y, int maxHits) throws ParseException, IOException {
+        QueryParser parser1 = new QueryParser(Version.LUCENE_46, "title",standardAnalyzer);
+        Query qry1 = parser1.parse(x);
+        qry1.setBoost((float)2.0);
+        QueryParser parser2 = new QueryParser(Version.LUCENE_46, "contents",standardAnalyzer);
+        Query qry2 = parser2.parse(x);
+        QueryParser parser3 = new QueryParser(Version.LUCENE_46, "filename", whiteSpaceAnalyzer);
+
+        BooleanQuery innerQuery1 = new BooleanQuery();
+        innerQuery1.add(qry1, BooleanClause.Occur.SHOULD);
+        innerQuery1.add(qry2, BooleanClause.Occur.SHOULD);
+
+        BooleanQuery innerQuery2 = new BooleanQuery();
+        for(String s : y) {
+            innerQuery2.add(parser3.parse(s), BooleanClause.Occur.SHOULD);
+        }
+
+        BooleanQuery finalQuery = new BooleanQuery();
+        finalQuery.add(new BooleanClause(innerQuery1, BooleanClause.Occur.MUST));
+        finalQuery.add(new BooleanClause(innerQuery2, BooleanClause.Occur.MUST));
+
+        TopDocs results = searcher.search(innerQuery2, maxHits);
         ScoreDoc[] hits = results.scoreDocs;
 
         int numTotalHits = results.totalHits;
