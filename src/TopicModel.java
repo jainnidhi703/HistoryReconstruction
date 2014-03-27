@@ -34,7 +34,7 @@ public class TopicModel {
 
         // FIXME : Run the model for 50 iterations and stop (this is for testing only,
         //  for real applications, use 1000 to 2000 iterations)
-        model.setNumIterations(50);
+        model.setNumIterations(2000);
         model.estimate();
 
 //        File file = new File("topics.txt");
@@ -86,6 +86,10 @@ public class TopicModel {
         }
 
         topicTitles = getTopics(model, Globals.TOPIC_TITLE_WORD_COUNT);
+        for(int i = 0; i < clusters.size(); ++i) {
+            clusters.get(i).setTitle(topicTitles.get(i));
+            clusters.get(i).keepOnlyImpDocs();
+        }
 
         return clusters;
     }

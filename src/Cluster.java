@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Cluster {
 
@@ -24,21 +21,81 @@ public class Cluster {
         this.docs = docs;
         sentences = new ArrayList<Sentence>();
 
-        StringBuilder sb = new StringBuilder();
+        keepOnlyImpDocs();
+    }
+
+    public Cluster(int indx, String title, List<Document> docs, int impNum) {
+        this.clusterID = indx;
+        this.title = title;
+        this.docs = docs;
+        sentences = new ArrayList<Sentence>();
+
+        keepOnlyImpDocs(impNum);
+    }
+
+    public void keepOnlyImpDocs(int impNum) {
+        if(title == null)
+            throw new NullPointerException("Title is empty");
+        List<Document> impDocs = new ArrayList<Document>();
+        for(Document d : docs) {
+            double scre = Similarity.titleToDocument(title, d);
+            d.score = scre;
+            impDocs.add(d);
+        }
+
+        Collections.sort(impDocs, new Comparator<Document>() {
+            @Override
+            public int compare(Document d1, Document d2) {
+                return Double.compare(d2.score, d1.score);
+            }
+        });
+
+        docs = impDocs.subList(0, impNum);
+        sentences.clear();
+
         for(Document d : docs) {
             String[] sents = d.getContent().split("\\.");
             for(String s : sents) {
-                sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
+                s = s.trim();
+                if(s.split(" ").length > 2)
+                    sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
+            }
+        }
+    }
+
+    public void keepOnlyImpDocs() {
+        if(title == null)
+            throw new NullPointerException("Title is empty");
+        List<Document> impDocs = new ArrayList<Document>();
+        for(Document d : docs) {
+            double scre = Similarity.titleToDocument(title, d);
+            d.score = scre;
+            impDocs.add(d);
+        }
+
+        Collections.sort(impDocs, new Comparator<Document>() {
+            @Override
+            public int compare(Document d1, Document d2) {
+                return Double.compare(d2.score, d1.score);
+            }
+        });
+
+        docs = impDocs.subList(0, Globals.CENTROID_DOCS_IN_CLUSTER);
+        sentences.clear();
+
+        for(Document d : docs) {
+            String[] sents = d.getContent().split("\\.");
+            for(String s : sents) {
+                s = s.trim();
+                if(s.split(" ").length > 2)
+                    sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
             }
         }
         System.out.println("\n");
     }
 
+    // need to call keep only imp doc after this
     public void addDocument(Document doc) {
-        String[] sents = doc.getContent().split("\\.");
-        for(String s : sents) {
-            sentences.add(new Sentence(doc.getClusterID(), doc.getFilename(), doc.getDate(), s));
-        }
         this.docs.add(doc);
     }
 
@@ -52,6 +109,10 @@ public class Cluster {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public List<Sentence> getSentences() {
@@ -100,7 +161,9 @@ public class Cluster {
 
     public List<Sentence> getTopKSentences(int K) {
         for(int i = 0; i < this.sentences.size(); ++i) {
-            double score = getSentenceScore(i, sentences.get(i), sentences, Globals.LAMBDA_FOR_SENTENCE_SCORING);
+            System.out.println("sent score : " + i);
+            double score;
+            score = getSentenceScore(i, sentences.get(i), sentences, Globals.LAMBDA_FOR_SENTENCE_SCORING);
             sentences.get(i).setScore(score);
         }
 

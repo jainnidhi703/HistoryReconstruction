@@ -4,6 +4,7 @@ public class Document {
     private String filename = null;
     private String content = null;
     private String date = null;
+    public double score = 0.0;
 
     public Document(int clusterID, String filename, String content) {
         this.clusterID = clusterID;

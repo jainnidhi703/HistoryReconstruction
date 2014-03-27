@@ -1,3 +1,6 @@
+import com.itextpdf.text.DocumentException;
+import org.apache.lucene.queryparser.classic.ParseException;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -8,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -154,14 +159,33 @@ public class GUI {
                 // start retrieving
                 SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
                     @Override
-                    protected Void doInBackground() throws Exception {
+                    protected Void doInBackground() {
                         publish("Retrieving . . .");
-                        Retriever r = new Retriever(storeDirField.getText());
-                        List<XmlDocument> docs = r.topRelevantResults(queryField.getText(), Globals.RETRIEVAL_RESULT_COUNT);
+                        Retriever r = null;
+                        try {
+                            r = new Retriever(storeDirField.getText());
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+                        List<XmlDocument> docs = null;
+                        try {
+                            docs = r.topRelevantResults(queryField.getText(), Globals.RETRIEVAL_RESULT_COUNT);
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
 
                         publish("Topic Modelling . . .");
                         TopicModel modeller = new TopicModel();
-                        List<Cluster> clusters = modeller.getClusters(docs, Globals.NUM_CLUSTERS);
+                        List<Cluster> clusters = null;
+                        try {
+                            clusters = modeller.getClusters(docs, Globals.NUM_CLUSTERS);
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
 
                         publish("Getting Top " + ((Integer)lengthSpinner.getValue()).toString() + " sentences . . .");
                         List<Sentence> sentences = new ArrayList<Sentence>((Integer) lengthSpinner.getValue());
@@ -174,16 +198,26 @@ public class GUI {
                         Collections.sort(sentences, new Comparator<Sentence>() {
                             @Override
                             public int compare(Sentence s1, Sentence s2) {
-                                return s2.getDate().compareTo(s1.getDate());
+                                return s1.getDate().compareTo(s2.getDate());
                             }
                         });
 
                         publish("Exporting to file");
                         String output = ExportDocument.generateContent(sentences);
                         if(exportField.getText().endsWith(".txt")) {
-                            ExportDocument.toText(exportField.getText(), queryField.getText(), output);
+                            try {
+                                ExportDocument.toText(exportField.getText(), queryField.getText(), output);
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
                         } else if(exportField.getText().endsWith(".pdf")) {
-                            ExportDocument.toPDF(exportField.getText(), queryField.getText(), output);
+                            try {
+                                ExportDocument.toPDF(exportField.getText(), queryField.getText(), output);
+                            } catch (FileNotFoundException e1) {
+                                e1.printStackTrace();
+                            } catch (DocumentException e1) {
+                                e1.printStackTrace();
+                            }
                         }
 
                         publish("Ready!");
@@ -205,6 +239,7 @@ public class GUI {
                         fromSpinner.setEnabled(true);
                         toSpinner.setEnabled(true);
                         lengthSpinner.setEnabled(true);
+                        System.out.println("Done!");
                     }
                 };
 
@@ -219,6 +254,7 @@ public class GUI {
                 lengthSpinner.setEnabled(false);
 
                 worker.execute();
+
             }
         });
 

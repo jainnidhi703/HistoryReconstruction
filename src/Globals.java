@@ -26,4 +26,6 @@ public class Globals {
     public static final int NUM_CLUSTERS = 5;
 
     public static final String PREFERENCES_NODE = "AutoSummarySEN";
+
+    public static final int CENTROID_DOCS_IN_CLUSTER = 2;
 }
