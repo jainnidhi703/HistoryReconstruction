@@ -80,7 +80,7 @@ public class Cluster {
             }
         });
 
-        docs = impDocs.subList(0, Globals.CENTROID_DOCS_IN_CLUSTER);
+        docs = impDocs.subList(0, Math.min(Globals.CENTROID_DOCS_IN_CLUSTER, impDocs.size()));
         sentences.clear();
 
         for(Document d : docs) {

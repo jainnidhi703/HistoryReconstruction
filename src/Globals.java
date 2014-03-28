@@ -35,6 +35,6 @@ public class Globals {
 
     // 1 : compare each document to it's title and assign a score to each doc in a cluster
     // 2 : search the title in the documents contained in a cluster
-    public static final int DOC_SELECTION_METHOD = 2;
+    public static final int DOC_SELECTION_METHOD = 1;
 
 }
