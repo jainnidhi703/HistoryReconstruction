@@ -115,4 +115,29 @@ public class Retriever {
 
         return xmlDocuments;
     }
+
+    public List<XmlDocument> filenamesToXmlDoc(List<String> fnames) throws ParseException, IOException {
+        QueryParser parser3 = new QueryParser(Version.LUCENE_46, "filename", whiteSpaceAnalyzer);
+        BooleanQuery query = new BooleanQuery();
+        for(String s : fnames) {
+            query.add(parser3.parse(s), BooleanClause.Occur.SHOULD);
+        }
+        TopDocs results = searcher.search(query,fnames.size());
+        ScoreDoc[] hits = results.scoreDocs;
+
+        int numTotalHits = results.totalHits;
+        System.out.println(numTotalHits + " total matching documents");
+
+        List<XmlDocument> xmlDocuments = new ArrayList<XmlDocument>();
+        for (ScoreDoc hit : hits) {
+            Document doc = searcher.doc(hit.doc);
+            XmlDocument xml = new XmlDocument();
+            xml.setFilename(doc.get("filename"));
+            xml.setTitle(doc.get("title"));
+            xml.setContent(doc.get("contents"));
+            xmlDocuments.add(xml);
+        }
+
+        return xmlDocuments;
+    }
 }

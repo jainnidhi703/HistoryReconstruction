@@ -28,4 +28,13 @@ public class Globals {
     public static final String PREFERENCES_NODE = "AutoSummarySEN";
 
     public static final int CENTROID_DOCS_IN_CLUSTER = 2;
+
+    public static final int DEFAULT_SUMMARY_LENGTH = 50; //sentences
+
+    public static final int TOPIC_MODELLING_ITERATIONS = 1500;
+
+    // 1 : compare each document to it's title and assign a score to each doc in a cluster
+    // 2 : search the title in the documents contained in a cluster
+    public static final int DOC_SELECTION_METHOD = 2;
+
 }

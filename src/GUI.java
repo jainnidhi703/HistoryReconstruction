@@ -182,7 +182,7 @@ public class GUI {
                         TopicModel modeller = new TopicModel();
                         List<Cluster> clusters = null;
                         try {
-                            clusters = modeller.getClusters(docs, Globals.NUM_CLUSTERS);
+                            clusters = modeller.getClusters(docs, r, Globals.NUM_CLUSTERS);
                         } catch (Exception e1) {
                             e1.printStackTrace();
                         }

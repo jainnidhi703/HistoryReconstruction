@@ -11,7 +11,7 @@ public class TopicModel {
 
     private List<String> topicTitles;
 
-    public List<Cluster> getClusters(List<XmlDocument> documentList, int numTopics) throws Exception {
+    public List<Cluster> getClusters(List<XmlDocument> documentList, Retriever r, int numTopics) throws Exception {
 
         MalletDataImporter importer = new MalletDataImporter(MalletDataImporter.PipeType.Array);
 
@@ -34,7 +34,7 @@ public class TopicModel {
 
         // FIXME : Run the model for 50 iterations and stop (this is for testing only,
         //  for real applications, use 1000 to 2000 iterations)
-        model.setNumIterations(2000);
+        model.setNumIterations(Globals.TOPIC_MODELLING_ITERATIONS);
         model.estimate();
 
 //        File file = new File("topics.txt");
@@ -88,7 +88,20 @@ public class TopicModel {
         topicTitles = getTopics(model, Globals.TOPIC_TITLE_WORD_COUNT);
         for(int i = 0; i < clusters.size(); ++i) {
             clusters.get(i).setTitle(topicTitles.get(i));
-            clusters.get(i).keepOnlyImpDocs();
+            if(Globals.DOC_SELECTION_METHOD == 1)
+                clusters.get(i).keepOnlyImpDocs();
+            else if(Globals.DOC_SELECTION_METHOD == 2) {
+                if(clusters.get(i).getTitle().trim().isEmpty())
+                    continue;
+                List<String> arrList = new ArrayList<String>();
+                for(Document d : clusters.get(i).getDocs())
+                    arrList.add(d.getFilename());
+                List<XmlDocument> xmls = r.searchXinY(clusters.get(i).getTitle(),arrList.toArray(new String[arrList.size()]), Globals.CENTROID_DOCS_IN_CLUSTER);
+                List<String> fnames = new ArrayList<String>(xmls.size());
+                for(XmlDocument x : xmls)
+                    fnames.add(x.getFilename());
+                clusters.get(i).keepOnlyGivenDocs(fnames);
+            }
         }
 
         return clusters;

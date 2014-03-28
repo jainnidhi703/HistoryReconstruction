@@ -94,6 +94,27 @@ public class Cluster {
         System.out.println("\n");
     }
 
+    public void keepOnlyGivenDocs(List<String> filenames) {
+        List<Document> newDocs = new ArrayList<Document>(filenames.size());
+
+        for(Document d : docs) {
+            if(filenames.contains(d.getFilename())) {
+                newDocs.add(d);
+            }
+        }
+        docs = newDocs;
+
+        sentences.clear();
+        for(Document d : docs) {
+            String[] sents = d.getContent().split("\\.");
+            for(String s : sents) {
+                s = s.trim();
+                if(s.split(" ").length > 2)
+                    sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
+            }
+        }
+    }
+
     // need to call keep only imp doc after this
     public void addDocument(Document doc) {
         this.docs.add(doc);
@@ -155,11 +176,17 @@ public class Cluster {
         return sentence.getSimilarity(new Sentence(-1, null,null, title));
     }
 
+
     private double getSentenceScore(int indx, Sentence s, List<Sentence> sentences, double lambda) {
-        return (lambda*F1(indx,s, sentences)) + lambda * F2(s, title);
+        // formula taken from
+        // Multi-Document Summarization via Sentence-Level Semantic Analysis and Symmetric Matrix Factorization
+        // by Dingding Wang, et. al
+        // Section 3.4 Within-Cluster Sentence Selection
+        return (lambda*F1(indx,s, sentences)) + (1.0-lambda) * F2(s, title);
     }
 
     public List<Sentence> getTopKSentences(int K) {
+        System.out.println("Cluster ID : " + clusterID);
         for(int i = 0; i < this.sentences.size(); ++i) {
             System.out.println("sent score : " + i);
             double score;
@@ -174,7 +201,7 @@ public class Cluster {
             }
         });
 
-        sentences = sentences.subList(0, K);
+        sentences = sentences.subList(0, Math.min(K, sentences.size()));
 
         return sentences;
     }
