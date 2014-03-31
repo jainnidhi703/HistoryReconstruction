@@ -14,6 +14,7 @@ import java.io.*;
 public class Indxer {
 
     private IndexWriter indxWriter = null;
+    public static int dd = 0;
 
     public Indxer(String indxDir) throws IOException {
         Directory dir = FSDirectory.open(new File(indxDir));
@@ -64,7 +65,14 @@ public class Indxer {
             fis.close();
             return;
         }
+        if(xmldoc.getTitle() == null) {
+            xmldoc.setTitle("DEFAULT");
+        }
         String[] dates = IRUtils.extractDate(xmldoc.getContent(), xmldoc.getFilename());
+        if(dates == null) {
+            dd++;
+            return;
+        }
         String delim = "";
         StringBuilder sb = new StringBuilder();
         for (String s : dates) {
@@ -72,6 +80,10 @@ public class Indxer {
             delim = " ";
         }
         String dateData = sb.toString();
+        if(dateData.isEmpty()) {
+            dd++;
+            return;
+        }
         doc.add(new StringField("filename", xmldoc.getFilename(), Field.Store.YES));
         doc.add(new TextField("title", xmldoc.getTitle(), Field.Store.YES));
         doc.add(new TextField("date", dateData, Field.Store.YES));

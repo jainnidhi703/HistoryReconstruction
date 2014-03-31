@@ -1,10 +1,14 @@
 import javax.xml.stream.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class XmlDocument {
     private String filename;
     private String content;
     private String title;
+    private String date;
     private boolean error = false;
     private static ErrorWriter ew;
 
@@ -32,6 +36,7 @@ public class XmlDocument {
         while( (xmlContent = br.readLine()) != null ) {
             sb.append(xmlContent);
         }
+        br.close();
         xmlContent = sb.toString();
         xmlContent = xmlContent.replaceAll("&", "&amp;");
         xmlContent = xmlContent.replaceAll("<\\s?br\\s?/?>", "");
@@ -87,6 +92,22 @@ public class XmlDocument {
                     break;
             }
         }
+
+//        if(filename.endsWith(".utf8")) {
+//            String DATE_REGEX = "(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday),\\s(January|February|March|April|May|June|July|August|September|October|November|December)\\s(\\d{2}),\\s(\\d{4})";
+//            Matcher matcher = Pattern.compile(DATE_REGEX,Pattern.CASE_INSENSITIVE).matcher(content);
+//            String month = "";
+//            String date = "";
+//            String year = "";
+//            if(matcher.find()) {
+//                month = matcher.group(2);
+//                date = matcher.group(3);
+//                year = matcher.group(4);
+//            }
+//            this.date = year+month+date;
+//        } else {
+//
+//        }
     }
 
     public String getFilename() {

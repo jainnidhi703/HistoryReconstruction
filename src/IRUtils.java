@@ -22,11 +22,19 @@ public class IRUtils {
                 else
                     year = "";
             }
-            String dt = dateToString(date, month, year);
-            lst.add(dt);
+            if(!date.isEmpty() && !month.isEmpty() && !year.isEmpty()) {
+                String dt = dateToString(date, month, year);
+                lst.add(dt);
+            }
         }
         if (lst.isEmpty()) {
-            lst.add(dateFromFileName(title));
+            if(title.endsWith(".utf8")) {
+                return null;
+            } else {
+                String s = dateFromFileName(title);
+                if(s != null)
+                    lst.add(s);
+            }
         }
         return lst.toArray(new String[lst.size()]);
     }
@@ -36,20 +44,24 @@ public class IRUtils {
         try {
             return Integer.parseInt(str.split("\\.")[4]);
         } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return -1;
         }
     }
 
     //    en.13.3.1.2009.6.11
     public static String dateFromFileName(String str) {
-        String[] toks = str.split("\\.");
-        String date = toks[6];
-        String month = toks[5];
-        String year = toks[4];
-        if(date.length() == 1) date = "0" + date;
-        if(month.length() == 1) month = "0" + month;
-        return year+month+date;
+        try {
+            String[] toks = str.split("\\.");
+            String date = toks[6];
+            String month = toks[5];
+            String year = toks[4];
+            if(date.length() == 1) date = "0" + date;
+            if(month.length() == 1) month = "0" + month;
+            return year+month+date;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     // mmdd
