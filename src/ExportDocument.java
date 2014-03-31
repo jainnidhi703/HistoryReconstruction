@@ -1,4 +1,3 @@
-import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -73,7 +72,7 @@ public class ExportDocument {
         final String footer = getFooter();
         String contentToWrite = HEADER + title + content + footer;
 
-        com.itextpdf.text.Document doc = new Document();
+        com.itextpdf.text.Document doc = new com.itextpdf.text.Document();
         PdfWriter.getInstance(doc, new FileOutputStream(path));
         doc.open();
         doc.addCreationDate();
@@ -82,7 +81,7 @@ public class ExportDocument {
     }
 
 
-    public static String generateContent(List<Sentence> sentences) {
+    public static String generateContent(List<Sentence> sentences, List<Cluster> clusters) {
         LinkedHashSet<String> set = new LinkedHashSet<String>();
         StringBuilder sb = new StringBuilder();
         int docIndx = 0;
@@ -98,6 +97,29 @@ public class ExportDocument {
         docIndx = 1;
         for (String s : set) {
             sb.append("[").append(docIndx++).append("] : ").append(s).append("\n");
+        }
+
+        if(Globals.SHOW_TOPICS) {
+            sb.append("\n");
+            sb.append("Topics:\n");
+            sb.append("------------------------------------------------------------\n");
+            docIndx = 0;
+            for(Cluster s : clusters) {
+                sb.append("[").append(docIndx++).append("] : ").append(s.getTitle()).append("\n");
+            }
+        }
+
+        if(Globals.SHOW_DOCS_UNDER_CLUSTERS) {
+            sb.append("\n");
+            sb.append("Clusters:\n");
+            sb.append("------------------------------------------------------------\n");
+            docIndx = 0;
+            for(Cluster s : clusters) {
+                sb.append("[").append(docIndx++).append("] : ");
+                for(Document d : s.getDocs())
+                    sb.append(d.getFilename()).append(", ");
+                sb.append("\n");
+            }
         }
         return sb.toString();
     }

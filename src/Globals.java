@@ -37,4 +37,10 @@ public class Globals {
     // 2 : search the title in the documents contained in a cluster
     public static final int DOC_SELECTION_METHOD = 1;
 
+
+    // DEBUG_INFO
+    public static final boolean SHOW_TOPICS = true;
+
+    public static final boolean SHOW_DOCS_UNDER_CLUSTERS = true;
+
 }

@@ -203,7 +203,7 @@ public class GUI {
                         });
 
                         publish("Exporting to file");
-                        String output = ExportDocument.generateContent(sentences);
+                        String output = ExportDocument.generateContent(sentences, clusters);
                         if(exportField.getText().endsWith(".txt")) {
                             try {
                                 ExportDocument.toText(exportField.getText(), queryField.getText(), output);

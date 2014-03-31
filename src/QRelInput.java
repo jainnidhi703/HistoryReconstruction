@@ -50,7 +50,7 @@ public class QRelInput {
             }
         });
 
-        String output = ExportDocument.generateContent(sentences);
+        String output = ExportDocument.generateContent(sentences, clusters);
         if(exportTo.endsWith(".txt")) {
             try {
                 ExportDocument.toText(exportTo, "QRel Query No. : " + queryNo, output);
