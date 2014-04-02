@@ -38,7 +38,7 @@ public class Cluster {
             throw new NullPointerException("Title is empty");
         List<Document> impDocs = new ArrayList<Document>();
         for(Document d : docs) {
-            double scre = Similarity.titleToDocument(title, d);
+            double scre = Similarity.titleToDocument(SearchQuery.getMainQuery(), d);
             d.score = scre;
             impDocs.add(d);
         }
@@ -64,11 +64,9 @@ public class Cluster {
     }
 
     public void keepOnlyImpDocs() {
-        if(title == null)
-            throw new NullPointerException("Title is empty");
         List<Document> impDocs = new ArrayList<Document>();
         for(Document d : docs) {
-            double scre = Similarity.titleToDocument(title, d);
+            double scre = Similarity.titleToDocument(SearchQuery.getMainQuery(), d);
             d.score = scre;
             impDocs.add(d);
         }

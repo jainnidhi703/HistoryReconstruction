@@ -13,6 +13,10 @@ public class Document {
         date = dateFromFileName(filename);
     }
 
+    public boolean contains(String word) {
+        return content.contains(word);
+    }
+
     //    en.13.3.1.2009.6.11
     public static String dateFromFileName(String str) {
         str = str.substring(str.lastIndexOf('/')+1);

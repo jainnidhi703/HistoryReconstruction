@@ -88,6 +88,8 @@ public class GUI {
                                 indxer.indxFile(f);
                             }
                         }
+                        System.out.println("done Indexing!");
+                        indxer.killWriter();
                         return null;
                     }
 
@@ -160,6 +162,8 @@ public class GUI {
                 SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
                     @Override
                     protected Void doInBackground() {
+                        SearchQuery.setMainQuery(queryField.getText());
+
                         publish("Retrieving . . .");
                         Retriever r = null;
                         try {
@@ -170,9 +174,8 @@ public class GUI {
                             e1.printStackTrace();
                         }
                         List<XmlDocument> docs = null;
-                        String queryTitle = queryField.getText();
                         try {
-                            docs = r.topRelevantResults(queryTitle, Globals.RETRIEVAL_RESULT_COUNT);
+                            docs = r.topRelevantResults(SearchQuery.getMainQuery(), Globals.RETRIEVAL_RESULT_COUNT);
                         } catch (ParseException e1) {
                             e1.printStackTrace();
                         } catch (IOException e1) {
@@ -194,7 +197,7 @@ public class GUI {
                         for (Cluster c : clusters) {
                             sentences.addAll(c.getTopKSentences(
                                     (int) Math.ceil((Integer) lengthSpinner.getValue()/(double) clusters.size()),
-                                    queryTitle));
+                                    SearchQuery.getMainQuery()));
                         }
 
                         publish("Sorting chronologically . . .");
@@ -209,13 +212,13 @@ public class GUI {
                         String output = ExportDocument.generateContent(sentences, clusters);
                         if(exportField.getText().endsWith(".txt")) {
                             try {
-                                ExportDocument.toText(exportField.getText(), "", queryTitle, output);
+                                ExportDocument.toText(exportField.getText(), "", SearchQuery.getMainQuery(), output);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
                         } else if(exportField.getText().endsWith(".pdf")) {
                             try {
-                                ExportDocument.toPDF(exportField.getText(), "", queryTitle, output);
+                                ExportDocument.toPDF(exportField.getText(), "", SearchQuery.getMainQuery(), output);
                             } catch (FileNotFoundException e1) {
                                 e1.printStackTrace();
                             } catch (DocumentException e1) {
@@ -223,7 +226,7 @@ public class GUI {
                             }
                         } else {
                             try {
-                                ExportDocument.toText(exportField.getText(), "", queryTitle, output);
+                                ExportDocument.toText(exportField.getText(), "", SearchQuery.getMainQuery(), output);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }

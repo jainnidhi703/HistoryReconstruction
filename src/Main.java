@@ -5,7 +5,7 @@ public class Main {
 
 //        QRelInput qrel = new QRelInput("qrel/en.qrels.126-175.2011.txt");
 //        try {
-//            qrel.start(128, "/home/jaydeep/train2.txt");
+//            qrel.start(128, "/home/jaydeep/IdeaProjects/sampleSummaries/jackson1.txt");
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }

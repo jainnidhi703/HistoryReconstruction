@@ -7,6 +7,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Retriever {
 
@@ -51,11 +53,22 @@ public class Retriever {
         Query qry1 = parser1.parse(searchFor);
         qry1.setBoost((float) 2.0);
         QueryParser parser2 = new QueryParser(Version.LUCENE_46, "contents",standardAnalyzer);
-        Query qry2 = parser2.parse(searchFor);
 
         BooleanQuery finalQuery = new BooleanQuery();
         finalQuery.add(qry1, BooleanClause.Occur.SHOULD);
-        finalQuery.add(qry2, BooleanClause.Occur.SHOULD);
+
+        // retrieve docs using expanded query
+        for(Set<String> st : SearchQuery.getExpandedQuery()) {
+
+            BooleanQuery bq = new BooleanQuery();
+            // any one word from the synonym list should occur in doc's content
+            for(String w : st) {
+                bq.add(parser2.parse(w), BooleanClause.Occur.SHOULD);
+            }
+
+            // at least one word from synonym list should occur
+            finalQuery.add(bq, BooleanClause.Occur.MUST);
+        }
 
         TopDocs results = searcher.search(finalQuery, maxHits);
         ScoreDoc[] hits = results.scoreDocs;

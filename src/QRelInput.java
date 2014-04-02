@@ -32,19 +32,22 @@ public class QRelInput {
     }
 
     public void start(int queryNo, String exportTo) throws Exception {
+        QRelTopicParser qParser = new QRelTopicParser(Globals.QREL_TOPIC_FILE, queryNo);
+        SearchQuery.setMainQuery(qParser.getTitle());
+
         Retriever r = new Retriever(Settings.getStoreDir());
         List<XmlDocument> docs = getXmlDocs(r, queryNo);
         TopicModel modeller = new TopicModel();
         List<Cluster> clusters = null;
         clusters = modeller.getClusters(docs, r, Globals.NUM_CLUSTERS);
 
-        QRelTopicParser qParser = new QRelTopicParser(Globals.QREL_TOPIC_FILE, queryNo);
+
 
         List<Sentence> sentences = new ArrayList<Sentence>(Globals.DEFAULT_SUMMARY_LENGTH);
         for (Cluster c : clusters) {
             sentences.addAll(c.getTopKSentences(
                     (int) Math.ceil( Globals.DEFAULT_SUMMARY_LENGTH/(double) clusters.size()),
-                    qParser.getTitle()));
+                    SearchQuery.getMainQuery()));
         }
 
         Collections.sort(sentences, new Comparator<Sentence>() {
@@ -57,13 +60,13 @@ public class QRelInput {
         String output = ExportDocument.generateContent(sentences, clusters);
         if(exportTo.endsWith(".txt")) {
             try {
-                ExportDocument.toText(exportTo, qParser.getTitle(), "QRel Query No. : " + queryNo, output);
+                ExportDocument.toText(exportTo, SearchQuery.getMainQuery(), "QRel Query No. : " + queryNo, output);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
         } else if(exportTo.endsWith(".pdf")) {
             try {
-                ExportDocument.toPDF(exportTo, qParser.getTitle(), "QRel Query No. : " + queryNo, output);
+                ExportDocument.toPDF(exportTo, SearchQuery.getMainQuery(), "QRel Query No. : " + queryNo, output);
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
             } catch (DocumentException e1) {
