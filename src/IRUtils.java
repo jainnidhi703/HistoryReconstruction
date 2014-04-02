@@ -106,4 +106,9 @@ public class IRUtils {
         }
         return null;
     }
+
+    public static String yearFromDate(String date) {
+        String dt = date.substring(0,4);
+        return dt;
+    }
 }

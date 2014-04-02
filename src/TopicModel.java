@@ -13,6 +13,11 @@ public class TopicModel {
 
     public List<Cluster> getClusters(List<XmlDocument> documentList, Retriever r, int numTopics) throws Exception {
 
+        if(documentList.isEmpty()) {
+            System.out.println("Docs List is empty!");
+            return new ArrayList<Cluster>();
+        }
+
         MalletDataImporter importer = new MalletDataImporter(MalletDataImporter.PipeType.Array);
 
 //        InstanceList instances = importer.readDirectory(new File(dirName));

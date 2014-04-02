@@ -13,10 +13,7 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class for Graphical User Interface
@@ -180,6 +177,17 @@ public class GUI {
                             e1.printStackTrace();
                         } catch (IOException e1) {
                             e1.printStackTrace();
+                        }
+
+                        // Date filter
+                        for(Iterator<XmlDocument> it = docs.iterator(); it.hasNext();) {
+                            XmlDocument d = it.next();
+                            String year = IRUtils.yearFromDate(d.getDate());
+                            int dt = Integer.parseInt(year);
+                            int from = (Integer) fromSpinner.getValue();
+                            int to = (Integer) toSpinner.getValue();
+                            if( dt < from || dt > to)
+                                it.remove();
                         }
 
                         publish("Topic Modelling . . .");

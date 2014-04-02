@@ -83,6 +83,7 @@ public class Retriever {
             xml.setFilename(doc.get("filename"));
             xml.setTitle(doc.get("title"));
             xml.setContent(doc.get("contents"));
+            xml.setDate(doc.get("date"));
             xmlDocuments.add(xml);
         }
 
