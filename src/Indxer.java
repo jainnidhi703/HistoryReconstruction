@@ -97,6 +97,7 @@ public class Indxer {
         fis.close();
     }
 
+    //FIXME : close
     public void killWriter() throws IOException {
         if(indxWriter != null) indxWriter.close();
     }

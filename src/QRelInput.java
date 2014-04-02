@@ -37,10 +37,14 @@ public class QRelInput {
         TopicModel modeller = new TopicModel();
         List<Cluster> clusters = null;
         clusters = modeller.getClusters(docs, r, Globals.NUM_CLUSTERS);
+
+        QRelTopicParser qParser = new QRelTopicParser(Globals.QREL_TOPIC_FILE, queryNo);
+
         List<Sentence> sentences = new ArrayList<Sentence>(Globals.DEFAULT_SUMMARY_LENGTH);
         for (Cluster c : clusters) {
             sentences.addAll(c.getTopKSentences(
-                    (int) Math.ceil( Globals.DEFAULT_SUMMARY_LENGTH/(double) clusters.size())));
+                    (int) Math.ceil( Globals.DEFAULT_SUMMARY_LENGTH/(double) clusters.size()),
+                    qParser.getTitle()));
         }
 
         Collections.sort(sentences, new Comparator<Sentence>() {
@@ -53,13 +57,13 @@ public class QRelInput {
         String output = ExportDocument.generateContent(sentences, clusters);
         if(exportTo.endsWith(".txt")) {
             try {
-                ExportDocument.toText(exportTo, "QRel Query No. : " + queryNo, output);
+                ExportDocument.toText(exportTo, qParser.getTitle(), "QRel Query No. : " + queryNo, output);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
         } else if(exportTo.endsWith(".pdf")) {
             try {
-                ExportDocument.toPDF(exportTo, "QRel Query No. : " + queryNo, output);
+                ExportDocument.toPDF(exportTo, qParser.getTitle(), "QRel Query No. : " + queryNo, output);
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
             } catch (DocumentException e1) {
@@ -72,7 +76,7 @@ public class QRelInput {
     private String getFileName(int indx, String str) {
         if(str == null) return null;
         String[] spl = str.split(" ");
-        if(indx == Integer.parseInt(spl[0]) && spl[2].startsWith("en") && str.endsWith("1")) {
+        if(indx == Integer.parseInt(spl[0]) && /*spl[2].startsWith("en") &&*/ str.endsWith("1")) {
             return spl[2];
         }
         return null;

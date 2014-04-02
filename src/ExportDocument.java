@@ -23,11 +23,11 @@ public class ExportDocument {
     /**
      * Creates a proper title for the document, along with the query used
      * to get the results
-     * @param query (query used to get the results)
+     * @param title (query used to get the results)
      * @return String (title)
      */
-    private static String getTitle(String query) {
-        return "Query : [ "+ query + " ]\n------------------------------------------------------------\n\n";
+    private static String getTitle(String title, String subTitle) {
+        return "Query : " + title + " [ "+ subTitle + " ]\n------------------------------------------------------------\n\n";
     }
 
     /**
@@ -45,14 +45,14 @@ public class ExportDocument {
     /**
      * Exports the results to text file
      * @param path Path to store the text file
-     * @param query Query used to get the results
+     * @param querySubtitle Query used to get the results
      * @param content What to write in the text file
      * @throws IOException
      */
-    public static void toText(String path, String query, String content) throws IOException {
-        final String title = getTitle(query);
+    public static void toText(String path,String queryTitle, String querySubtitle, String content) throws IOException {
+        final String subTitle = getTitle(queryTitle, querySubtitle);
         final String footer = getFooter();
-        String contentToWrite = HEADER + title + content + footer;
+        String contentToWrite = HEADER + subTitle + content + footer;
         FileWriter fw = new FileWriter(path);
         fw.write(contentToWrite);
         fw.close();
@@ -62,15 +62,15 @@ public class ExportDocument {
     /**
      * Exports the results to PDF file
      * @param path Path to store the text file
-     * @param query Query used to get the results
+     * @param querySubtitle Query used to get the results
      * @param content What to write in the text file
      * @throws FileNotFoundException
      * @throws DocumentException
      */
-    public static void toPDF(String path, String query, String content) throws FileNotFoundException, DocumentException {
-        final String title = getTitle(query);
+    public static void toPDF(String path, String queryTitle, String querySubtitle, String content) throws FileNotFoundException, DocumentException {
+        final String subTitle = getTitle(queryTitle, querySubtitle);
         final String footer = getFooter();
-        String contentToWrite = HEADER + title + content + footer;
+        String contentToWrite = HEADER + subTitle + content + footer;
 
         com.itextpdf.text.Document doc = new com.itextpdf.text.Document();
         PdfWriter.getInstance(doc, new FileOutputStream(path));

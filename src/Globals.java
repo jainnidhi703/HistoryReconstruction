@@ -7,6 +7,8 @@ public class Globals {
 
     public static final String XML_DATA_DIR = "/home/jaydeep/IR-data/en.docs.2011/data/en_BDNews24/";
 
+    public static final String QREL_TOPIC_FILE = "qrel/en.topics.126-175.2011.txt";
+
     public static final String TEXT_DATA_DIR = "temp/";
 
     public static final String INDEX_STORE_DIR = "index/";

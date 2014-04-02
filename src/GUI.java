@@ -170,8 +170,9 @@ public class GUI {
                             e1.printStackTrace();
                         }
                         List<XmlDocument> docs = null;
+                        String queryTitle = queryField.getText();
                         try {
-                            docs = r.topRelevantResults(queryField.getText(), Globals.RETRIEVAL_RESULT_COUNT);
+                            docs = r.topRelevantResults(queryTitle, Globals.RETRIEVAL_RESULT_COUNT);
                         } catch (ParseException e1) {
                             e1.printStackTrace();
                         } catch (IOException e1) {
@@ -187,11 +188,13 @@ public class GUI {
                             e1.printStackTrace();
                         }
 
+
                         publish("Getting Top " + ((Integer)lengthSpinner.getValue()).toString() + " sentences . . .");
                         List<Sentence> sentences = new ArrayList<Sentence>((Integer) lengthSpinner.getValue());
                         for (Cluster c : clusters) {
                             sentences.addAll(c.getTopKSentences(
-                                    (int) Math.ceil((Integer) lengthSpinner.getValue()/(double) clusters.size())));
+                                    (int) Math.ceil((Integer) lengthSpinner.getValue()/(double) clusters.size()),
+                                    queryTitle));
                         }
 
                         publish("Sorting chronologically . . .");
@@ -206,16 +209,22 @@ public class GUI {
                         String output = ExportDocument.generateContent(sentences, clusters);
                         if(exportField.getText().endsWith(".txt")) {
                             try {
-                                ExportDocument.toText(exportField.getText(), queryField.getText(), output);
+                                ExportDocument.toText(exportField.getText(), "", queryTitle, output);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
                         } else if(exportField.getText().endsWith(".pdf")) {
                             try {
-                                ExportDocument.toPDF(exportField.getText(), queryField.getText(), output);
+                                ExportDocument.toPDF(exportField.getText(), "", queryTitle, output);
                             } catch (FileNotFoundException e1) {
                                 e1.printStackTrace();
                             } catch (DocumentException e1) {
+                                e1.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                ExportDocument.toText(exportField.getText(), "", queryTitle, output);
+                            } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
                         }

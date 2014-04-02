@@ -177,20 +177,20 @@ public class Cluster {
     }
 
 
-    private double getSentenceScore(int indx, Sentence s, List<Sentence> sentences, double lambda) {
+    private double getSentenceScore(int indx, Sentence s, List<Sentence> sentences, double lambda, String query) {
         // formula taken from
         // Multi-Document Summarization via Sentence-Level Semantic Analysis and Symmetric Matrix Factorization
         // by Dingding Wang, et. al
         // Section 3.4 Within-Cluster Sentence Selection
-        return (lambda*F1(indx,s, sentences)) + (1.0-lambda) * F2(s, title);
+        return (lambda*F1(indx,s, sentences)) + (1.0-lambda) * F2(s, query);
     }
 
-    public List<Sentence> getTopKSentences(int K) {
+    public List<Sentence> getTopKSentences(int K, String query) {
         System.out.println("Cluster ID : " + clusterID);
         for(int i = 0; i < this.sentences.size(); ++i) {
             System.out.println("sent score : " + i);
             double score;
-            score = getSentenceScore(i, sentences.get(i), sentences, Globals.LAMBDA_FOR_SENTENCE_SCORING);
+            score = getSentenceScore(i, sentences.get(i), sentences, Globals.LAMBDA_FOR_SENTENCE_SCORING, query);
             sentences.get(i).setScore(score);
         }
 
