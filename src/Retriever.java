@@ -17,12 +17,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Class to retrieve results from the indexed data
+ */
 public class Retriever {
 
     private IndexSearcher searcher;
     private Analyzer standardAnalyzer;
     private Analyzer whiteSpaceAnalyzer;
 
+    /**
+     * Initializes objects and sets path to the directory where,
+     * indexed data resides
+     * @param indxDir path to indexed data
+     * @throws IOException
+     * @throws ParseException
+     */
     public Retriever(String indxDir) throws IOException, ParseException {
         IndexReader reader = DirectoryReader.open(FSDirectory.open(new File(indxDir)));
         searcher = new IndexSearcher(reader);
@@ -30,7 +40,16 @@ public class Retriever {
         whiteSpaceAnalyzer = new WhitespaceAnalyzer(Version.LUCENE_46);
     }
 
-    // depreciated
+
+    /**
+     * A generic search method
+     * @param searchFor search query
+     * @param searchInField search field
+     * @param maxHits maximum no of results
+     * @throws ParseException
+     * @throws IOException
+     * @deprecated
+     */
     public void search(String searchFor, String searchInField, int maxHits) throws ParseException, IOException {
         QueryParser parser = new QueryParser(Version.LUCENE_46, searchInField, standardAnalyzer);
         Query qry = parser.parse(searchFor);
@@ -48,6 +67,15 @@ public class Retriever {
         }
     }
 
+
+    /**
+     * searches for the query in `title` and `contents` fields
+     * @param searchFor search query
+     * @param maxHits maximum no of results
+     * @return relevant XmlDocuments
+     * @throws ParseException
+     * @throws IOException
+     */
     public List<XmlDocument> topRelevantResults(String searchFor, int maxHits) throws ParseException, IOException {
         QueryParser parser1 = new QueryParser(Version.LUCENE_46, "title",standardAnalyzer);
         Query qry1 = parser1.parse(searchFor);
@@ -90,12 +118,22 @@ public class Retriever {
         return xmlDocuments;
     }
 
-    public List<XmlDocument> searchXinY(String x, String[] y, int maxHits) throws ParseException, IOException {
+
+    /**
+     * Searches for a query in given files
+     * @param searchFor search query
+     * @param fileNames files to search in
+     * @param maxHits maximum no of results
+     * @return relevant XmlDocuments
+     * @throws ParseException
+     * @throws IOException
+     */
+    public List<XmlDocument> searchInGivenDocs(String searchFor, String[] fileNames, int maxHits) throws ParseException, IOException {
         QueryParser parser1 = new QueryParser(Version.LUCENE_46, "title",standardAnalyzer);
-        Query qry1 = parser1.parse(x);
+        Query qry1 = parser1.parse(searchFor);
         qry1.setBoost((float)2.0);
         QueryParser parser2 = new QueryParser(Version.LUCENE_46, "contents",standardAnalyzer);
-        Query qry2 = parser2.parse(x);
+        Query qry2 = parser2.parse(searchFor);
         QueryParser parser3 = new QueryParser(Version.LUCENE_46, "filename", whiteSpaceAnalyzer);
 
         BooleanQuery innerQuery1 = new BooleanQuery();
@@ -103,7 +141,7 @@ public class Retriever {
         innerQuery1.add(qry2, BooleanClause.Occur.SHOULD);
 
         BooleanQuery innerQuery2 = new BooleanQuery();
-        for(String s : y) {
+        for(String s : fileNames) {
             innerQuery2.add(parser3.parse(s), BooleanClause.Occur.SHOULD);
         }
 
@@ -130,6 +168,14 @@ public class Retriever {
         return xmlDocuments;
     }
 
+
+    /**
+     * Gives XmlDocument from given filenames
+     * @param fnames file names for which XmlDocuments are required
+     * @return XmlDocuments
+     * @throws ParseException
+     * @throws IOException
+     */
     public List<XmlDocument> filenamesToXmlDoc(List<String> fnames) throws ParseException, IOException {
         QueryParser parser3 = new QueryParser(Version.LUCENE_46, "filename", whiteSpaceAnalyzer);
         BooleanQuery query = new BooleanQuery();

@@ -11,11 +11,20 @@ import org.apache.lucene.util.Version;
 import javax.xml.stream.XMLStreamException;
 import java.io.*;
 
+/**
+ * Class for indexing files,
+ * files are indexed to have better control over search
+ */
 public class Indxer {
 
     private IndexWriter indxWriter = null;
     public static int dd = 0;
 
+    /**
+     * Constructs indexWriter and sets where to store the indexed data
+     * @param indxDir shows where to store indexed data
+     * @throws IOException
+     */
     public Indxer(String indxDir) throws IOException {
         Directory dir = FSDirectory.open(new File(indxDir));
         Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_46);
@@ -28,6 +37,12 @@ public class Indxer {
     }
 
 
+    /**
+     * Indexes the directory given as argument
+     * @param dataDir directory to index
+     * @throws IOException
+     * @throws XMLStreamException
+     */
     public void indxDir(String dataDir) throws IOException, XMLStreamException {
         System.out.println("Indexing Dir : " + dataDir);
         final File docDir = new File(dataDir);
@@ -57,6 +72,12 @@ public class Indxer {
     }
 
 
+    /**
+     * Indexes individual file
+     * @param file file to index
+     * @throws IOException
+     * @throws XMLStreamException
+     */
     public void indxFile(File file) throws IOException, XMLStreamException {
         FileInputStream fis = new FileInputStream( file );
         org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
@@ -97,7 +118,11 @@ public class Indxer {
         fis.close();
     }
 
-    //FIXME : close
+    /**
+     * After writing indexes it is necessary to kill the writer,
+     * this closes the file stream
+     * @throws IOException
+     */
     public void killWriter() throws IOException {
         if(indxWriter != null) indxWriter.close();
     }
