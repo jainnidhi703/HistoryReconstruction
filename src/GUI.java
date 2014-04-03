@@ -180,14 +180,16 @@ public class GUI {
                         }
 
                         // Date filter
-                        for(Iterator<XmlDocument> it = docs.iterator(); it.hasNext();) {
-                            XmlDocument d = it.next();
-                            String year = IRUtils.yearFromDate(d.getDate());
-                            int dt = Integer.parseInt(year);
-                            int from = (Integer) fromSpinner.getValue();
-                            int to = (Integer) toSpinner.getValue();
-                            if( dt < from || dt > to)
-                                it.remove();
+                        if(filterResultsCheckBox.isSelected()) {
+                            for(Iterator<XmlDocument> it = docs.iterator(); it.hasNext();) {
+                                XmlDocument d = it.next();
+                                String year = IRUtils.yearFromDate(d.getDate());
+                                int dt = Integer.parseInt(year);
+                                int from = (Integer) fromSpinner.getValue();
+                                int to = (Integer) toSpinner.getValue();
+                                if( dt < from || dt > to)
+                                    it.remove();
+                            }
                         }
 
                         publish("Topic Modelling . . .");
