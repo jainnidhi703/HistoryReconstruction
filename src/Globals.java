@@ -37,6 +37,7 @@ public class Globals {
 
     // 1 : compare each document to it's title and assign a score to each doc in a cluster
     // 2 : search the title in the documents contained in a cluster
+    // FIXME : decide upon a single method
     public static final int DOC_SELECTION_METHOD = 1;
 
 
