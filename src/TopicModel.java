@@ -101,7 +101,9 @@ public class TopicModel {
                 List<String> arrList = new ArrayList<String>();
                 for(Document d : clusters.get(i).getDocs())
                     arrList.add(d.getFilename());
-                List<XmlDocument> xmls = r.searchXinY(clusters.get(i).getTitle(),arrList.toArray(new String[arrList.size()]), Globals.CENTROID_DOCS_IN_CLUSTER);
+
+                // FIXME : don't just search the input query, search using queryExpansion
+                List<XmlDocument> xmls = r.searchInGivenDocs(SearchQuery.getMainQuery(), arrList.toArray(new String[arrList.size()]), Globals.CENTROID_DOCS_IN_CLUSTER);
                 List<String> fnames = new ArrayList<String>(xmls.size());
                 for(XmlDocument x : xmls)
                     fnames.add(x.getFilename());
