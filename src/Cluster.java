@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class Cluster {
 
@@ -54,7 +57,8 @@ public class Cluster {
         sentences.clear();
 
         for(Document d : docs) {
-            String[] sents = d.getContent().split("\\.");
+            List<String> sents = IRUtils.splitSentences(d.getContent());
+//            String[] sents = d.getContent().split("\\.");
             for(String s : sents) {
                 s = s.trim();
                 if(s.split(" ").length > 2)
@@ -82,7 +86,8 @@ public class Cluster {
         sentences.clear();
 
         for(Document d : docs) {
-            String[] sents = d.getContent().split("\\.");
+            List<String> sents = IRUtils.splitSentences(d.getContent());
+//            String[] sents = d.getContent().split("\\.");
             for(String s : sents) {
                 s = s.trim();
                 if(s.split(" ").length > 2)
@@ -104,7 +109,8 @@ public class Cluster {
 
         sentences.clear();
         for(Document d : docs) {
-            String[] sents = d.getContent().split("\\.");
+            List<String> sents = IRUtils.splitSentences(d.getContent());
+//            String[] sents = d.getContent().split("\\.");
             for(String s : sents) {
                 s = s.trim();
                 if(s.split(" ").length > 2)

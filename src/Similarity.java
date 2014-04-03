@@ -9,7 +9,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.TreeMap;
 
 public class Similarity {
 
@@ -111,12 +114,13 @@ public class Similarity {
 
     public static double titleToDocument(String title, Document doc) {
         String[] titleToks = title.split(" ");
-        String[] sents = doc.getContent().split("\\.");
+//        String[] sents = doc.getContent().split("\\.");
+        List<String> sents = IRUtils.splitSentences(doc.getContent());
         double score = 0.0;
         for(String s : sents) {
             score += Similarity.sentences(titleToks, s.trim().split(" "));
         }
-        score /= sents.length;
+        score /= sents.size();
         return score;
     }
 }

@@ -1,3 +1,7 @@
+import edu.stanford.nlp.process.DocumentPreprocessor;
+import edu.stanford.nlp.util.StringUtils;
+
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -110,5 +114,16 @@ public class IRUtils {
     public static String yearFromDate(String date) {
         String dt = date.substring(0,4);
         return dt;
+    }
+
+    public static List<String> splitSentences(String content) {
+        DocumentPreprocessor dp = new DocumentPreprocessor(new StringReader(content));
+        ArrayList<String> sents = new ArrayList<String>();
+        for(List snt : dp) {
+            String ss = StringUtils.join(snt, " ");
+            ss = ss.substring(0, ss.length() - 2);
+            sents.add(ss);
+        }
+        return sents;
     }
 }
