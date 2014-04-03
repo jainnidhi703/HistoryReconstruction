@@ -162,6 +162,7 @@ public class Retriever {
             xml.setFilename(doc.get("filename"));
             xml.setTitle(doc.get("title"));
             xml.setContent(doc.get("contents"));
+            xml.setScore(hit.score);
             xmlDocuments.add(xml);
         }
 

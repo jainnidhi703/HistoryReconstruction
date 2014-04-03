@@ -205,6 +205,9 @@ public class Cluster {
             }
         });
 
+        // debug info
+        DebugLogger.setSentencesInEachCluster(clusterID, sentences);
+
         sentences = sentences.subList(0, Math.min(K, sentences.size()));
 
         return sentences;

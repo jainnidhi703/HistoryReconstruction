@@ -1,4 +1,5 @@
 import com.itextpdf.text.DocumentException;
+import edu.stanford.nlp.util.StringUtils;
 import org.apache.lucene.queryparser.classic.ParseException;
 
 import javax.swing.*;
@@ -220,15 +221,12 @@ public class GUI {
 
                         publish("Exporting to file");
                         String output = ExportDocument.generateContent(sentences, clusters);
-                        if(exportField.getText().endsWith(".txt")) {
-                            try {
-                                ExportDocument.toText(exportField.getText(), "", SearchQuery.getMainQuery(), output);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                        } else if(exportField.getText().endsWith(".pdf")) {
+                        String debugContent = ExportDocument.generateDebugContent(clusters);
+
+                        if(exportField.getText().endsWith(".pdf")) {
                             try {
                                 ExportDocument.toPDF(exportField.getText(), "", SearchQuery.getMainQuery(), output);
+                                ExportDocument.printToPDF(exportField.getText(), debugContent);
                             } catch (FileNotFoundException e1) {
                                 e1.printStackTrace();
                             } catch (DocumentException e1) {
@@ -237,6 +235,7 @@ public class GUI {
                         } else {
                             try {
                                 ExportDocument.toText(exportField.getText(), "", SearchQuery.getMainQuery(), output);
+                                StringUtils.printToFile(exportField.getText(), debugContent);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }

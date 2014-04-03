@@ -38,12 +38,24 @@ public class Globals {
     // 1 : compare each document to it's title and assign a score to each doc in a cluster
     // 2 : search the title in the documents contained in a cluster
     // FIXME : decide upon a single method
-    public static final int DOC_SELECTION_METHOD = 1;
+    public static final int DOC_SELECTION_METHOD = 2;
 
 
     // DEBUG_INFO
-    public static final boolean SHOW_TOPICS = true;
+    public static final String DEBUG_FILE_SUFFIX = "_debug";
 
-    public static final boolean SHOW_DOCS_UNDER_CLUSTERS = true;
+    public static boolean SHOW_TOPICS = true;
 
+    public static boolean SHOW_DOCS_UNDER_CLUSTERS = true;
+
+    public static boolean SHOW_DOC_SCORE_UNDER_CLUSTERS = true;
+
+    public static boolean SHOW_SENTENCE_SCORE_UNDER_CLUSTER = true;
+
+    public static void setFullDEBUG(boolean bool) {
+        Globals.SHOW_TOPICS = bool;
+        Globals.SHOW_DOCS_UNDER_CLUSTERS = bool;
+        Globals.SHOW_DOC_SCORE_UNDER_CLUSTERS = bool;
+        Globals.SHOW_SENTENCE_SCORE_UNDER_CLUSTER = bool;
+    }
 }

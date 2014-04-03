@@ -1,4 +1,5 @@
 import com.itextpdf.text.DocumentException;
+import edu.stanford.nlp.util.StringUtils;
 import org.apache.lucene.queryparser.classic.ParseException;
 
 import java.io.BufferedReader;
@@ -58,18 +59,24 @@ public class QRelInput {
         });
 
         String output = ExportDocument.generateContent(sentences, clusters);
-        if(exportTo.endsWith(".txt")) {
-            try {
-                ExportDocument.toText(exportTo, SearchQuery.getMainQuery(), "QRel Query No. : " + queryNo, output);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        } else if(exportTo.endsWith(".pdf")) {
+        String debugContent = ExportDocument.generateDebugContent(clusters);
+
+        if(exportTo.endsWith(".pdf")) {
             try {
                 ExportDocument.toPDF(exportTo, SearchQuery.getMainQuery(), "QRel Query No. : " + queryNo, output);
+                exportTo = exportTo.substring(0,exportTo.lastIndexOf(".")) + Globals.DEBUG_FILE_SUFFIX + ".pdf";
+                ExportDocument.printToPDF(exportTo, debugContent);
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
             } catch (DocumentException e1) {
+                e1.printStackTrace();
+            }
+        } else {
+            try {
+                ExportDocument.toText(exportTo, SearchQuery.getMainQuery(), "QRel Query No. : " + queryNo, output);
+                exportTo = exportTo.substring(0,exportTo.lastIndexOf(".")) + Globals.DEBUG_FILE_SUFFIX + ".txt";
+                StringUtils.printToFile(exportTo, debugContent);
+            } catch (IOException e1) {
                 e1.printStackTrace();
             }
         }

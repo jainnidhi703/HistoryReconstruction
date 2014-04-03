@@ -9,6 +9,7 @@ public class XmlDocument {
     private String content;
     private String title;
     private String date;
+    private float score;
     private boolean error = false;
     private static ErrorWriter ew;
 
@@ -144,6 +145,14 @@ public class XmlDocument {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+    public float getScore() {
+        return this.score;
     }
 }
 

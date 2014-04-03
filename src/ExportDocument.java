@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -81,6 +82,16 @@ public class ExportDocument {
     }
 
 
+    public static void printToPDF(String filePath, String content) throws FileNotFoundException, DocumentException {
+        com.itextpdf.text.Document doc = new com.itextpdf.text.Document();
+        PdfWriter.getInstance(doc, new FileOutputStream(filePath));
+        doc.open();
+        doc.addCreationDate();
+        doc.add(new Paragraph(content));
+        doc.close();
+    }
+
+
     public static String generateContent(List<Sentence> sentences, List<Cluster> clusters) {
         LinkedHashSet<String> set = new LinkedHashSet<String>();
         StringBuilder sb = new StringBuilder();
@@ -99,6 +110,14 @@ public class ExportDocument {
             sb.append("[").append(docIndx++).append("] : ").append(s).append("\n");
         }
 
+        return sb.toString();
+    }
+
+    public static String generateDebugContent(List<Cluster> clusters) {
+        StringBuilder sb = new StringBuilder();
+        int docIndx = 0;
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(6);
         if(Globals.SHOW_TOPICS) {
             sb.append("\n");
             sb.append("Topics:\n");
@@ -121,6 +140,34 @@ public class ExportDocument {
                 sb.append("\n");
             }
         }
+
+        if(Globals.SHOW_DOC_SCORE_UNDER_CLUSTERS) {
+            sb.append("\n");
+            sb.append("Document score under each cluster:\n");
+            sb.append("------------------------------------------------------------\n");
+            docIndx = 0;
+            for(List<XmlDocument> dl : DebugLogger.getDocsInEachCluster()) {
+                sb.append("[ Cluster : ").append(docIndx++).append(" ] : ").append("\n");
+                for(XmlDocument d : dl) {
+                    sb.append("[").append(df.format(d.getScore())).append("] : ").append(d.getFilename()).append("\n");
+                }
+                sb.append("\n");
+            }
+        }
+
+        if(Globals.SHOW_SENTENCE_SCORE_UNDER_CLUSTER) {
+            sb.append("\n");
+            sb.append("Sentence score under each cluster:\n");
+            sb.append("------------------------------------------------------------\n");
+            docIndx = 0;
+            for(List<Sentence> allSentences : DebugLogger.getSentsInEachCluster()) {
+                sb.append("[ Cluster : ").append(docIndx++).append(" ] : ").append("\n");
+                for(Sentence s : allSentences)
+                    sb.append("[").append(df.format(s.getScore())).append("] : ").append(s.toString()).append("\n");
+                sb.append("\n");
+            }
+        }
+
         return sb.toString();
     }
 }

@@ -91,11 +91,12 @@ public class TopicModel {
         }
 
         topicTitles = getTopics(model, Globals.TOPIC_TITLE_WORD_COUNT);
+        List<List<XmlDocument>> docsInEachCluster = new ArrayList<List<XmlDocument>>(clusters.size());
         for(int i = 0; i < clusters.size(); ++i) {
             clusters.get(i).setTitle(topicTitles.get(i));
-            if(Globals.DOC_SELECTION_METHOD == 1)
+            if(Globals.DOC_SELECTION_METHOD == 1) {
                 clusters.get(i).keepOnlyImpDocs();
-            else if(Globals.DOC_SELECTION_METHOD == 2) {
+            } else if(Globals.DOC_SELECTION_METHOD == 2) {
                 if(clusters.get(i).getTitle().trim().isEmpty())
                     continue;
                 List<String> arrList = new ArrayList<String>();
@@ -103,13 +104,21 @@ public class TopicModel {
                     arrList.add(d.getFilename());
 
                 // FIXME : don't just search the input query, search using queryExpansion
-                List<XmlDocument> xmls = r.searchInGivenDocs(SearchQuery.getMainQuery(), arrList.toArray(new String[arrList.size()]), Globals.CENTROID_DOCS_IN_CLUSTER);
+                List<XmlDocument> xmls = r.searchInGivenDocs(SearchQuery.getMainQuery(), arrList.toArray(new String[arrList.size()]), Globals.RETRIEVAL_RESULT_COUNT);
+
+                // for debug purpose
+                docsInEachCluster.add(xmls);
+
+                xmls = xmls.subList(0, Math.min(Globals.CENTROID_DOCS_IN_CLUSTER, xmls.size()));
                 List<String> fnames = new ArrayList<String>(xmls.size());
                 for(XmlDocument x : xmls)
                     fnames.add(x.getFilename());
                 clusters.get(i).keepOnlyGivenDocs(fnames);
             }
         }
+
+        // log in debugger
+        DebugLogger.setDocsInEachCluster(docsInEachCluster);
 
         return clusters;
     }
