@@ -106,9 +106,9 @@ public class MalletDataImporter {
         return instances;
     }
 
-    public InstanceList readXmlDocuments(List<XmlDocument> xmldocs) {
+    public InstanceList readDocuments(List<DocumentClass> docs) {
         InstanceList instances = new InstanceList(pipe);
-        for (XmlDocument doc : xmldocs) {
+        for (DocumentClass doc : docs) {
             instances.addThruPipe(new Instance(doc.getTitle()+" "+doc.getContent(),null,doc.getFilename(),null));
         }
         return instances;

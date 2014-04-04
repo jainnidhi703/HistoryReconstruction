@@ -1,12 +1,20 @@
-public class Document {
+public class DocumentClass {
 
     private int clusterID = -1;
-    private String filename = null;
-    private String content = null;
-    private String date = null;
-    public double score = 0.0;
+    protected String filename = null;
+    protected String title = null;
+    protected String content = null;
+    protected String date = null;
+    protected double score = 0.0;
 
-    public Document(int clusterID, String filename, String content) {
+    public DocumentClass() {
+    }
+
+    public DocumentClass(String filename) {
+        this.filename = filename;
+    }
+
+    public DocumentClass(int clusterID, String filename, String content) {
         this.clusterID = clusterID;
         this.filename = filename;
         this.content = content;
@@ -51,11 +59,39 @@ public class Document {
         return filename;
     }
 
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     public String getContent() {
         return content;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public String getDate() {
         return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public double getScore() {
+        return this.score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -7,7 +7,6 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
-import org.apache.lucene.search.Query;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
@@ -72,11 +71,11 @@ public class Retriever {
      * searches for the query in `title` and `contents` fields
      * @param searchFor search query
      * @param maxHits maximum no of results
-     * @return relevant XmlDocuments
+     * @return relevant Documents
      * @throws ParseException
      * @throws IOException
      */
-    public List<XmlDocument> topRelevantResults(String searchFor, int maxHits) throws ParseException, IOException {
+    public List<DocumentClass> topRelevantResults(String searchFor, int maxHits) throws ParseException, IOException {
         QueryParser parser1 = new QueryParser(Version.LUCENE_46, "title",standardAnalyzer);
         Query qry1 = parser1.parse(searchFor);
         qry1.setBoost((float) 2.0);
@@ -104,18 +103,18 @@ public class Retriever {
         int numTotalHits = results.totalHits;
         System.out.println(numTotalHits + " total matching documents");
 
-        ArrayList<XmlDocument> xmlDocuments = new ArrayList<XmlDocument>();
+        ArrayList<DocumentClass> documents = new ArrayList<DocumentClass>();
         for (ScoreDoc hit : hits) {
             Document doc = searcher.doc(hit.doc);
-            XmlDocument xml = new XmlDocument();
-            xml.setFilename(doc.get("filename"));
-            xml.setTitle(doc.get("title"));
-            xml.setContent(doc.get("contents"));
-            xml.setDate(doc.get("date"));
-            xmlDocuments.add(xml);
+            DocumentClass hitDoc = new DocumentClass();
+            hitDoc.setFilename(doc.get("filename"));
+            hitDoc.setTitle(doc.get("title"));
+            hitDoc.setContent(doc.get("contents"));
+            hitDoc.setDate(doc.get("date"));
+            documents.add(hitDoc);
         }
 
-        return xmlDocuments;
+        return documents;
     }
 
 
@@ -124,11 +123,11 @@ public class Retriever {
      * @param searchFor search query
      * @param fileNames files to search in
      * @param maxHits maximum no of results
-     * @return relevant XmlDocuments
+     * @return relevant Documents
      * @throws ParseException
      * @throws IOException
      */
-    public List<XmlDocument> searchInGivenDocs(String searchFor, String[] fileNames, int maxHits) throws ParseException, IOException {
+    public List<DocumentClass> searchInGivenDocs(String searchFor, String[] fileNames, int maxHits) throws ParseException, IOException {
         QueryParser parser1 = new QueryParser(Version.LUCENE_46, "title",standardAnalyzer);
         Query qry1 = parser1.parse(searchFor);
         qry1.setBoost((float)2.0);
@@ -155,29 +154,29 @@ public class Retriever {
         int numTotalHits = results.totalHits;
         System.out.println(numTotalHits + " total matching documents");
 
-        ArrayList<XmlDocument> xmlDocuments = new ArrayList<XmlDocument>();
+        ArrayList<DocumentClass> documents = new ArrayList<DocumentClass>();
         for (ScoreDoc hit : hits) {
             Document doc = searcher.doc(hit.doc);
-            XmlDocument xml = new XmlDocument();
-            xml.setFilename(doc.get("filename"));
-            xml.setTitle(doc.get("title"));
-            xml.setContent(doc.get("contents"));
-            xml.setScore(hit.score);
-            xmlDocuments.add(xml);
+            DocumentClass hitDoc = new DocumentClass();
+            hitDoc.setFilename(doc.get("filename"));
+            hitDoc.setTitle(doc.get("title"));
+            hitDoc.setContent(doc.get("contents"));
+            hitDoc.setScore((double) hit.score);
+            documents.add(hitDoc);
         }
 
-        return xmlDocuments;
+        return documents;
     }
 
 
     /**
-     * Gives XmlDocument from given filenames
-     * @param fnames file names for which XmlDocuments are required
-     * @return XmlDocuments
+     * Gives Documents from given filenames
+     * @param fnames file names for which DocumentClasss are required
+     * @return Documents
      * @throws ParseException
      * @throws IOException
      */
-    public List<XmlDocument> filenamesToXmlDoc(List<String> fnames) throws ParseException, IOException {
+    public List<DocumentClass> filenamesToDocs(List<String> fnames) throws ParseException, IOException {
         QueryParser parser3 = new QueryParser(Version.LUCENE_46, "filename", whiteSpaceAnalyzer);
         BooleanQuery query = new BooleanQuery();
         for(String s : fnames) {
@@ -189,16 +188,16 @@ public class Retriever {
         int numTotalHits = results.totalHits;
         System.out.println(numTotalHits + " total matching documents");
 
-        List<XmlDocument> xmlDocuments = new ArrayList<XmlDocument>();
+        List<DocumentClass> documents = new ArrayList<DocumentClass>();
         for (ScoreDoc hit : hits) {
             Document doc = searcher.doc(hit.doc);
-            XmlDocument xml = new XmlDocument();
-            xml.setFilename(doc.get("filename"));
-            xml.setTitle(doc.get("title"));
-            xml.setContent(doc.get("contents"));
-            xmlDocuments.add(xml);
+            DocumentClass hitDoc = new DocumentClass();
+            hitDoc.setFilename(doc.get("filename"));
+            hitDoc.setTitle(doc.get("title"));
+            hitDoc.setContent(doc.get("contents"));
+            documents.add(hitDoc);
         }
 
-        return xmlDocuments;
+        return documents;
     }
 }

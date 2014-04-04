@@ -4,12 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class XmlDocument {
-    private String filename;
-    private String content;
-    private String title;
-    private String date;
-    private float score;
+public class XmlDocument extends DocumentClass {
     private boolean error = false;
     private static ErrorWriter ew;
 
@@ -22,15 +17,16 @@ public class XmlDocument {
     }
 
     public XmlDocument() {
+        super();
         filename = null;
         content = null;
         title = null;
     }
 
     public XmlDocument(String filename) throws XMLStreamException, IOException {
+        super(filename);
+
         XMLInputFactory factory = XMLInputFactory.newInstance();
-//        factory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.FALSE);
-//        factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
         BufferedReader br = new BufferedReader(new FileReader(filename));
         StringBuilder sb = new StringBuilder();
         String xmlContent = null;
@@ -47,8 +43,6 @@ public class XmlDocument {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray);
         XMLStreamReader reader = factory.createXMLStreamReader(inputStream);
         XMLStreamReader filterReader = factory.createFilteredReader( reader, new MyFilter());
-
-
 
         String tagContent = "";
         boolean append = false;
@@ -93,66 +87,10 @@ public class XmlDocument {
                     break;
             }
         }
-
-//        if(filename.endsWith(".utf8")) {
-//            String DATE_REGEX = "(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday),\\s(January|February|March|April|May|June|July|August|September|October|November|December)\\s(\\d{2}),\\s(\\d{4})";
-//            Matcher matcher = Pattern.compile(DATE_REGEX,Pattern.CASE_INSENSITIVE).matcher(content);
-//            String month = "";
-//            String date = "";
-//            String year = "";
-//            if(matcher.find()) {
-//                month = matcher.group(2);
-//                date = matcher.group(3);
-//                year = matcher.group(4);
-//            }
-//            this.date = year+month+date;
-//        } else {
-//
-//        }
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public boolean isError() {
         return error;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public void setScore(float score) {
-        this.score = score;
-    }
-
-    public float getScore() {
-        return this.score;
     }
 }
 

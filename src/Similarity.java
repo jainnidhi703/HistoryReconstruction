@@ -112,7 +112,7 @@ public class Similarity {
         return score;
     }
 
-    public static double titleToDocument(String title, Document doc) {
+    public static double titleToDocument(String title, DocumentClass doc) {
         String[] titleToks = title.split(" ");
 //        String[] sents = doc.getContent().split("\\.");
         List<String> sents = IRUtils.splitSentences(doc.getContent());

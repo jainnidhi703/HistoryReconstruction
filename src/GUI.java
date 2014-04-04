@@ -171,7 +171,7 @@ public class GUI {
                         } catch (ParseException e1) {
                             e1.printStackTrace();
                         }
-                        List<XmlDocument> docs = null;
+                        List<DocumentClass> docs = null;
                         try {
                             docs = r.topRelevantResults(SearchQuery.getMainQuery(), Globals.RETRIEVAL_RESULT_COUNT);
                         } catch (ParseException e1) {
@@ -182,8 +182,8 @@ public class GUI {
 
                         // Date filter
                         if(filterResultsCheckBox.isSelected()) {
-                            for(Iterator<XmlDocument> it = docs.iterator(); it.hasNext();) {
-                                XmlDocument d = it.next();
+                            for(Iterator<DocumentClass> it = docs.iterator(); it.hasNext();) {
+                                DocumentClass d = it.next();
                                 String year = IRUtils.yearFromDate(d.getDate());
                                 int dt = Integer.parseInt(year);
                                 int from = (Integer) fromSpinner.getValue();
@@ -222,11 +222,13 @@ public class GUI {
                         publish("Exporting to file");
                         String output = ExportDocument.generateContent(sentences, clusters);
                         String debugContent = ExportDocument.generateDebugContent(clusters);
-
-                        if(exportField.getText().endsWith(".pdf")) {
+                        String exportTo = exportField.getText();
+                        if(exportTo.endsWith(".pdf")) {
                             try {
-                                ExportDocument.toPDF(exportField.getText(), "", SearchQuery.getMainQuery(), output);
-                                ExportDocument.printToPDF(exportField.getText(), debugContent);
+                                ExportDocument.toPDF(exportTo, "", SearchQuery.getMainQuery(), output);
+                                int extIndx = exportTo.lastIndexOf(".");
+                                exportTo = exportTo.substring(0,(extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".pdf";
+                                ExportDocument.printToPDF(exportTo, debugContent);
                             } catch (FileNotFoundException e1) {
                                 e1.printStackTrace();
                             } catch (DocumentException e1) {
@@ -234,8 +236,10 @@ public class GUI {
                             }
                         } else {
                             try {
-                                ExportDocument.toText(exportField.getText(), "", SearchQuery.getMainQuery(), output);
-                                StringUtils.printToFile(exportField.getText(), debugContent);
+                                ExportDocument.toText(exportTo, "", SearchQuery.getMainQuery(), output);
+                                int extIndx = exportTo.lastIndexOf(".");
+                                exportTo = exportTo.substring(0, (extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".txt";
+                                StringUtils.printToFile(exportTo, debugContent);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }

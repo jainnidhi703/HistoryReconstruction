@@ -9,16 +9,16 @@ public class Cluster {
     private String title = null;
     private String content = null;
     private List<Sentence> sentences = null;
-    private List<Document> docs = null;
+    private List<DocumentClass> docs = null;
 
     public Cluster(int indx, String title) {
         this.clusterID = indx;
         this.title = title;
         sentences = new ArrayList<Sentence>();
-        docs = new ArrayList<Document>();
+        docs = new ArrayList<DocumentClass>();
     }
 
-    public Cluster(int indx, String title, List<Document> docs) {
+    public Cluster(int indx, String title, List<DocumentClass> docs) {
         this.clusterID = indx;
         this.title = title;
         this.docs = docs;
@@ -27,7 +27,7 @@ public class Cluster {
         keepOnlyImpDocs();
     }
 
-    public Cluster(int indx, String title, List<Document> docs, int impNum) {
+    public Cluster(int indx, String title, List<DocumentClass> docs, int impNum) {
         this.clusterID = indx;
         this.title = title;
         this.docs = docs;
@@ -39,16 +39,16 @@ public class Cluster {
     public void keepOnlyImpDocs(int impNum) {
         if(title == null)
             throw new NullPointerException("Title is empty");
-        List<Document> impDocs = new ArrayList<Document>();
-        for(Document d : docs) {
+        List<DocumentClass> impDocs = new ArrayList<DocumentClass>();
+        for(DocumentClass d : docs) {
             double scre = Similarity.titleToDocument(SearchQuery.getMainQuery(), d);
             d.score = scre;
             impDocs.add(d);
         }
 
-        Collections.sort(impDocs, new Comparator<Document>() {
+        Collections.sort(impDocs, new Comparator<DocumentClass>() {
             @Override
-            public int compare(Document d1, Document d2) {
+            public int compare(DocumentClass d1, DocumentClass d2) {
                 return Double.compare(d2.score, d1.score);
             }
         });
@@ -56,7 +56,7 @@ public class Cluster {
         docs = impDocs.subList(0, impNum);
         sentences.clear();
 
-        for(Document d : docs) {
+        for(DocumentClass d : docs) {
             List<String> sents = IRUtils.splitSentences(d.getContent());
 //            String[] sents = d.getContent().split("\\.");
             for(String s : sents) {
@@ -68,16 +68,16 @@ public class Cluster {
     }
 
     public void keepOnlyImpDocs() {
-        List<Document> impDocs = new ArrayList<Document>();
-        for(Document d : docs) {
+        List<DocumentClass> impDocs = new ArrayList<DocumentClass>();
+        for(DocumentClass d : docs) {
             double scre = Similarity.titleToDocument(SearchQuery.getMainQuery(), d);
             d.score = scre;
             impDocs.add(d);
         }
 
-        Collections.sort(impDocs, new Comparator<Document>() {
+        Collections.sort(impDocs, new Comparator<DocumentClass>() {
             @Override
-            public int compare(Document d1, Document d2) {
+            public int compare(DocumentClass d1, DocumentClass d2) {
                 return Double.compare(d2.score, d1.score);
             }
         });
@@ -85,7 +85,7 @@ public class Cluster {
         docs = impDocs.subList(0, Math.min(Globals.CENTROID_DOCS_IN_CLUSTER, impDocs.size()));
         sentences.clear();
 
-        for(Document d : docs) {
+        for(DocumentClass d : docs) {
             List<String> sents = IRUtils.splitSentences(d.getContent());
 //            String[] sents = d.getContent().split("\\.");
             for(String s : sents) {
@@ -98,9 +98,9 @@ public class Cluster {
     }
 
     public void keepOnlyGivenDocs(List<String> filenames) {
-        List<Document> newDocs = new ArrayList<Document>(filenames.size());
+        List<DocumentClass> newDocs = new ArrayList<DocumentClass>(filenames.size());
 
-        for(Document d : docs) {
+        for(DocumentClass d : docs) {
             if(filenames.contains(d.getFilename())) {
                 newDocs.add(d);
             }
@@ -108,7 +108,7 @@ public class Cluster {
         docs = newDocs;
 
         sentences.clear();
-        for(Document d : docs) {
+        for(DocumentClass d : docs) {
             List<String> sents = IRUtils.splitSentences(d.getContent());
 //            String[] sents = d.getContent().split("\\.");
             for(String s : sents) {
@@ -120,7 +120,7 @@ public class Cluster {
     }
 
     // need to call keep only imp doc after this
-    public void addDocument(Document doc) {
+    public void addDocument(DocumentClass doc) {
         this.docs.add(doc);
     }
 
@@ -152,7 +152,7 @@ public class Cluster {
         return content;
     }
 
-    public List<Document> getDocs() {
+    public List<DocumentClass> getDocs() {
         return docs;
     }
 
@@ -160,7 +160,7 @@ public class Cluster {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[ ").append(this.getClusterID()).append(" ] => ");
-        for(Document d : this.getDocs()) {
+        for(DocumentClass d : this.getDocs()) {
             sb.append(d.getFilename()).append(", ");
         }
         return sb.toString();

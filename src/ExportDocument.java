@@ -135,7 +135,7 @@ public class ExportDocument {
             docIndx = 0;
             for(Cluster s : clusters) {
                 sb.append("[").append(docIndx++).append("] : ");
-                for(Document d : s.getDocs())
+                for(DocumentClass d : s.getDocs())
                     sb.append(d.getFilename()).append(", ");
                 sb.append("\n");
             }
@@ -146,9 +146,9 @@ public class ExportDocument {
             sb.append("Document score under each cluster:\n");
             sb.append("------------------------------------------------------------\n");
             docIndx = 0;
-            for(List<XmlDocument> dl : DebugLogger.getDocsInEachCluster()) {
+            for(List<DocumentClass> dl : DebugLogger.getDocsInEachCluster()) {
                 sb.append("[ Cluster : ").append(docIndx++).append(" ] : ").append("\n");
-                for(XmlDocument d : dl) {
+                for(DocumentClass d : dl) {
                     sb.append("[").append(df.format(d.getScore())).append("] : ").append(d.getFilename()).append("\n");
                 }
                 sb.append("\n");

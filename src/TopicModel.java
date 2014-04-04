@@ -11,7 +11,7 @@ public class TopicModel {
 
     private List<String> topicTitles;
 
-    public List<Cluster> getClusters(List<XmlDocument> documentList, Retriever r, int numTopics) throws Exception {
+    public List<Cluster> getClusters(List<DocumentClass> documentList, Retriever r, int numTopics) throws Exception {
 
         if(documentList.isEmpty()) {
             System.out.println("Docs List is empty!");
@@ -21,7 +21,7 @@ public class TopicModel {
         MalletDataImporter importer = new MalletDataImporter(MalletDataImporter.PipeType.Array);
 
 //        InstanceList instances = importer.readDirectory(new File(dirName));
-        InstanceList instances = importer.readXmlDocuments(documentList);
+        InstanceList instances = importer.readDocuments(documentList);
 
         // Create a model with 100 topics, alpha_t = 0.01, beta_w = 0.01
         //  Note that the first parameter is passed as the sum over topics, while
@@ -45,10 +45,10 @@ public class TopicModel {
 //        File file = new File("topics.txt");
 //        model.printDocumentTopics(file);
 
-        HashMap<String, Document> docMap = new HashMap<String, Document>();
-        for(XmlDocument xmlDoc : documentList) {
-            Document d = new Document(-1,xmlDoc.getFilename(),xmlDoc.getTitle() + " " + xmlDoc.getContent());
-            docMap.put(xmlDoc.getFilename(), d);
+        HashMap<String, DocumentClass> docMap = new HashMap<String, DocumentClass>();
+        for(DocumentClass doc : documentList) {
+            DocumentClass d = new DocumentClass(-1,doc.getFilename(),doc.getTitle() + " " + doc.getContent());
+            docMap.put(doc.getFilename(), d);
         }
 
         numTopics = model.getNumTopics();
@@ -83,7 +83,7 @@ public class TopicModel {
                 }
             }
 
-            Document dd = docMap.get(model.data.get(doc).instance.getName().toString());
+            DocumentClass dd = docMap.get(model.data.get(doc).instance.getName().toString());
             dd.setClusterID(mxTopic);
             clusters.get(mxTopic).addDocument(dd);
 
@@ -91,7 +91,7 @@ public class TopicModel {
         }
 
         topicTitles = getTopics(model, Globals.TOPIC_TITLE_WORD_COUNT);
-        List<List<XmlDocument>> docsInEachCluster = new ArrayList<List<XmlDocument>>(clusters.size());
+        List<List<DocumentClass>> docsInEachCluster = new ArrayList<List<DocumentClass>>(clusters.size());
         for(int i = 0; i < clusters.size(); ++i) {
             clusters.get(i).setTitle(topicTitles.get(i));
             if(Globals.DOC_SELECTION_METHOD == 1) {
@@ -100,18 +100,18 @@ public class TopicModel {
                 if(clusters.get(i).getTitle().trim().isEmpty())
                     continue;
                 List<String> arrList = new ArrayList<String>();
-                for(Document d : clusters.get(i).getDocs())
+                for(DocumentClass d : clusters.get(i).getDocs())
                     arrList.add(d.getFilename());
 
                 // FIXME : don't just search the input query, search using queryExpansion
-                List<XmlDocument> xmls = r.searchInGivenDocs(SearchQuery.getMainQuery(), arrList.toArray(new String[arrList.size()]), Globals.RETRIEVAL_RESULT_COUNT);
+                List<DocumentClass> docs = r.searchInGivenDocs(SearchQuery.getMainQuery(), arrList.toArray(new String[arrList.size()]), Globals.RETRIEVAL_RESULT_COUNT);
 
                 // for debug purpose
-                docsInEachCluster.add(xmls);
+                docsInEachCluster.add(docs);
 
-                xmls = xmls.subList(0, Math.min(Globals.CENTROID_DOCS_IN_CLUSTER, xmls.size()));
-                List<String> fnames = new ArrayList<String>(xmls.size());
-                for(XmlDocument x : xmls)
+                docs = docs.subList(0, Math.min(Globals.CENTROID_DOCS_IN_CLUSTER, docs.size()));
+                List<String> fnames = new ArrayList<String>(docs.size());
+                for(DocumentClass x : docs)
                     fnames.add(x.getFilename());
                 clusters.get(i).keepOnlyGivenDocs(fnames);
             }

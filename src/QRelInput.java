@@ -17,7 +17,7 @@ public class QRelInput {
         this.qRelPath = qRelPath;
     }
 
-    public List<XmlDocument> getXmlDocs(Retriever r, int queryNo) throws IOException, ParseException {
+    public List<DocumentClass> getDocsFromQrel(Retriever r, int queryNo) throws IOException, ParseException {
         BufferedReader br = new BufferedReader(new FileReader(qRelPath));
         List<String> lst = new ArrayList<String>();
         String str;
@@ -28,8 +28,8 @@ public class QRelInput {
                 lst.add(tmp);
         } while(str != null);
 
-        List<XmlDocument> xmls = r.filenamesToXmlDoc(lst);
-        return xmls;
+        List<DocumentClass> docs = r.filenamesToDocs(lst);
+        return docs;
     }
 
     public void start(int queryNo, String exportTo) throws Exception {
@@ -37,7 +37,7 @@ public class QRelInput {
         SearchQuery.setMainQuery(qParser.getTitle());
 
         Retriever r = new Retriever(Settings.getStoreDir());
-        List<XmlDocument> docs = getXmlDocs(r, queryNo);
+        List<DocumentClass> docs = getDocsFromQrel(r, queryNo);
         TopicModel modeller = new TopicModel();
         List<Cluster> clusters = null;
         clusters = modeller.getClusters(docs, r, Globals.NUM_CLUSTERS);
@@ -64,7 +64,8 @@ public class QRelInput {
         if(exportTo.endsWith(".pdf")) {
             try {
                 ExportDocument.toPDF(exportTo, SearchQuery.getMainQuery(), "QRel Query No. : " + queryNo, output);
-                exportTo = exportTo.substring(0,exportTo.lastIndexOf(".")) + Globals.DEBUG_FILE_SUFFIX + ".pdf";
+                int extIndx = exportTo.lastIndexOf(".");
+                exportTo = exportTo.substring(0,(extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".pdf";
                 ExportDocument.printToPDF(exportTo, debugContent);
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
@@ -74,7 +75,8 @@ public class QRelInput {
         } else {
             try {
                 ExportDocument.toText(exportTo, SearchQuery.getMainQuery(), "QRel Query No. : " + queryNo, output);
-                exportTo = exportTo.substring(0,exportTo.lastIndexOf(".")) + Globals.DEBUG_FILE_SUFFIX + ".txt";
+                int extIndx = exportTo.lastIndexOf(".");
+                exportTo = exportTo.substring(0, (extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".txt";
                 StringUtils.printToFile(exportTo, debugContent);
             } catch (IOException e1) {
                 e1.printStackTrace();
