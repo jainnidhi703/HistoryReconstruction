@@ -2,12 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DebugLogger {
-    public static List<List<DocumentClass>> docsInEachCluster = null;
-    public static List<List<Sentence>> sentsInEachCluster = null;
-
-    public static void setDocsInEachCluster(List<List<DocumentClass>> listing) {
-        docsInEachCluster = listing;
-    }
+    private static List<List<DocumentClass>> docsInEachCluster = null;
+    private static List<List<Sentence>> sentsInEachCluster = null;
 
     public static void addDocsInCluster(List<DocumentClass> docs) {
         if(docsInEachCluster == null)
@@ -19,8 +15,7 @@ public class DebugLogger {
         return docsInEachCluster;
     }
 
-    public static void setSentencesInEachCluster(int indx, List<Sentence> sentences) {
-//        sentsInEachCluster.set(indx, sentences);
+    public static void setSentencesInEachCluster(List<Sentence> sentences) {
         if(sentsInEachCluster == null)
             sentsInEachCluster = new ArrayList<List<Sentence>>();
         sentsInEachCluster.add(sentences);

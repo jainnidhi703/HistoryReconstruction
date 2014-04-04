@@ -91,7 +91,7 @@ public class TopicModel {
         }
 
         topicTitles = getTopics(model, Globals.TOPIC_TITLE_WORD_COUNT);
-        List<List<DocumentClass>> docsInEachCluster = new ArrayList<List<DocumentClass>>(clusters.size());
+
         for(int i = 0; i < clusters.size(); ++i) {
             clusters.get(i).setTitle(topicTitles.get(i));
             if(Globals.DOC_SELECTION_METHOD == 1) {
@@ -104,10 +104,10 @@ public class TopicModel {
                     arrList.add(d.getFilename());
 
                 // FIXME : don't just search the input query, search using queryExpansion
-                List<DocumentClass> docs = r.searchInGivenDocs(SearchQuery.getMainQuery(), arrList.toArray(new String[arrList.size()]), Globals.RETRIEVAL_RESULT_COUNT);
+                List<DocumentClass> docs = r.searchInGivenFiles(SearchQuery.getMainQuery(), arrList.toArray(new String[arrList.size()]), Globals.RETRIEVAL_RESULT_COUNT);
 
                 // for debug purpose
-                docsInEachCluster.add(docs);
+                DebugLogger.addDocsInCluster(docs);
 
                 docs = docs.subList(0, Math.min(Globals.CENTROID_DOCS_IN_CLUSTER, docs.size()));
                 List<String> fnames = new ArrayList<String>(docs.size());
@@ -116,9 +116,6 @@ public class TopicModel {
                 clusters.get(i).keepOnlyGivenDocs(fnames);
             }
         }
-
-        // log in debugger
-        DebugLogger.setDocsInEachCluster(docsInEachCluster);
 
         return clusters;
     }

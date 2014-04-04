@@ -82,6 +82,9 @@ public class Cluster {
             }
         });
 
+        // for debug purpose Only
+        DebugLogger.addDocsInCluster(impDocs);
+
         docs = impDocs.subList(0, Math.min(Globals.CENTROID_DOCS_IN_CLUSTER, impDocs.size()));
         sentences.clear();
 

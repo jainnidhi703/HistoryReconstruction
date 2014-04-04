@@ -127,7 +127,7 @@ public class Retriever {
      * @throws ParseException
      * @throws IOException
      */
-    public List<DocumentClass> searchInGivenDocs(String searchFor, String[] fileNames, int maxHits) throws ParseException, IOException {
+    public List<DocumentClass> searchInGivenFiles(String searchFor, String[] fileNames, int maxHits) throws ParseException, IOException {
         QueryParser parser1 = new QueryParser(Version.LUCENE_46, "title",standardAnalyzer);
         Query qry1 = parser1.parse(searchFor);
         qry1.setBoost((float)2.0);
