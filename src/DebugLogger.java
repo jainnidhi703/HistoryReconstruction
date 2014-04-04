@@ -15,7 +15,7 @@ public class DebugLogger {
         return docsInEachCluster;
     }
 
-    public static void setSentencesInEachCluster(List<Sentence> sentences) {
+    public static void addSentencesInCluster(List<Sentence> sentences) {
         if(sentsInEachCluster == null)
             sentsInEachCluster = new ArrayList<List<Sentence>>();
         sentsInEachCluster.add(sentences);
