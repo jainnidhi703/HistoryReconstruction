@@ -1,124 +1,69 @@
-import edu.cmu.lti.lexical_db.ILexicalDatabase;
-import edu.cmu.lti.lexical_db.NictWordNet;
-import edu.cmu.lti.ws4j.RelatednessCalculator;
-import edu.cmu.lti.ws4j.impl.Lin;
-import javafx.util.Pair;
-
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.TreeMap;
 
+
+/**
+ * New sentence-sentence similarity measure
+ * based on word meaning as well as word ordering in sentences
+ *
+ * For a detailed explanation of the approach refer,
+ * Sentence Similarity Based on Semantic Nets and Corpus Statistics
+ * by Yuhua L et. al.
+ */
 public class Similarity {
 
-    private static final ILexicalDatabase db = new NictWordNet();
-    public static final RelatednessCalculator lin = new Lin(db);
+    /**
+     * Computes sentence-sentence similarity
+     * @param T1 Sentence1
+     * @param T2 Sentence2
+     * @return similarity score
+     * @throws IOException
+     */
+    public static double sentence(String T1, String T2) throws IOException {
+        T1 = T1.toLowerCase();
+        T2 = T2.toLowerCase();
 
-    public static TreeMap<Pair<String, String>, Double> cache = new TreeMap<Pair<String, String>, Double>(new Comparator<Pair<String, String>>() {
-        @Override
-        public int compare(Pair<String , String> a, Pair<String, String> b) {
-            String str1 = a.getKey() + " " + a.getValue();
-            String str2 = b.getKey() + " " + b.getValue();
-            return str1.compareTo(str2);
-        }
-    });
+        List<String> T1toks = Arrays.asList(T1.split("\\s"));
+        List<String> T2toks = Arrays.asList(T2.split("\\s"));
 
-    Similarity() {
+        LinkedHashSet<String> T = new LinkedHashSet<String>();
 
-    }
+        for(String w : T1toks)
+            T.add(w);
 
-    public double getSimilarity(List<String> s1, List<String> s2) {
-        Socket socket = null;
-        try {
-            //create a client Socket
-            socket = new Socket("localhost", 4444);
-            //-------connection established---------
-        } catch (UnknownHostException e) {
-            System.err.println("Don't know about host: localhost.");
-            System.exit(1);
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O for " + "the connection to: localhost.");
-            System.exit(1);
-        }
-        try {
-            ObjectOutputStream outToServer = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream inFromServer = new ObjectInputStream(socket.getInputStream());
-            List<List<String>> sents = new ArrayList<List<String>>();
-            sents.add(s1);
-            sents.add(s2);
-            outToServer.writeObject(sents);
-            Double score = (Double)inFromServer.readObject();
-            System.out.println("got " + score + " from server.");
-            socket.close();
-            return score;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
+        for(String w: T2toks)
+            T.add(w);
 
-    public static double sentences(List<String> s1, List<String> s2) {
-        double score = 0;
-        for(String w1 : s1) {
-            for(String w2 : s2) {
-                if(w1.equals(w2))
-                    score += 1;
-                else {
-                    Double sTmp = Similarity.cache.get(new Pair<String, String>(w1, w2));
-                    if(sTmp == null) {
-                        sTmp = lin.calcRelatednessOfWords(w1, w2);
-                        score += sTmp;
-                        Similarity.cache.put(new Pair<String, String>(w1, w2), sTmp);
-                        Similarity.cache.put(new Pair<String, String>(w2, w1), sTmp);
-                    } else {
-                        score += sTmp;
-                    }
-                }
-            }
-        }
+        SemanticVector s1 = new SemanticVector(T1toks, T);
+        SemanticVector s2 = new SemanticVector(T2toks, T);
 
-        score /= (s1.size()*s2.size());
+        double Ss = s1.getSemanticScore(s2);
+        double Sr = s1.getWordOrderSimilarity(s2);
+
+        final double lambda = Globals.SEMANTIC_SIMILARITY_WEIGHTAGE;
+
+        double score = ( lambda * Ss ) + ( (1.0 - lambda) * Sr );
         return score;
     }
 
-    public static double sentences(String[] s1, String[] s2) {
-        double score = 0;
-        for(String w1 : s1) {
-            for(String w2 : s2) {
-                if(w1.equals(w2))
-                    score += 1;
-                else {
-                    Double sTmp = Similarity.cache.get(new Pair<String, String>(w1, w2));
-                    if(sTmp == null) {
-                        sTmp = lin.calcRelatednessOfWords(w1, w2);
-                        score += sTmp;
-                        Similarity.cache.put(new Pair<String, String>(w1, w2), sTmp);
-                        Similarity.cache.put(new Pair<String, String>(w2, w1), sTmp);
-                    } else {
-                        score += sTmp;
-                    }
-                }
-            }
-        }
 
-        score /= (s1.length*s2.length);
-        return score;
-    }
-
+    /**
+     * Computes the score of a document when compared to a title
+     * @param title title to compare with
+     * @param doc document to compare
+     * @return similarity score
+     */
     public static double titleToDocument(String title, DocumentClass doc) {
-        String[] titleToks = title.split(" ");
-//        String[] sents = doc.getContent().split("\\.");
         List<String> sents = IRUtils.splitSentences(doc.getContent());
         double score = 0.0;
         for(String s : sents) {
-            score += Similarity.sentences(titleToks, s.trim().split(" "));
+            try {
+                score += Similarity.sentence(title, s.trim());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         score /= sents.size();
         return score;

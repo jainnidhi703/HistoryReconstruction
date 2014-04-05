@@ -6,6 +6,7 @@ public class DocumentClass {
     protected String content = null;
     protected String date = null;
     protected double score = 0.0;
+    protected long wordCount = 0;
 
     public DocumentClass() {
     }
@@ -18,6 +19,7 @@ public class DocumentClass {
         this.clusterID = clusterID;
         this.filename = filename;
         this.content = content;
+        this.wordCount = content.split("\\s").length;
         date = dateFromFileName(filename);
     }
 
@@ -69,6 +71,7 @@ public class DocumentClass {
 
     public void setContent(String content) {
         this.content = content;
+        this.wordCount = content.split("\\s").length;
     }
 
     public String getDate() {
@@ -93,5 +96,9 @@ public class DocumentClass {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public long getWordCount() {
+        return wordCount;
     }
 }

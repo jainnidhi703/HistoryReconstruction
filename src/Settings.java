@@ -7,6 +7,7 @@ public class Settings {
 
     public static final String STORE_DIR = "store_dir";
     public static final String EXPORT_FILE = "export_file";
+    public static final String TOTAL_WORD_COUNT = "word_count";
 
     static Preferences prefs = Preferences.userRoot().node(Globals.PREFERENCES_NODE);
 
@@ -56,5 +57,20 @@ public class Settings {
      */
     public static String get(String key) {
         return prefs.get(key, "");
+    }
+
+    /**
+     * Stores Total word count in corpus
+     * @param count total word count
+     */
+    public static void setTotalNoOfWords(long count) {
+        prefs.putLong(TOTAL_WORD_COUNT, count);
+    }
+
+    /**
+     * @return Total word count in corpus
+     */
+    public static long getTotalNoOfWords() {
+        return prefs.getLong(TOTAL_WORD_COUNT, 0);
     }
 }

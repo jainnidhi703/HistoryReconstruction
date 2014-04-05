@@ -35,6 +35,10 @@ public class Globals {
 
     public static final int TOPIC_MODELLING_ITERATIONS = 1500;
 
+    public static final double SIMILARITY_THRESHOLD = 0.2;
+
+    public static final double SEMANTIC_SIMILARITY_WEIGHTAGE = 0.85;
+
     // 1 : compare each document to it's title and assign a score to each doc in a cluster
     // 2 : search the title in the documents contained in a cluster
     // FIXME : decide upon a single method

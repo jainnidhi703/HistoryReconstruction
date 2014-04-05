@@ -1,6 +1,8 @@
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.*;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
@@ -9,7 +11,9 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
 import javax.xml.stream.XMLStreamException;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  * Class for indexing files,
@@ -19,6 +23,7 @@ public class Indxer {
 
     private IndexWriter indxWriter = null;
     public static int dd = 0;
+    private long totalNoOfWords = 0;
 
     /**
      * Constructs indexWriter and sets where to store the indexed data
@@ -26,6 +31,9 @@ public class Indxer {
      * @throws IOException
      */
     public Indxer(String indxDir) throws IOException {
+        // reset word count
+        totalNoOfWords = 0;
+
         Directory dir = FSDirectory.open(new File(indxDir));
         Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_46);
         IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_46, analyzer);
@@ -110,6 +118,8 @@ public class Indxer {
         doc.add(new TextField("date", dateData, Field.Store.YES));
         doc.add(new TextField("contents", xmldoc.getContent(), Field.Store.YES));
 
+        totalNoOfWords += xmldoc.getWordCount();
+
         if (indxWriter.getConfig().getOpenMode() == IndexWriterConfig.OpenMode.CREATE) {
             indxWriter.addDocument(doc);
         } else {
@@ -124,6 +134,8 @@ public class Indxer {
      * @throws IOException
      */
     public void killWriter() throws IOException {
+        Settings.setTotalNoOfWords(totalNoOfWords);
+        LuceneUtils.TotalWordCount = totalNoOfWords;
         if(indxWriter != null) indxWriter.close();
     }
 }

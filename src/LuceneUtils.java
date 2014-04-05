@@ -2,16 +2,30 @@ import edu.washington.cs.knowitall.morpha.MorphaStemmer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.store.FSDirectory;
 import org.tartarus.snowball.ext.PorterStemmer;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 public final class LuceneUtils {
 
     public enum Stemmer {Porter, Morpho, Porter2}
+
+    private static IndexReader ir = null;
+
+    public static long TotalWordCount = 0;
+
+    // looking up lucene index everytime is costly
+    // thus maintaining a cache would result in much better performance
+    private static TreeMap<String, Long> freqCache = new TreeMap<String, Long>();
 
     private LuceneUtils() {}
 
@@ -71,5 +85,53 @@ public final class LuceneUtils {
             lst.set(i, str);
         }
         return lst;
+    }
+
+    /**
+     * Gives the term freq in the indexed corpus
+     * @param word the word for which freq is requested
+     * @return term frequency
+     * @throws IOException
+     */
+    public static long getTermFreq(String word) throws IOException {
+        if (ir == null)
+            ir = DirectoryReader.open(FSDirectory.open(new File(Settings.getStoreDir())));
+
+        // first look-up in cache
+        Long f = freqCache.get(word);
+
+        if(f == null) {
+            // if not found
+            Term termInstance = new Term("contents", word);
+            long termFreq = ir.totalTermFreq(termInstance);
+
+            // add it in cache
+            freqCache.put(word, termFreq);
+            return termFreq;
+        }
+
+        return f;
+    }
+
+    /**
+     * Information Content(IC) : The IC of a word/concept(c) can be quantified as
+     * the negative log likelihood [ -log p(c) ]. As probability of a word occurring in
+     * a corpus increases, informativeness decreases, so the more abstract a concept,
+     * the lower its information content
+     *
+     * @param word the word for which IC is requested
+     * @return IC
+     * @throws IOException
+     */
+    public static double informationContent(String word) throws IOException {
+        long n; // freq of word in corpus
+        long N; // Total no. of words in corpus
+
+        n = getTermFreq(word);
+
+        N = LuceneUtils.TotalWordCount;
+
+        double ic = 1.0 - (Math.log(n + 1) / Math.log(N + 1));
+        return ic;
     }
 }

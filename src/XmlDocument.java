@@ -76,6 +76,7 @@ public class XmlDocument extends DocumentClass {
                         this.filename = tagContent;
                     } else if ("TEXT".equals(filterReader.getLocalName())) {
                         this.content = tagContent;
+                        this.wordCount = tagContent.split("\\s").length;
                     } else if("TITLE".equals(filterReader.getLocalName())) {
                         this.title = tagContent;
                     }
