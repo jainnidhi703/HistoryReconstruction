@@ -52,6 +52,8 @@ public class Globals {
 
     public static boolean SHOW_SENTENCE_SCORE_UNDER_CLUSTER = true;
 
+    public static boolean SHOW_LINE_NUM = true;
+
     public static void setFullDEBUG(boolean bool) {
         Globals.SHOW_TOPICS = bool;
         Globals.SHOW_DOCS_UNDER_CLUSTERS = bool;

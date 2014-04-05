@@ -96,10 +96,13 @@ public class ExportDocument {
         LinkedHashSet<String> set = new LinkedHashSet<String>();
         StringBuilder sb = new StringBuilder();
         int docIndx = 0;
+        int lineNum = 1;
         for (Sentence s : sentences) {
             if(set.add(s.getFilename())) {
                 docIndx++;
             }
+            if(Globals.SHOW_LINE_NUM)
+                sb.append("[").append(lineNum++).append("] : ");
             sb.append(s.toString()).append("[").append(docIndx).append("]").append("\n");
         }
         sb.append("\n");
