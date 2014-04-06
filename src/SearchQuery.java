@@ -51,5 +51,12 @@ public class SearchQuery {
         return mainQuery;
     }
 
-    // FIXME : clear this class after single run
+
+    /**
+     * Clear SearchQuery after each run
+     */
+    public static void clear() {
+        mainQuery = null;
+        expandedQuery.clear();
+    }
 }

@@ -46,5 +46,13 @@ public class DebugLogger {
     public static List<List<Sentence>> getSentsInEachCluster() {
         return sentsInEachCluster;
     }
-    //FIXME : clear debugLogger after one run
+
+
+    /**
+     * Clear DebugLogger after each run
+     */
+    public static void clear() {
+        docsInEachCluster.clear();
+        sentsInEachCluster.clear();
+    }
 }

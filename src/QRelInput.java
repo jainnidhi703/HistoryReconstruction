@@ -99,6 +99,9 @@ public class QRelInput {
                 e1.printStackTrace();
             }
         }
+
+        PostRunner.run();
+
         System.out.println("Done!");
     }
 

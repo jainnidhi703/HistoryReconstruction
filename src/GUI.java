@@ -264,6 +264,9 @@ public class GUI {
                         fromSpinner.setEnabled(true);
                         toSpinner.setEnabled(true);
                         lengthSpinner.setEnabled(true);
+
+                        PostRunner.run();
+
                         System.out.println("Done!");
                     }
                 };
