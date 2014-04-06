@@ -13,6 +13,7 @@ public class SearchQuery {
     private static String mainQuery = "";
 
     public static List<Set<String>> expandedQuery = null;
+    private static long totalMatchingDocs = 0;
 
 
     /**
@@ -53,10 +54,28 @@ public class SearchQuery {
 
 
     /**
+     * Set total documents that match the query
+     * @param docs
+     */
+    public static void setTotalMatchingDocs(long docs) {
+        totalMatchingDocs = docs;
+    }
+
+
+    /**
+     * @return total matching documents
+     */
+    public static long getTotalMatchingDocs() {
+        return totalMatchingDocs;
+    }
+
+
+    /**
      * Clear SearchQuery after each run
      */
     public static void clear() {
         mainQuery = null;
         expandedQuery.clear();
+        totalMatchingDocs = 0;
     }
 }

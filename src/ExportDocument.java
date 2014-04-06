@@ -121,6 +121,9 @@ public class ExportDocument {
         int docIndx = 0;
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(6);
+
+        sb.append("Total matching docs : ").append(SearchQuery.getTotalMatchingDocs()).append("\n");
+
         if(Globals.SHOW_TOPICS) {
             sb.append("\n");
             sb.append("Topics:\n");

@@ -57,6 +57,7 @@ public class Retriever {
         ScoreDoc[] hits = results.scoreDocs;
 
         int numTotalHits = results.totalHits;
+        SearchQuery.setTotalMatchingDocs(numTotalHits);
         System.out.println(numTotalHits + " total matching documents");
 
         for (ScoreDoc hit : hits) {
@@ -101,6 +102,7 @@ public class Retriever {
         ScoreDoc[] hits = results.scoreDocs;
 
         int numTotalHits = results.totalHits;
+        SearchQuery.setTotalMatchingDocs(numTotalHits);
         System.out.println(numTotalHits + " total matching documents");
 
         ArrayList<DocumentClass> documents = new ArrayList<DocumentClass>();
@@ -152,6 +154,7 @@ public class Retriever {
         ScoreDoc[] hits = results.scoreDocs;
 
         int numTotalHits = results.totalHits;
+        SearchQuery.setTotalMatchingDocs(numTotalHits);
         System.out.println(numTotalHits + " total matching documents");
 
         ArrayList<DocumentClass> documents = new ArrayList<DocumentClass>();
@@ -186,6 +189,7 @@ public class Retriever {
         ScoreDoc[] hits = results.scoreDocs;
 
         int numTotalHits = results.totalHits;
+        SearchQuery.setTotalMatchingDocs(numTotalHits);
         System.out.println(numTotalHits + " total matching documents");
 
         List<DocumentClass> documents = new ArrayList<DocumentClass>();
