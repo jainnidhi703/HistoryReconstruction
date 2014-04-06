@@ -37,7 +37,7 @@ public class SimilarityTest {
                 // should equal 1.0
                 {0, 1.0, new String[]{"These sentences are identical", "These sentences are identical"}},
                 // should NOT equal 1.0
-                {0, 1.0, new String[]{"Jack was killed by Bob", "Bob was killed by Jack"}}
+                {-1, 1.0, new String[]{"Jack was killed by Bob", "Bob was killed by Jack"}}
         };
         return Arrays.asList(data);
     }
