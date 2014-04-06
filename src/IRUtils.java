@@ -121,7 +121,7 @@ public class IRUtils {
         ArrayList<String> sents = new ArrayList<String>();
         for(List snt : dp) {
             String ss = StringUtils.join(snt, " ");
-            ss = ss.substring(0, ss.length() - 2);
+            ss = ss.substring(0, Math.max(0,ss.length() - 2));
             sents.add(ss);
         }
         return sents;

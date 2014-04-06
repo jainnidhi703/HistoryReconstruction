@@ -34,6 +34,8 @@ public class SimilarityTest {
     @Parameterized.Parameters
     public static Collection<Object []> data() {
         Object[][] data = new Object[][] {
+                // should equal 0.0
+                {0, 0, new String[]{"this is empty", ""}},
                 // should equal 1.0
                 {0, 1.0, new String[]{"These sentences are identical", "These sentences are identical"}},
                 // should NOT equal 1.0
