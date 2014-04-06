@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * DataStructure to keep track of sentence properties
+ */
 public class Sentence {
 
     private int clusterID = -1;
@@ -12,6 +15,13 @@ public class Sentence {
     private String content = null;
     private List<String> tokens = null;
 
+    /**
+     * Creates sentence object
+     * @param id clusterID
+     * @param filename filename of the document this sentence came from
+     * @param date publish date of the document of this sentence
+     * @param content sentence
+     */
     public Sentence(int id, String filename, String date, String content) {
         clusterID = id;
         this.filename = filename;
@@ -34,31 +44,61 @@ public class Sentence {
         return content;
     }
 
+
+    /**
+     * Set sentence score
+     * @param score score to set
+     */
     public void setScore(double score) {
         this.score = score;
     }
 
+
+    /**
+     * @return get sentence score
+     */
     public double getScore() {
         return score;
     }
 
+
+    /**
+     * @return get publish date of the document this sentence came from
+     */
     public String getDate() {
         return date;
     }
 
+
+    /**
+     * @return get filename of the document this sentence came from
+     */
     public String getFilename() {
         return filename;
     }
 
+
+    /**
+     * @return get clusterID where this document belongs
+     */
     public int getClusterID() {
         return clusterID;
     }
 
+
+    /**
+     * @return get sentence tokens
+     */
     public List<String> getTokens() {
         return tokens;
     }
 
-    // FIXME : the trouble maker :P
+
+    /**
+     * Computes similarity between two sentences
+     * @param s other sentence to compare to
+     * @return semantic similarity
+     */
     public double getSimilarity(Sentence s) {
         try {
             return Similarity.sentence(this.toString(), s.toString());

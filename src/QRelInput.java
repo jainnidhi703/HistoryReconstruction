@@ -11,12 +11,24 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Input data directly from Qrel file
+ */
 public class QRelInput {
     private String qRelPath = null;
     QRelInput(String qRelPath) {
         this.qRelPath = qRelPath;
     }
 
+
+    /**
+     * Get relevant documents from qrel file
+     * @param r retriever object
+     * @param queryNo qrel query no
+     * @return relevant documents
+     * @throws IOException
+     * @throws ParseException
+     */
     public List<DocumentClass> getDocsFromQrel(Retriever r, int queryNo) throws IOException, ParseException {
         BufferedReader br = new BufferedReader(new FileReader(qRelPath));
         List<String> lst = new ArrayList<String>();
@@ -32,6 +44,13 @@ public class QRelInput {
         return docs;
     }
 
+
+    /**
+     * start creating summary for queryNo from qrel file
+     * @param queryNo qrel query no
+     * @param exportTo export summary to
+     * @throws Exception
+     */
     public void start(int queryNo, String exportTo) throws Exception {
         QRelTopicParser qParser = new QRelTopicParser(Globals.QREL_TOPIC_FILE, queryNo);
         SearchQuery.setMainQuery(qParser.getTitle());
@@ -41,8 +60,6 @@ public class QRelInput {
         TopicModel modeller = new TopicModel();
         List<Cluster> clusters = null;
         clusters = modeller.getClusters(docs, r, Globals.NUM_CLUSTERS);
-
-
 
         List<Sentence> sentences = new ArrayList<Sentence>(Globals.DEFAULT_SUMMARY_LENGTH);
         for (Cluster c : clusters) {
@@ -85,6 +102,13 @@ public class QRelInput {
         System.out.println("Done!");
     }
 
+
+    /**
+     * Get relevant file name
+     * @param indx qrel query no
+     * @param str line in qrel file
+     * @return return relevant filename
+     */
     private String getFileName(int indx, String str) {
         if(str == null) return null;
         String[] spl = str.split(" ");

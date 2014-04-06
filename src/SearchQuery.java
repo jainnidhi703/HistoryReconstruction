@@ -6,13 +6,20 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Keeps track of Search Query
+ */
 public class SearchQuery {
     private static String mainQuery = "";
 
     public static List<Set<String>> expandedQuery = null;
 
-//    public static String expandedQuery = "";
 
+    /**
+     * Sets main search Query
+     * along with some query expansion
+     * @param query query to set
+     */
     public static void setMainQuery(String query) {
         mainQuery = query;
         expandedQuery = new ArrayList<Set<String>>();
@@ -28,11 +35,21 @@ public class SearchQuery {
         }
     }
 
+
+    /**
+     * @return get expanded query
+     */
     public static List<Set<String>> getExpandedQuery() {
         return expandedQuery;
     }
 
+
+    /**
+     * @return get main Query
+     */
     public static String getMainQuery() {
         return mainQuery;
     }
+
+    // FIXME : clear this class after single run
 }

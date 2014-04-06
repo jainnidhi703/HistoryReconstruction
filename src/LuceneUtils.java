@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+/**
+ * Contains Lucene related misc functions
+ */
 public final class LuceneUtils {
 
     public enum Stemmer {Porter, Morpho, Porter2}
@@ -29,6 +32,13 @@ public final class LuceneUtils {
 
     private LuceneUtils() {}
 
+
+    /**
+     * Tokenizes string using given analyzer
+     * @param analyzer analyzer to tokenize string
+     * @param string string to tokenize
+     * @return list of tonkenized words
+     */
     public static List<String> tokenizeString(Analyzer analyzer, String string) {
         List<String> result = new ArrayList<String>();
         TokenStream stream  = null;
@@ -52,6 +62,12 @@ public final class LuceneUtils {
     }
 
 
+    /**
+     * Generic stemmer method
+     * @param lst list of words to stem
+     * @param stmr type of stemmer to use
+     * @return list of stemmed words
+     */
     public static List<String> stemWords(List<String> lst, Stemmer stmr) {
         switch (stmr) {
             case Porter:
@@ -87,6 +103,7 @@ public final class LuceneUtils {
         return lst;
     }
 
+
     /**
      * Gives the term freq in the indexed corpus
      * @param word the word for which freq is requested
@@ -112,6 +129,7 @@ public final class LuceneUtils {
 
         return f;
     }
+
 
     /**
      * Information Content(IC) : The IC of a word/concept(c) can be quantified as

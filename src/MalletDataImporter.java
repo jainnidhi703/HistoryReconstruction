@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+
+/**
+ * Imports data to be used by mallet api
+ */
 public class MalletDataImporter {
 
     Pipe pipe;
@@ -22,6 +26,11 @@ public class MalletDataImporter {
             pipe = buildPipeForArray();
     }
 
+
+    /**
+     * Create a pipe for array of data
+     * @return Pipe prepared to process array data
+     */
     private Pipe buildPipeForArray() {
         ArrayList<Pipe> pipeList = new ArrayList<Pipe>();
 
@@ -42,6 +51,11 @@ public class MalletDataImporter {
         return new SerialPipes(pipeList);
     }
 
+
+    /**
+     * Create a pipe for reading data from file
+     * @return Pipe prepared to process file data
+     */
     private Pipe buildPipeForFile() {
         ArrayList<Pipe> pipeList = new ArrayList<Pipe>();
 
@@ -79,10 +93,22 @@ public class MalletDataImporter {
         return new SerialPipes(pipeList);
     }
 
+
+    /**
+     * Read directory for data
+     * @param directory directory to read
+     * @return InstanceList
+     */
     public InstanceList readDirectory(File directory) {
         return readDirectories(new File[] {directory});
     }
 
+
+    /**
+     * Read multiple directories for data
+     * @param directories directories to read
+     * @return InstanceList
+     */
     public InstanceList readDirectories(File[] directories) {
         // Construct a file iterator, starting with the
         //  specified directories, and recursing through subdirectories.
@@ -106,6 +132,12 @@ public class MalletDataImporter {
         return instances;
     }
 
+
+    /**
+     * Read data from given Documents
+     * @param docs documents to read
+     * @return InstanceList
+     */
     public InstanceList readDocuments(List<DocumentClass> docs) {
         InstanceList instances = new InstanceList(pipe);
         for (DocumentClass doc : docs) {
@@ -114,6 +146,10 @@ public class MalletDataImporter {
         return instances;
     }
 
+
+    /**
+     * Class to filter all files except '.txt' files
+     */
     private class TxtFilter implements FileFilter {
 
         /** Test whether the string representation of the file

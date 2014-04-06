@@ -5,15 +5,15 @@ public class Main {
         init();
 
 
-        GUI gui = new GUI();
-        gui.show();
+//        GUI gui = new GUI();
+//        gui.show();
 
-//        QRelInput qrel = new QRelInput("qrel/en.qrels.126-175.2011.txt");
-//        try {
-//            qrel.start(143, "/home/jaydeep/IdeaProjects/sampleSummaries/TataNano.txt");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        QRelInput qrel = new QRelInput("qrel/en.qrels.126-175.2011.txt");
+        try {
+            qrel.start(143, "/home/jaydeep/IdeaProjects/sampleSummaries/TataNano.txt");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }

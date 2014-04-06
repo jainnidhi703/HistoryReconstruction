@@ -3,14 +3,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * DataStructure for storing Cluster related info
+ */
 public class Cluster {
 
     private int clusterID = -1;
     private String title = null;
-    private String content = null;
     private List<Sentence> sentences = null;
     private List<DocumentClass> docs = null;
 
+    /**
+     * Cluster constructor
+     * sets clusterID and title of cluster
+     * @param indx clusterID
+     * @param title title of cluster
+     */
     public Cluster(int indx, String title) {
         this.clusterID = indx;
         this.title = title;
@@ -18,6 +26,12 @@ public class Cluster {
         docs = new ArrayList<DocumentClass>();
     }
 
+    /**
+     * Cluster constructor
+     * @param indx clusterID
+     * @param title title of cluster
+     * @param docs documents to include in this cluster
+     */
     public Cluster(int indx, String title, List<DocumentClass> docs) {
         this.clusterID = indx;
         this.title = title;
@@ -27,6 +41,13 @@ public class Cluster {
         keepOnlyImpDocs();
     }
 
+    /**
+     * Cluster constructor
+     * @param indx clusterID
+     * @param title title of cluster
+     * @param docs documents to include in this cluster
+     * @param impNum no of important documents to keep
+     */
     public Cluster(int indx, String title, List<DocumentClass> docs, int impNum) {
         this.clusterID = indx;
         this.title = title;
@@ -36,6 +57,11 @@ public class Cluster {
         keepOnlyImpDocs(impNum);
     }
 
+    /**
+     * More Documents in a cluster leads to more computation
+     * So we keep only important documents
+     * @param impNum no of important documents to keep
+     */
     public void keepOnlyImpDocs(int impNum) {
         if(title == null)
             throw new NullPointerException("Title is empty");
@@ -67,6 +93,11 @@ public class Cluster {
         }
     }
 
+
+    /**
+     * More Documents in a cluster leads to more computation
+     * So we keep only important documents
+     */
     public void keepOnlyImpDocs() {
         List<DocumentClass> impDocs = new ArrayList<DocumentClass>();
         for(DocumentClass d : docs) {
@@ -100,6 +131,12 @@ public class Cluster {
         System.out.println("\n");
     }
 
+
+    /**
+     * More Documents in a cluster leads to more computation
+     * So we keep only specified documents
+     * @param filenames documents to keep
+     */
     public void keepOnlyGivenDocs(List<String> filenames) {
         List<DocumentClass> newDocs = new ArrayList<DocumentClass>(filenames.size());
 
@@ -122,42 +159,65 @@ public class Cluster {
         }
     }
 
-    // need to call keep only imp doc after this
+    /**
+     * Adds a document to cluster
+     * @param doc document to add
+     * [Note] : need to call keep only imp doc after this
+     */
     public void addDocument(DocumentClass doc) {
         this.docs.add(doc);
     }
 
+    /**
+     * @return cluster id
+     */
     public int getClusterID() {
         return clusterID;
     }
 
+
+    /**
+     * Sets cluster id
+     * @param id cluster id
+     */
     public void setClusterID(int id) {
         this.clusterID = id;
     }
 
+
+    /**
+     * @return title of cluster
+     */
     public String getTitle() {
         return title;
     }
 
+
+    /**
+     * Sets title of cluster
+     * @param title title to set
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+
+    /**
+     * Gets sentences from all the documents in cluster
+     * @return sentences in cluster
+     */
     public List<Sentence> getSentences() {
         return sentences;
     }
 
-    public void setSentences(List<Sentence> sentences) {
-        this.sentences = sentences;
-    }
 
-    public String getContent() {
-        return content;
-    }
-
+    /**
+     * @return documents in the cluster
+     */
     public List<DocumentClass> getDocs() {
         return docs;
     }
+
 
     @Override
     public String toString() {
@@ -169,6 +229,15 @@ public class Cluster {
         return sb.toString();
     }
 
+
+    /**
+     * Computes the similarity of sentence with index `indx` to
+     * all other sentences in the cluster
+     * @param indx index of the sentence
+     * @param sentence sentence object of sentence with index `indx`
+     * @param sentences all sentences
+     * @return similarity score with other sentences
+     */
     private double F1(int indx, Sentence sentence, List<Sentence> sentences) {
         double sum = 0.0;
         for(int i = 0; i < sentences.size(); ++i) {
@@ -179,19 +248,43 @@ public class Cluster {
         return sum;
     }
 
+
+    /**
+     * Computes the similarity of a sentence with query
+     * @param sentence sentence object
+     * @param title query
+     * @return similarity score
+     */
     private double F2(Sentence sentence, String title) {
         return sentence.getSimilarity(new Sentence(-1, null,null, title));
     }
 
 
+    /**
+     * Sentence score = lambda(F1) + (1-lambda)F2;
+     * For more details on sentence selection from a cluster, refer.
+     * Multi-Document Summarization via Sentence-Level Semantic Analysis and Symmetric Matrix Factorization
+     * [Section 3.4 Within-Cluster Sentence Selection]
+     * by Dingding Wang, et. al
+     *
+     * @param indx index of the sentence
+     * @param s sentence object
+     * @param sentences all sentences
+     * @param lambda value of lambda
+     * @param query query of the search
+     * @return sentence score
+     */
     private double getSentenceScore(int indx, Sentence s, List<Sentence> sentences, double lambda, String query) {
-        // formula taken from
-        // Multi-Document Summarization via Sentence-Level Semantic Analysis and Symmetric Matrix Factorization
-        // by Dingding Wang, et. al
-        // Section 3.4 Within-Cluster Sentence Selection
         return (lambda*F1(indx,s, sentences)) + (1.0-lambda) * F2(s, query);
     }
 
+
+    /**
+     * Gets K sentences with highest score
+     * @param K no of sentences to select
+     * @param query query of the search
+     * @return list of K sentences
+     */
     public List<Sentence> getTopKSentences(int K, String query) {
         System.out.println("Cluster ID : " + clusterID);
         for(int i = 0; i < this.sentences.size(); ++i) {

@@ -1,4 +1,6 @@
-
+/**
+ * All configurations of this app are stored here
+ */
 public class Globals {
 
     public static final String APP_NAME = "AuTo Summarizer";

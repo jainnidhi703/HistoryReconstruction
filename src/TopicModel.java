@@ -1,5 +1,3 @@
-//package cc.mallet.examples;
-
 import cc.mallet.topics.ParallelTopicModel;
 import cc.mallet.types.IDSorter;
 import cc.mallet.types.InstanceList;
@@ -7,10 +5,23 @@ import cc.mallet.types.LabelSequence;
 
 import java.util.*;
 
+
+/**
+ * Class for Topic Modelling
+ */
 public class TopicModel {
 
     private List<String> topicTitles;
 
+
+    /**
+     * Computes clusters
+     * @param documentList documents to cluster
+     * @param r retriever object
+     * @param numTopics no of clusters to create
+     * @return
+     * @throws Exception
+     */
     public List<Cluster> getClusters(List<DocumentClass> documentList, Retriever r, int numTopics) throws Exception {
 
         if(documentList.isEmpty()) {
@@ -120,6 +131,13 @@ public class TopicModel {
         return clusters;
     }
 
+
+    /**
+     * Computes cluster titles
+     * @param model model to get titles from
+     * @param numWords no of words in each title
+     * @return
+     */
     private List<String> getTopics(ParallelTopicModel model, int numWords) {
 
         List<String> topicList = new ArrayList<String>();
@@ -144,6 +162,10 @@ public class TopicModel {
         return topicList;
     }
 
+
+    /**
+     * @return cluster titles
+     */
     public List<String> getTopicTitles() {
         return topicTitles;
     }

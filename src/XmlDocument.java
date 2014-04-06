@@ -4,6 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
+
+/**
+ * Class to parse XmlDocuments
+ */
 public class XmlDocument extends DocumentClass {
     private boolean error = false;
     private static ErrorWriter ew;
@@ -23,6 +27,13 @@ public class XmlDocument extends DocumentClass {
         title = null;
     }
 
+
+    /**
+     * Read and parse filename
+     * @param filename file to parse
+     * @throws XMLStreamException
+     * @throws IOException
+     */
     public XmlDocument(String filename) throws XMLStreamException, IOException {
         super(filename);
 
@@ -95,6 +106,10 @@ public class XmlDocument extends DocumentClass {
     }
 }
 
+
+/**
+ * Class to filter tags except those defined in this class
+ */
 class MyFilter implements StreamFilter {
 
     private static final String[] lst = {"DOC", "DOCNO", "TITLE","TEXT"};
