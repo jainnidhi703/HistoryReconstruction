@@ -1,7 +1,7 @@
 import edu.cmu.lti.lexical_db.ILexicalDatabase;
 import edu.cmu.lti.lexical_db.NictWordNet;
 import edu.cmu.lti.ws4j.RelatednessCalculator;
-import edu.cmu.lti.ws4j.impl.LeacockChodorow;
+import edu.cmu.lti.ws4j.impl.WuPalmer;
 import javafx.util.Pair;
 
 import java.util.Comparator;
@@ -13,7 +13,8 @@ import java.util.TreeMap;
 public class WordRelatedness {
 
     private static final ILexicalDatabase db = new NictWordNet();
-    public static final RelatednessCalculator lch = new LeacockChodorow(db);
+    // WuPalmer returns values between 0 and 1
+    public static final RelatednessCalculator lch = new WuPalmer(db);
 
     // a cache is maintained which is faster to lookup
     // than to calculate the similarity between two words everytime
@@ -33,6 +34,7 @@ public class WordRelatedness {
      * @return similarity score
      */
     public static double get(String w1, String w2) {
+        if(w1.equals(w2)) return 1.0;
         Double sTmp = cache.get(new Pair<String, String>(w1, w2));
         if(sTmp == null) {
             sTmp = lch.calcRelatednessOfWords(w1, w2);
