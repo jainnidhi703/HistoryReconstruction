@@ -2,21 +2,27 @@ import com.jaunt.NodeNotFound;
 import com.jaunt.ResponseException;
 import com.jaunt.UserAgent;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -24,8 +30,9 @@ import java.util.List;
  */
 public class BingResults {
 
-    static String accountKey = "Uc172BmWxqKuh0M2lNcjv9UpAnBpwWPRdjXKNeXuC1Y=";
-    static ArrayList<String> searchUrl;
+    private static String accountKey = "Uc172BmWxqKuh0M2lNcjv9UpAnBpwWPRdjXKNeXuC1Y=";
+    private static ArrayList<String> searchUrl;
+
 
     /**
      * No. of results needed
@@ -108,12 +115,13 @@ public class BingResults {
                     buffer.append((char)ptr);
                 }
                 no++;
-                
+
                 String tmp = getInnerText(buffer.toString());
                 if(tmp != null)
                     contents.add(tmp);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Skipping doc no. " + no);
+                continue;
             }
             System.out.println("downloaded doc no : " + no);
         }
@@ -141,5 +149,60 @@ public class BingResults {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public static void mergeResultsWithIndex(List<String> contents) throws IOException {
+        // get no of words in indexed data
+        long totalNoOfWords = Settings.getTotalNoOfWords();
+
+        Directory dir = FSDirectory.open(new File(Globals.INDEX_STORE_DIR));
+        Analyzer analyzer = new WhitespaceAnalyzer(Version.LUCENE_46);
+        IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_46, analyzer);
+
+//        iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE); // remove any previous indxes
+        iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);   // keep prev indxes
+
+        IndexWriter indxWriter = new IndexWriter(dir, iwc);
+        int dd = 0;
+        for(String file : contents) {
+            org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
+            String filename = UUID.randomUUID().toString() + ".txt";
+            // FIXME : extract date might need some fix for extracting dates of any format as documents are taken from web
+            String[] dates = IRUtils.extractDate(file, filename);
+            if(dates == null || dates.length == 0) {
+                dd++;
+                continue;
+            }
+
+            // keep the oldest date
+            Arrays.sort(dates);
+            String dateData = dates[0];
+            if(dateData.isEmpty()) {
+                dd++;
+                return;
+            }
+            doc.add(new StringField("filename", filename, Field.Store.YES));
+            doc.add(new TextField("title", "DEFAULT", Field.Store.YES));
+            doc.add(new TextField("date", dateData, Field.Store.YES));
+            doc.add(new TextField("contents", file, Field.Store.YES));
+
+            totalNoOfWords += file.split("\\s+").length;
+
+            if (indxWriter.getConfig().getOpenMode() == IndexWriterConfig.OpenMode.CREATE) {
+                indxWriter.addDocument(doc);
+            } else {
+                indxWriter.updateDocument(new Term("filename", filename), doc);
+            }
+        }
+
+        System.out.println(dd + " no of files were skipped coz they had no date");
+
+        // for future use
+        Settings.setTotalNoOfWords(totalNoOfWords);
+        LuceneUtils.TotalWordCount = totalNoOfWords;
+
+        // close indexwriter
+        indxWriter.close();
     }
 }

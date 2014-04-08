@@ -93,6 +93,8 @@ public class ExportDocument {
 
 
     public static String generateContent(List<Sentence> sentences, List<Cluster> clusters) {
+        if(sentences.isEmpty()) return "";
+
         LinkedHashSet<String> set = new LinkedHashSet<String>();
         StringBuilder sb = new StringBuilder();
         int docIndx = 0;
@@ -117,6 +119,8 @@ public class ExportDocument {
     }
 
     public static String generateDebugContent(List<Cluster> clusters) {
+        if(clusters.isEmpty()) return "";
+
         StringBuilder sb = new StringBuilder();
         int docIndx = 0;
         DecimalFormat df = new DecimalFormat();

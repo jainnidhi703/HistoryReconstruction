@@ -24,6 +24,8 @@ public class GUI {
     private JTextField dataDirField;
     private JTextField queryField;
 
+    private boolean isIndexing = false;
+
     /**
      * Constructor : initializes elements and creates event handlers
      */
@@ -86,136 +88,10 @@ public class GUI {
             }
         });
 
-        queryField.addActionListener(new ActionListener() {
+        summarizeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // start retrieving
-                SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-                    @Override
-                    protected Void doInBackground() {
-                        SearchQuery.setMainQuery(queryField.getText());
-
-                        publish("Retrieving . . .");
-                        Retriever r = null;
-                        try {
-                            r = new Retriever(Globals.INDEX_STORE_DIR);
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
-                        }
-                        List<DocumentClass> docs = null;
-                        try {
-                            docs = r.topRelevantResults(SearchQuery.getMainQuery(), Globals.RETRIEVAL_RESULT_COUNT);
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-
-                        // Date filter
-                        if(filterResultsCheckBox.isSelected()) {
-                            for(Iterator<DocumentClass> it = docs.iterator(); it.hasNext();) {
-                                DocumentClass d = it.next();
-                                String year = IRUtils.yearFromDate(d.getDate());
-                                int dt = Integer.parseInt(year);
-                                int from = (Integer) fromSpinner.getValue();
-                                int to = (Integer) toSpinner.getValue();
-                                if( dt < from || dt > to)
-                                    it.remove();
-                            }
-                        }
-
-                        publish("Topic Modelling . . .");
-                        TopicModel modeller = new TopicModel();
-                        List<Cluster> clusters = null;
-                        try {
-                            clusters = modeller.getClusters(docs, r, Globals.NUM_CLUSTERS);
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
-
-
-                        publish("Getting Top " + ((Integer)lengthSpinner.getValue()).toString() + " sentences . . .");
-                        List<Sentence> sentences = new ArrayList<Sentence>((Integer) lengthSpinner.getValue());
-                        for (Cluster c : clusters) {
-                            sentences.addAll(c.getTopKSentences(
-                                    (int) Math.ceil((Integer) lengthSpinner.getValue()/(double) clusters.size()),
-                                    SearchQuery.getMainQuery()));
-                        }
-
-                        publish("Sorting chronologically . . .");
-                        Collections.sort(sentences, new Comparator<Sentence>() {
-                            @Override
-                            public int compare(Sentence s1, Sentence s2) {
-                                return s1.getDate().compareTo(s2.getDate());
-                            }
-                        });
-
-                        publish("Exporting to file");
-                        String output = ExportDocument.generateContent(sentences, clusters);
-                        String debugContent = ExportDocument.generateDebugContent(clusters);
-                        String exportTo = exportField.getText();
-                        if(exportTo.endsWith(".pdf")) {
-                            try {
-                                ExportDocument.toPDF(exportTo, "", SearchQuery.getMainQuery(), output);
-                                int extIndx = exportTo.lastIndexOf(".");
-                                exportTo = exportTo.substring(0,(extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".pdf";
-                                ExportDocument.printToPDF(exportTo, debugContent);
-                            } catch (FileNotFoundException e1) {
-                                e1.printStackTrace();
-                            } catch (DocumentException e1) {
-                                e1.printStackTrace();
-                            }
-                        } else {
-                            try {
-                                ExportDocument.toText(exportTo, "", SearchQuery.getMainQuery(), output);
-                                int extIndx = exportTo.lastIndexOf(".");
-                                exportTo = exportTo.substring(0, (extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".txt";
-                                StringUtils.printToFile(exportTo, debugContent);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-
-                        publish("Ready!");
-                        return null;
-                    }
-
-                    @Override
-                    protected void process(List<String> chunks) {
-                        statusLabel.setText(chunks.get(chunks.size() - 1));
-                    }
-
-                    @Override
-                    protected void done() {
-                        // re-enable after thread finishes
-                        queryField.setEnabled(true);
-                        exportField.setEnabled(true);
-                        filterResultsCheckBox.setEnabled(true);
-                        customizeSummaryLengthCheckBox.setEnabled(true);
-                        fromSpinner.setEnabled(true);
-                        toSpinner.setEnabled(true);
-                        lengthSpinner.setEnabled(true);
-
-                        PostRunner.run();
-
-                        System.out.println("Done!");
-                    }
-                };
-
-                // these paramaters shouldn't be allowed to change
-                // while execution is running
-                queryField.setEnabled(false);
-                exportField.setEnabled(false);
-                filterResultsCheckBox.setEnabled(false);
-                customizeSummaryLengthCheckBox.setEnabled(false);
-                fromSpinner.setEnabled(false);
-                toSpinner.setEnabled(false);
-                lengthSpinner.setEnabled(false);
-
-                worker.execute();
-
+                summarize();
             }
         });
 
@@ -236,17 +112,24 @@ public class GUI {
             }
 
             public void check() {
-
+                if(queryField.getText().isEmpty() || exportField.getText().isEmpty() || isIndexing)
+                    summarizeButton.setEnabled(false);
+                else
+                    summarizeButton.setEnabled(true);
             }
         };
 
-        dataDirField.getDocument().addDocumentListener(documentListener);
+        queryField.getDocument().addDocumentListener(documentListener);
+        exportField.getDocument().addDocumentListener(documentListener);
     }
 
     /**
      * Initializes all GUI elements with its default values
      */
     private void initializeGUIValues() {
+
+        this.summarizeButton.setEnabled(false);
+
         SpinnerNumberModel lengthModel = new SpinnerNumberModel(50,10,Integer.MAX_VALUE,1);
         lengthSpinner.setModel(lengthModel);
 //        lengthSpinner.setValue(50);
@@ -376,12 +259,16 @@ public class GUI {
             @Override
             protected void done() {
                 dataDirField.setEnabled(true);
+                summarizeButton.setEnabled(false);
+                isIndexing = false;
                 statusLabel.setText("done indexing!");
                 System.out.println("done Indexing!");
             }
         };
 
         dataDirField.setEnabled(false);
+        summarizeButton.setEnabled(false);
+        isIndexing = true;
 
         // store data dir
         Settings.setDataDir(dataDirField.getText());
@@ -390,15 +277,166 @@ public class GUI {
         worker.execute();
     }
 
+
+    private void summarize() {
+        // start retrieving
+        SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+            @Override
+            protected Void doInBackground() {
+                SearchQuery.setMainQuery(queryField.getText());
+
+                if(bingSearchCheckBox.isSelected()) {
+                    publish("Searching Bing . . .");
+                    List<String> bingResults = BingResults.getResults(SearchQuery.getMainQuery(), BingResults.Results.TOP_10);
+
+                    publish("Reading Bing Results . . .");
+                    try {
+                        BingResults.mergeResultsWithIndex(bingResults);
+                    } catch (IOException e) { e.printStackTrace(); }
+                }
+
+                publish("Retrieving . . .");
+                Retriever r = null;
+                try {
+                    r = new Retriever(Globals.INDEX_STORE_DIR);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
+                List<DocumentClass> docs = null;
+                try {
+                    docs = r.topRelevantResults(SearchQuery.getMainQuery(), Globals.RETRIEVAL_RESULT_COUNT);
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+                // Date filter
+                if(filterResultsCheckBox.isSelected()) {
+                    for(Iterator<DocumentClass> it = docs.iterator(); it.hasNext();) {
+                        DocumentClass d = it.next();
+                        String year = IRUtils.yearFromDate(d.getDate());
+                        int dt = Integer.parseInt(year);
+                        int from = (Integer) fromSpinner.getValue();
+                        int to = (Integer) toSpinner.getValue();
+                        if( dt < from || dt > to)
+                            it.remove();
+                    }
+                }
+
+                publish("Topic Modelling . . .");
+                TopicModel modeller = new TopicModel();
+                List<Cluster> clusters = null;
+                try {
+                    clusters = modeller.getClusters(docs, r, Globals.NUM_CLUSTERS);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+
+
+                publish("Getting Top " + ((Integer)lengthSpinner.getValue()).toString() + " sentences . . .");
+                List<Sentence> sentences = new ArrayList<Sentence>((Integer) lengthSpinner.getValue());
+                for (Cluster c : clusters) {
+                    sentences.addAll(c.getTopKSentences(
+                            (int) Math.ceil((Integer) lengthSpinner.getValue()/(double) clusters.size()),
+                            SearchQuery.getMainQuery()));
+                }
+
+                publish("Sorting chronologically . . .");
+                Collections.sort(sentences, new Comparator<Sentence>() {
+                    @Override
+                    public int compare(Sentence s1, Sentence s2) {
+                        return s1.getDate().compareTo(s2.getDate());
+                    }
+                });
+
+                publish("Exporting to file");
+                String output = ExportDocument.generateContent(sentences, clusters);
+                String debugContent = ExportDocument.generateDebugContent(clusters);
+                String exportTo = exportField.getText();
+                if(exportTo.endsWith(".pdf")) {
+                    try {
+                        ExportDocument.toPDF(exportTo, "", SearchQuery.getMainQuery(), output);
+                        int extIndx = exportTo.lastIndexOf(".");
+                        exportTo = exportTo.substring(0,(extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".pdf";
+                        ExportDocument.printToPDF(exportTo, debugContent);
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    } catch (DocumentException e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    try {
+                        ExportDocument.toText(exportTo, "", SearchQuery.getMainQuery(), output);
+                        int extIndx = exportTo.lastIndexOf(".");
+                        exportTo = exportTo.substring(0, (extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".txt";
+                        StringUtils.printToFile(exportTo, debugContent);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
+                publish("Ready!");
+                return null;
+            }
+
+            @Override
+            protected void process(List<String> chunks) {
+                statusLabel.setText(chunks.get(chunks.size() - 1));
+            }
+
+            @Override
+            protected void done() {
+                // re-enable after thread finishes
+                queryField.setEnabled(true);
+                exportField.setEnabled(true);
+                filterResultsCheckBox.setEnabled(true);
+                customizeSummaryLengthCheckBox.setEnabled(true);
+                if(filterResultsCheckBox.isSelected()) {
+                    fromSpinner.setEnabled(true);
+                    toSpinner.setEnabled(true);
+                }
+                if(customizeSummaryLengthCheckBox.isSelected())
+                    lengthSpinner.setEnabled(true);
+                exportBrowse.setEnabled(true);
+                dataDirBrowse.setEnabled(true);
+                summarizeButton.setEnabled(true);
+
+                PostRunner.run();
+
+                System.out.println("Done!");
+            }
+        };
+
+        // these paramaters shouldn't be allowed to change
+        // while execution is running
+        queryField.setEnabled(false);
+        exportField.setEnabled(false);
+        filterResultsCheckBox.setEnabled(false);
+        customizeSummaryLengthCheckBox.setEnabled(false);
+        fromSpinner.setEnabled(false);
+        toSpinner.setEnabled(false);
+        lengthSpinner.setEnabled(false);
+        exportBrowse.setEnabled(false);
+        dataDirBrowse.setEnabled(false);
+        summarizeButton.setEnabled(false);
+
+        worker.execute();
+
+    }
+
     private JPanel rootJpanel;
     private JTextField exportField;
     private JCheckBox filterResultsCheckBox;
     private JSpinner fromSpinner;
     private JSpinner toSpinner;
     private JButton dataDirBrowse;
-    private JButton storeDirBrowse;
     private JButton exportBrowse;
     private JCheckBox customizeSummaryLengthCheckBox;
     private JSpinner lengthSpinner;
     private JLabel statusLabel;
+    private JCheckBox bingSearchCheckBox;
+    private JButton summarizeButton;
 }

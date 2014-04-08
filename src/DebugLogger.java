@@ -52,7 +52,9 @@ public class DebugLogger {
      * Clear DebugLogger after each run
      */
     public static void clear() {
-        docsInEachCluster.clear();
-        sentsInEachCluster.clear();
+        if(docsInEachCluster != null)
+            docsInEachCluster.clear();
+        if(sentsInEachCluster != null)
+            sentsInEachCluster.clear();
     }
 }
