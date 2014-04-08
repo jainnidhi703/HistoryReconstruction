@@ -8,6 +8,7 @@ public class Settings {
     public static final String STORE_DIR = "store_dir";
     public static final String EXPORT_FILE = "export_file";
     public static final String TOTAL_WORD_COUNT = "word_count";
+    public static final String DATA_DIR = "data_dir";
 
     static Preferences prefs = Preferences.userRoot().node(Globals.PREFERENCES_NODE);
 
@@ -72,5 +73,22 @@ public class Settings {
      */
     public static long getTotalNoOfWords() {
         return prefs.getLong(TOTAL_WORD_COUNT, 0);
+    }
+
+
+    /**
+     * Store Data directory
+     * @param dir data directory
+     */
+    public static void setDataDir(String dir) {
+        prefs.put(DATA_DIR, dir);
+    }
+
+
+    /**
+     * @return Data directory
+     */
+    public static String getDataDir() {
+        return prefs.get(DATA_DIR, "");
     }
 }

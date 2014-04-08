@@ -22,9 +22,6 @@ import java.util.*;
  */
 public class GUI {
     private JTextField dataDirField;
-    private JTextField storeDirField;
-    private JButton startIndexingButton;
-    private JProgressBar progressBar1;
     private JTextField queryField;
 
     /**
@@ -45,74 +42,10 @@ public class GUI {
                 fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 final int chooseStatus = fileChooser.showOpenDialog(rootJpanel);
                 if (chooseStatus == JFileChooser.APPROVE_OPTION) {
+                    dataDirField.setText("");
                     dataDirField.setText(fileChooser.getSelectedFile().getAbsolutePath());
+                    index();
                 }
-            }
-        });
-
-        storeDirBrowse.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser(new File("."));
-                fileChooser.setDialogTitle("Select data directory");
-                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                final int chooseStatus = fileChooser.showOpenDialog(rootJpanel);
-                if (chooseStatus == JFileChooser.APPROVE_OPTION) {
-                    storeDirField.setText(fileChooser.getSelectedFile().getAbsolutePath());
-                }
-            }
-        });
-
-        startIndexingButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
-                    @Override
-                    protected Void doInBackground() throws Exception {
-                        Indxer indxer = new Indxer(storeDirField.getText());
-                        final File docDir = new File(dataDirField.getText());
-                        File[] files = docDir.listFiles();
-                        if(files == null) {
-                            System.out.println("[ dataDir ] is empty!");
-                            return null;
-                        }
-
-                        for (int i = 0; i < files.length; i++) {
-                            File f = files[i];
-                            publish((int) Math.ceil((i * 100) / (double) files.length));
-                            if (f.isDirectory()) {
-                                indxer.indxDir(f.getAbsolutePath());
-                            } else {
-                                indxer.indxFile(f);
-                            }
-                        }
-                        System.out.println("done Indexing!");
-                        indxer.killWriter();
-                        return null;
-                    }
-
-                    @Override
-                    protected void process(List<Integer> chunks) {
-                        updateProgressBar(chunks.get(chunks.size()-1));
-                    }
-
-                    @Override
-                    protected void done() {
-                        startIndexingButton.setEnabled(true);
-                        storeDirField.setEnabled(true);
-                        dataDirField.setEnabled(true);
-                    }
-                };
-
-                startIndexingButton.setEnabled(false);
-                storeDirField.setEnabled(false);
-                dataDirField.setEnabled(false);
-
-                // store index path
-                Settings.setStoreDir(storeDirField.getText());
-
-                // start indexing
-                worker.execute();
             }
         });
 
@@ -165,7 +98,7 @@ public class GUI {
                         publish("Retrieving . . .");
                         Retriever r = null;
                         try {
-                            r = new Retriever(storeDirField.getText());
+                            r = new Retriever(Globals.INDEX_STORE_DIR);
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         } catch (ParseException e1) {
@@ -303,18 +236,11 @@ public class GUI {
             }
 
             public void check() {
-                if (!dataDirField.getText().isEmpty() && !storeDirField.getText().isEmpty()) {
-                    startIndexingButton.setEnabled(true);
-                    progressBar1.setEnabled(true);
-                } else {
-                    startIndexingButton.setEnabled(false);
-                    progressBar1.setEnabled(false);
-                }
+
             }
         };
 
         dataDirField.getDocument().addDocumentListener(documentListener);
-        storeDirField.getDocument().addDocumentListener(documentListener);
     }
 
     /**
@@ -352,9 +278,6 @@ public class GUI {
         lengthSpinner.setEnabled(false);
         fromSpinner.setEnabled(false);
         toSpinner.setEnabled(false);
-        startIndexingButton.setEnabled(false);
-
-        progressBar1.setEnabled(false);
 
         getSettings();
     }
@@ -363,18 +286,8 @@ public class GUI {
      * Restore last stored config
      */
     private void getSettings() {
-        storeDirField.setText(Settings.getStoreDir());
+        dataDirField.setText(Settings.getDataDir());
         exportField.setText(Settings.getExportFile());
-    }
-
-    /**
-     * Updates the value of progressBar
-     * used to show indexing progress
-     * @param value % of completion
-     */
-    public void updateProgressBar(int value) {
-        progressBar1.setValue(value);
-        progressBar1.setStringPainted(true);
     }
 
 
@@ -409,6 +322,72 @@ public class GUI {
                 frame.setVisible(true);
             }
         });
+    }
+
+
+    /**
+     * Creates a new instance of Indxer using SwingWorker
+     */
+    private void index() {
+        SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
+            int i = 1;
+            boolean growing = true;
+            @Override
+            protected Void doInBackground() throws Exception {
+                Indxer indxer = new Indxer(Globals.INDEX_STORE_DIR);
+                final File docDir = new File(dataDirField.getText());
+                File[] files = docDir.listFiles();
+                if(files == null) {
+                    System.out.println("[ dataDir ] is empty!");
+                    return null;
+                }
+
+                for (int i = 0; i < files.length; i++) {
+                    File f = files[i];
+                    publish((int) Math.ceil((i * 100) / (double) files.length));
+                    if (f.isDirectory()) {
+                        indxer.indxDir(f.getAbsolutePath());
+                    } else {
+                        indxer.indxFile(f);
+                    }
+                }
+
+                indxer.killWriter();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+                String gen = "indexing ";
+                for(int j = 0; j < i; ++j)
+                    gen += ". ";
+                if(growing) i++;
+                else i--;
+                if(i == 4) {
+                    i = 3;
+                    growing = !growing;
+                } else if(i == 0) {
+                    i = 1;
+                    growing = !growing;
+                }
+                statusLabel.setText(gen);
+            }
+
+            @Override
+            protected void done() {
+                dataDirField.setEnabled(true);
+                statusLabel.setText("done indexing!");
+                System.out.println("done Indexing!");
+            }
+        };
+
+        dataDirField.setEnabled(false);
+
+        // store data dir
+        Settings.setDataDir(dataDirField.getText());
+
+        // start indexing
+        worker.execute();
     }
 
     private JPanel rootJpanel;
