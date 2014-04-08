@@ -1,5 +1,6 @@
 import com.itextpdf.text.DocumentException;
 import edu.stanford.nlp.util.StringUtils;
+import org.apache.lucene.index.IndexNotFoundException;
 import org.apache.lucene.queryparser.classic.ParseException;
 
 import javax.swing.*;
@@ -299,6 +300,10 @@ public class GUI {
                 Retriever r = null;
                 try {
                     r = new Retriever(Globals.INDEX_STORE_DIR);
+                } catch (IndexNotFoundException e) {
+                    System.out.println("No data found!");
+                    publish("No data found!");
+                    return null;
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 } catch (ParseException e1) {
