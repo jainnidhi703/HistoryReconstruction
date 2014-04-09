@@ -135,7 +135,7 @@ public class GUI {
         lengthSpinner.setModel(lengthModel);
 //        lengthSpinner.setValue(50);
 
-        SpinnerNumberModel fromYearModel = new SpinnerNumberModel(1400, 1400, 2050,1);
+        SpinnerNumberModel fromYearModel = new SpinnerNumberModel(2000, 1400, 2050,1);
         fromYearModel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -147,7 +147,7 @@ public class GUI {
         });
         fromSpinner.setModel(fromYearModel);
 
-        SpinnerNumberModel toYearModel = new SpinnerNumberModel(1400, 1400, 2050,1);
+        SpinnerNumberModel toYearModel = new SpinnerNumberModel(2010, 1400, 2050,1);
         toYearModel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
