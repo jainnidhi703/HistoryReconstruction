@@ -40,6 +40,11 @@ public class Sentence {
     }
 
     @Override
+    public boolean equals(Object s) {
+        return this.toString().equals(s.toString());
+    }
+
+    @Override
     public String toString() {
         return content;
     }

@@ -349,6 +349,9 @@ public class GUI {
                             SearchQuery.getMainQuery()));
                 }
 
+                // remove redundancy
+                sentences = new ArrayList<Sentence>(new HashSet<Sentence>(sentences));
+
                 publish("Sorting chronologically . . .");
                 Collections.sort(sentences, new Comparator<Sentence>() {
                     @Override

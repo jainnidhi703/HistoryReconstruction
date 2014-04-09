@@ -112,7 +112,7 @@ public final class LuceneUtils {
      */
     public static long getTermFreq(String word) throws IOException {
         if (ir == null)
-            ir = DirectoryReader.open(FSDirectory.open(new File(Settings.getStoreDir())));
+            ir = DirectoryReader.open(FSDirectory.open(new File(Globals.INDEX_STORE_DIR)));
 
         // first look-up in cache
         Long f = freqCache.get(word);

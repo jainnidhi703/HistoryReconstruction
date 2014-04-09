@@ -6,10 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Input data directly from Qrel file
@@ -55,7 +52,7 @@ public class QRelInput {
         QRelTopicParser qParser = new QRelTopicParser(Globals.QREL_TOPIC_FILE, queryNo);
         SearchQuery.setMainQuery(qParser.getTitle());
 
-        Retriever r = new Retriever(Settings.getStoreDir());
+        Retriever r = new Retriever(Globals.INDEX_STORE_DIR);
         List<DocumentClass> docs = getDocsFromQrel(r, queryNo);
         TopicModel modeller = new TopicModel();
         List<Cluster> clusters = null;
@@ -67,6 +64,10 @@ public class QRelInput {
                     (int) Math.ceil( Globals.DEFAULT_SUMMARY_LENGTH/(double) clusters.size()),
                     SearchQuery.getMainQuery()));
         }
+
+        // FIXME : crude way to solve redundancy
+        // it will reduce the number of sentences in output
+        sentences = new ArrayList<Sentence>(new HashSet<Sentence>(sentences));
 
         Collections.sort(sentences, new Comparator<Sentence>() {
             @Override
