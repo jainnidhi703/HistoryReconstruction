@@ -1,5 +1,6 @@
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
@@ -35,7 +36,7 @@ public class Indxer {
         totalNoOfWords = 0;
 
         Directory dir = FSDirectory.open(new File(indxDir));
-        Analyzer analyzer = new WhitespaceAnalyzer(Version.LUCENE_46);
+        Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_46, CharArraySet.EMPTY_SET);
         IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_46, analyzer);
 
         iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE); // remove any previous indxes

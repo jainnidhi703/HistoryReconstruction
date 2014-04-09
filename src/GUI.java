@@ -219,23 +219,7 @@ public class GUI {
             @Override
             protected Void doInBackground() throws Exception {
                 Indxer indxer = new Indxer(Globals.INDEX_STORE_DIR);
-                final File docDir = new File(dataDirField.getText());
-                File[] files = docDir.listFiles();
-                if(files == null) {
-                    System.out.println("[ dataDir ] is empty!");
-                    return null;
-                }
-
-                for (int i = 0; i < files.length; i++) {
-                    File f = files[i];
-                    publish((int) Math.ceil((i * 100) / (double) files.length));
-                    if (f.isDirectory()) {
-                        indxer.indxDir(f.getAbsolutePath());
-                    } else {
-                        indxer.indxFile(f);
-                    }
-                }
-
+                indxer.indxDir(dataDirField.getText());
                 indxer.killWriter();
                 return null;
             }

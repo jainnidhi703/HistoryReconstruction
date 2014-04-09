@@ -1,6 +1,7 @@
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -35,7 +36,7 @@ public class Retriever {
     public Retriever(String indxDir) throws IOException, ParseException {
         IndexReader reader = DirectoryReader.open(FSDirectory.open(new File(indxDir)));
         searcher = new IndexSearcher(reader);
-        standardAnalyzer = new StandardAnalyzer(Version.LUCENE_46);
+        standardAnalyzer = new StandardAnalyzer(Version.LUCENE_46, CharArraySet.EMPTY_SET);
         whiteSpaceAnalyzer = new WhitespaceAnalyzer(Version.LUCENE_46);
     }
 
@@ -77,6 +78,7 @@ public class Retriever {
      * @throws IOException
      */
     public List<DocumentClass> topRelevantResults(String searchFor, int maxHits) throws ParseException, IOException {
+        searchFor = searchFor.toLowerCase();
         QueryParser parser1 = new QueryParser(Version.LUCENE_46, "title",standardAnalyzer);
         Query qry1 = parser1.parse(searchFor);
         qry1.setBoost((float) 2.0);
