@@ -248,6 +248,10 @@ public class GUI {
                 isIndexing = false;
                 statusLabel.setText("done indexing!");
                 System.out.println("done Indexing!");
+                if(queryField.getText().isEmpty() || exportField.getText().isEmpty() || isIndexing)
+                    summarizeButton.setEnabled(false);
+                else
+                    summarizeButton.setEnabled(true);
             }
         };
 
