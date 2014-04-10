@@ -218,6 +218,7 @@ public class GUI {
             boolean growing = true;
             @Override
             protected Void doInBackground() throws Exception {
+                statusLabel.setText("Indexing . . .");
                 Indxer indxer = new Indxer(Globals.INDEX_STORE_DIR);
                 indxer.indxDir(dataDirField.getText());
                 indxer.killWriter();
@@ -337,9 +338,6 @@ public class GUI {
                             SearchQuery.getMainQuery()));
                 }
 
-                // remove redundancy
-                sentences = new ArrayList<Sentence>(new HashSet<Sentence>(sentences));
-
                 publish("Sorting chronologically . . .");
                 Collections.sort(sentences, new Comparator<Sentence>() {
                     @Override
@@ -355,9 +353,12 @@ public class GUI {
                 if(exportTo.endsWith(".pdf")) {
                     try {
                         ExportDocument.toPDF(exportTo, "", SearchQuery.getMainQuery(), output);
-                        int extIndx = exportTo.lastIndexOf(".");
-                        exportTo = exportTo.substring(0,(extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".pdf";
-                        ExportDocument.printToPDF(exportTo, debugContent);
+                        if(Globals.SHOW_DOC_SCORE_UNDER_CLUSTERS  || Globals.SHOW_SENTENCE_SCORE_UNDER_CLUSTER
+                                || Globals.SHOW_DOCS_UNDER_CLUSTERS || Globals.SHOW_TOPICS) {
+                            int extIndx = exportTo.lastIndexOf(".");
+                            exportTo = exportTo.substring(0,(extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".pdf";
+                            ExportDocument.printToPDF(exportTo, debugContent);
+                        }
                     } catch (FileNotFoundException e1) {
                         e1.printStackTrace();
                     } catch (DocumentException e1) {
@@ -366,9 +367,12 @@ public class GUI {
                 } else {
                     try {
                         ExportDocument.toText(exportTo, "", SearchQuery.getMainQuery(), output);
-                        int extIndx = exportTo.lastIndexOf(".");
-                        exportTo = exportTo.substring(0, (extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".txt";
-                        StringUtils.printToFile(exportTo, debugContent);
+                        if(Globals.SHOW_DOC_SCORE_UNDER_CLUSTERS  || Globals.SHOW_SENTENCE_SCORE_UNDER_CLUSTER
+                                || Globals.SHOW_DOCS_UNDER_CLUSTERS || Globals.SHOW_TOPICS) {
+                            int extIndx = exportTo.lastIndexOf(".");
+                            exportTo = exportTo.substring(0, (extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".txt";
+                            StringUtils.printToFile(exportTo, debugContent);
+                        }
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }

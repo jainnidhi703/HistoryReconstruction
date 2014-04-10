@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * DataStructure for storing Cluster related info
@@ -91,6 +88,7 @@ public class Cluster {
                     sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
             }
         }
+        sentences = new ArrayList<Sentence>(new HashSet<Sentence>(sentences));
     }
 
 
@@ -128,7 +126,7 @@ public class Cluster {
                     sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
             }
         }
-        System.out.println("\n");
+        sentences = new ArrayList<Sentence>(new HashSet<Sentence>(sentences));
     }
 
 
@@ -157,6 +155,7 @@ public class Cluster {
                     sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
             }
         }
+        sentences = new ArrayList<Sentence>(new HashSet<Sentence>(sentences));
     }
 
     /**
