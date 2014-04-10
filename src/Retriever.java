@@ -180,6 +180,7 @@ public class Retriever {
      * @return Documents
      * @throws ParseException
      * @throws IOException
+     * @deprecated
      */
     public List<DocumentClass> filenamesToDocs(List<String> fnames) throws ParseException, IOException {
         QueryParser parser3 = new QueryParser(Version.LUCENE_46, "filename", whiteSpaceAnalyzer);

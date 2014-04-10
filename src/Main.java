@@ -4,17 +4,8 @@ public class Main {
         // [Note] : This has to be the first line in main
         init();
 
-
-//        GUI gui = new GUI();
-//        gui.show();
-
-        QRelInput qrel = new QRelInput("qrel/en.qrels.126-175.2011.txt");
-        try {
-            qrel.start(143, "/home/jaydeep/IdeaProjects/sampleSummaries/TataNano.txt");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        GUI gui = new GUI();
+        gui.show();
 
     }
 
@@ -23,6 +14,7 @@ public class Main {
      * Code that needs to be executed before starting this app, goes here
      */
     public static void init() {
+        Globals.setFullDEBUG(false);
         LuceneUtils.TotalWordCount = Settings.getTotalNoOfWords();
     }
 }
