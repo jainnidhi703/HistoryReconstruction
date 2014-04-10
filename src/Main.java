@@ -1,21 +1,17 @@
+import javax.xml.stream.XMLStreamException;
+import java.io.IOException;
+
 public class Main {
-    public static void main(String args[]) {
+    public static void main(String args[]) throws Exception {
 
         // [Note] : This has to be the first line in main
         init();
 
-
-//        GUI gui = new GUI();
-//        gui.show();
+        // if required
+//        index("/home/jaydeep/IR-data/en.docs.2011/data/");
 
         QRelInput qrel = new QRelInput("qrel/en.qrels.126-175.2011.txt");
-        try {
-            qrel.start(143, "/home/jaydeep/IdeaProjects/sampleSummaries/TataNano.txt");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
+        qrel.start(143, "/home/jaydeep/IdeaProjects/sampleSummaries/TataNano.txt");
     }
 
 
@@ -24,5 +20,19 @@ public class Main {
      */
     public static void init() {
         LuceneUtils.TotalWordCount = Settings.getTotalNoOfWords();
+    }
+
+
+    /**
+     * Quick handy method to index
+     * @param dir directory to index
+     * @throws IOException
+     * @throws XMLStreamException
+     */
+    private static void index(String dir) throws IOException, XMLStreamException {
+        Indxer indxer = new Indxer(Globals.INDEX_STORE_DIR);
+        indxer.indxDir(dir);
+        indxer.killWriter();
+        System.out.println("done indexing!");
     }
 }

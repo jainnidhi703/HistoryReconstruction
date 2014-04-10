@@ -1,5 +1,6 @@
 import com.itextpdf.text.DocumentException;
 import edu.stanford.nlp.util.StringUtils;
+import org.apache.lucene.index.IndexNotFoundException;
 import org.apache.lucene.queryparser.classic.ParseException;
 
 import java.io.BufferedReader;
@@ -52,7 +53,13 @@ public class QRelInput {
         QRelTopicParser qParser = new QRelTopicParser(Globals.QREL_TOPIC_FILE, queryNo);
         SearchQuery.setMainQuery(qParser.getTitle());
 
-        Retriever r = new Retriever(Globals.INDEX_STORE_DIR);
+        Retriever r;
+        try{
+            r = new Retriever(Globals.INDEX_STORE_DIR);
+        } catch (IndexNotFoundException e) {
+            System.out.println("No data found!");
+            return;
+        }
         List<DocumentClass> docs = getDocsFromQrel(r, queryNo);
         TopicModel modeller = new TopicModel();
         List<Cluster> clusters = null;
