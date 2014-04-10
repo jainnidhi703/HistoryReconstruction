@@ -275,9 +275,7 @@ public class Cluster {
      * @return sentence score
      */
     private double getSentenceScore(int indx, Sentence s, List<Sentence> sentences, double lambda, String query) {
-        double f1 = F1(indx,s, sentences);
-        double f2 = F2(s, query);
-        return (lambda*f1) + (1.0-lambda) * f2;
+        return (lambda*F1(indx,s, sentences)) + (1.0-lambda) * F2(s, query);
     }
 
 

@@ -21,7 +21,7 @@ public class Globals {
 
     public static final int TOPIC_TITLE_WORD_COUNT = 5;
 
-    public static final double LAMBDA_FOR_SENTENCE_SCORING = 0.5;
+    public static double LAMBDA_FOR_SENTENCE_SCORING = 0.5;
 
     public static final int GUI_WIDTH = 600;
 
