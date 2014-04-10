@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * DataStructure for storing Cluster related info
@@ -91,6 +88,7 @@ public class Cluster {
                     sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
             }
         }
+        sentences = new ArrayList<Sentence>(new HashSet<Sentence>(sentences));
     }
 
 
@@ -128,7 +126,7 @@ public class Cluster {
                     sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
             }
         }
-        System.out.println("\n");
+        sentences = new ArrayList<Sentence>(new HashSet<Sentence>(sentences));
     }
 
 
@@ -157,6 +155,8 @@ public class Cluster {
                     sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
             }
         }
+
+        sentences = new ArrayList<Sentence>(new HashSet<Sentence>(sentences));
     }
 
     /**
@@ -275,7 +275,9 @@ public class Cluster {
      * @return sentence score
      */
     private double getSentenceScore(int indx, Sentence s, List<Sentence> sentences, double lambda, String query) {
-        return (lambda*F1(indx,s, sentences)) + (1.0-lambda) * F2(s, query);
+        double f1 = F1(indx,s, sentences);
+        double f2 = F2(s, query);
+        return (lambda*f1) + (1.0-lambda) * f2;
     }
 
 
@@ -302,7 +304,8 @@ public class Cluster {
         });
 
         // debug info
-        DebugLogger.addSentencesInCluster(sentences);
+        if(Globals.SHOW_SENTENCE_SCORE_UNDER_CLUSTER)
+            DebugLogger.addSentencesInCluster(sentences);
 
         sentences = sentences.subList(0, Math.min(K, sentences.size()));
 
