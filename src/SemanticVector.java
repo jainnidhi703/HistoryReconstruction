@@ -16,6 +16,7 @@ public class SemanticVector {
     private double scoresWithIC[] = null;
     private int firstWordIndex[] = null;
     private int size = 0;
+    private double[][] matrix = null;
 
     /**
      * Semantic Vector Constructor
@@ -29,12 +30,14 @@ public class SemanticVector {
         similarityScores = new double[size];
         scoresWithIC = new double[size];
         firstWordIndex = new int[size];
+        matrix = new double[T1toks.size()][size];
 
-        int i = 0;
+        int i = 0;  // column
         for(String w : T) {
             int indx = T1toks.indexOf(w);
             if(indx != -1) {
                 this.set(i, 1.0, indx);
+                matrix[indx][i] = 1.0;
             } else {
                 int maxIndx = -1;
                 double maxValue = 0.0;
@@ -48,6 +51,7 @@ public class SemanticVector {
                     // similarity threshold then don't count it
                     if(tmp < Globals.SIMILARITY_THRESHOLD)
                         continue;
+                    matrix[i1][i] = tmp;
                     if (tmp > maxValue) {
                         maxValue = tmp;
                         maxIndx = i1;
@@ -115,6 +119,15 @@ public class SemanticVector {
         return scoresWithIC;
     }
 
+
+    /**
+     * @return similarity scores before multiplying with IC
+     */
+    public double[] getSimilarityScoreVector() {
+        return similarityScores;
+    }
+
+
     /**
      * Gets the wordIndex that is mapped to T[i]
      * @param indx index of Vector T
@@ -123,6 +136,15 @@ public class SemanticVector {
     public int getMatchedWordIndx(int indx) {
         return firstWordIndex[indx];
     }
+
+
+    /**
+     * @return Word order Vector
+     */
+    public int[] getWordOrderVector() {
+        return firstWordIndex;
+    }
+
 
     /**
      * Gives semantic score between two semantic vectors
@@ -192,6 +214,14 @@ public class SemanticVector {
      */
     public int size() {
         return size;
+    }
+
+
+    /**
+     * @return similarity matrix
+     */
+    public double[][] getMatrix() {
+        return matrix;
     }
 }
 

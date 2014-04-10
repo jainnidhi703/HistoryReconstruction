@@ -40,6 +40,7 @@ public class SelectSentence {
     }
 
 
+    // FIXME : needs more queries
     public static void init() {
         LuceneUtils.TotalWordCount = Settings.getTotalNoOfWords();
 
