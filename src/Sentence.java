@@ -40,6 +40,11 @@ public class Sentence {
     }
 
     @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
+    @Override
     public boolean equals(Object s) {
         return this.toString().equals(s.toString());
     }
