@@ -79,7 +79,7 @@ public class QRelInput {
         Collections.sort(sentences, new Comparator<Sentence>() {
             @Override
             public int compare(Sentence s1, Sentence s2) {
-                return s1.getDate().compareTo(s2.getDate());
+                return s1.getDateWithPlacement().compareTo(s2.getDateWithPlacement());
             }
         });
 

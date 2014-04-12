@@ -66,7 +66,7 @@ public class Indxer {
         }
 
         File[] files = docDir.listFiles();
-        if(files == null) {
+        if(files == null || files.length == 0) {
             System.out.println("[ "+dataDir+" ] is empty!");
             return;
         }

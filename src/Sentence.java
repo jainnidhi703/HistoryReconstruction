@@ -13,6 +13,7 @@ public class Sentence {
     private String date = null;
     private double score = -1.0;
     private String content = null;
+    private double placement = 1.0;
     private List<String> tokens = null;
 
     /**
@@ -22,11 +23,12 @@ public class Sentence {
      * @param date publish date of the document of this sentence
      * @param content sentence
      */
-    public Sentence(int id, String filename, String date, String content) {
+    public Sentence(int id, String filename, String date, String content, double placement) {
         clusterID = id;
         this.filename = filename;
         this.date = date;
         this.content = content;
+        this.placement = placement;
 
         String[] toks = null;
         if(content != null)
@@ -81,6 +83,15 @@ public class Sentence {
 
 
     /**
+     * @return get date + placement in document
+     * so that wen a tie occurs the placement matters
+     */
+    public String getDateWithPlacement() {
+        return date+placement;
+    }
+
+
+    /**
      * @return get filename of the document this sentence came from
      */
     public String getFilename() {
@@ -116,5 +127,14 @@ public class Sentence {
             e.printStackTrace();
         }
         return 0.0;
+    }
+
+
+    /**
+     * Value between [0.0, 1.0] the place it recides in a document
+     * @return placement in its document
+     */
+    public double getPlacement() {
+        return placement;
     }
 }

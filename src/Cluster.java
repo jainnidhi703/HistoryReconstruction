@@ -82,10 +82,11 @@ public class Cluster {
         for(DocumentClass d : docs) {
             List<String> sents = IRUtils.splitSentences(d.getContent());
 //            String[] sents = d.getContent().split("\\.");
-            for(String s : sents) {
+            for (int i = 0; i < sents.size(); i++) {
+                String s = sents.get(i);
                 s = s.trim();
-                if(s.split(" ").length > 2)
-                    sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
+                if (s.split(" ").length > 2)
+                    sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s, i/(double)sents.size()));
             }
         }
         sentences = new ArrayList<Sentence>(new HashSet<Sentence>(sentences));
@@ -120,10 +121,11 @@ public class Cluster {
         for(DocumentClass d : docs) {
             List<String> sents = IRUtils.splitSentences(d.getContent());
 //            String[] sents = d.getContent().split("\\.");
-            for(String s : sents) {
+            for (int i = 0; i < sents.size(); i++) {
+                String s = sents.get(i);
                 s = s.trim();
-                if(s.split(" ").length > 2)
-                    sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
+                if (s.split(" ").length > 2)
+                    sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s, i/(double)sents.size()));
             }
         }
         sentences = new ArrayList<Sentence>(new HashSet<Sentence>(sentences));
@@ -149,10 +151,11 @@ public class Cluster {
         for(DocumentClass d : docs) {
             List<String> sents = IRUtils.splitSentences(d.getContent());
 //            String[] sents = d.getContent().split("\\.");
-            for(String s : sents) {
+            for (int i = 0; i < sents.size(); i++) {
+                String s = sents.get(i);
                 s = s.trim();
-                if(s.split(" ").length > 2)
-                    sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s));
+                if (s.split(" ").length > 2)
+                    sentences.add(new Sentence(d.getClusterID(), d.getFilename(), d.getDate(), s, i/(double)sents.size()));
             }
         }
 
@@ -256,7 +259,7 @@ public class Cluster {
      * @return similarity score
      */
     private double F2(Sentence sentence, String title) {
-        return sentence.getSimilarity(new Sentence(-1, null,null, title));
+        return sentence.getSimilarity(new Sentence(-1, null,null, title, 0.0));
     }
 
 
