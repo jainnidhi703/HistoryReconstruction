@@ -7,13 +7,15 @@ public class Globals {
 
     public static final double APP_VERSION = 0.2;
 
-    public static final String XML_DATA_DIR = "/home/jaydeep/IR-data/en.docs.2011/data/en_BDNews24/";
+    public static final String XML_DATA_DIR = "/home/nidhi/IRdata";
 
     public static final String QREL_TOPIC_FILE = "qrel/en.topics.126-175.2011.txt";
 
     public static final String TEXT_DATA_DIR = "temp/";
 
-    public static final String INDEX_STORE_DIR = "index/";
+    public static String OUTPUT_PATH = "/home/nidhi/IRdemo/output.txt";
+
+    public static final String INDEX_STORE_DIR = "/home/nidhi/index/";
 
     public static final int RETRIEVAL_RESULT_COUNT = 100;
 
@@ -27,7 +29,7 @@ public class Globals {
 
     public static final int GUI_HEIGHT = 450;
 
-    public static final int NUM_CLUSTERS = 5;
+    public static int NUM_CLUSTERS = 5;
 
     public static final String PREFERENCES_NODE = "AutoSummarySEN";
 
@@ -37,9 +39,11 @@ public class Globals {
 
     public static final int TOPIC_MODELLING_ITERATIONS = 1500;
 
-    public static final double SIMILARITY_THRESHOLD = 0.2;
+    public static double SIMILARITY_THRESHOLD = 0.2;
 
-    public static final double SEMANTIC_SIMILARITY_WEIGHTAGE = 0.85;
+    public static double SEMANTIC_SIMILARITY_WEIGHTAGE = 0.85;
+
+    public static int QUERY_NO=126;
 
     // 1 : compare each document to it's title and assign a score to each doc in a cluster
     // 2 : search the title in the documents contained in a cluster

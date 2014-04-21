@@ -8,10 +8,18 @@ public class Main {
         init();
 
         // if required
-//        index("/home/jaydeep/IR-data/en.docs.2011/data/");
+//        index("/home/nidhi/IRsdata/");
 
-        QRelInput qrel = new QRelInput("qrel/en.qrels.126-175.2011.txt");
-        qrel.start(143, "/home/jaydeep/IdeaProjects/sampleSummaries/TataNano.txt");
+        Gui g=new Gui();
+        g.show();
+
+//        QRelInput qrel = new QRelInput("qrel/en.qrels.126-175.2011.txt");
+//        qrel.start(Globals.QUERY_NO, "/home/nidhi/ss.txt");
+
+
+
+
+
     }
 
 
