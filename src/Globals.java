@@ -15,7 +15,7 @@ public class Globals {
 
     public static String OUTPUT_PATH = "/home/nidhi/IRdemo/output.txt";
 
-    public static final String INDEX_STORE_DIR = "/home/nidhi/index/";
+    public static final String INDEX_STORE_DIR = "index/";
 
     public static final int RETRIEVAL_RESULT_COUNT = 100;
 
@@ -35,7 +35,7 @@ public class Globals {
 
     public static final int CENTROID_DOCS_IN_CLUSTER = 2;
 
-    public static final int DEFAULT_SUMMARY_LENGTH = 50; //sentences
+    public static int DEFAULT_SUMMARY_LENGTH = 50; //sentences
 
     public static final int TOPIC_MODELLING_ITERATIONS = 1500;
 

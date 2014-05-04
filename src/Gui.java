@@ -1,46 +1,68 @@
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.io.File;
 
 /**
  * Created by nidhi on 18/4/14.
  */
 public class Gui {
-    private JSpinner spinner1;
+    private JSpinner lambdavalue;
     private JPanel RootPanel;
-    private JSpinner spinner2;
-    private JSpinner spinner3;
+    private JSpinner thresholdvalue;
+    private JSpinner deltavalue;
     private JButton submit;
-    private JSpinner spinner4;
-    private JTextField textField1;
-    private JLabel status;
-    private JSpinner spinner5;
+    private JSpinner queryno;
+    private JTextField outputpath;
+    private JSpinner numberoftopics;
+    private JButton browseOutputDir;
+    private JSpinner summaryLength;
 
-    Gui(){
-    SpinnerNumberModel lambda=new SpinnerNumberModel(0.1,0.1,0.9,0.05);
-    SpinnerNumberModel threshold=new SpinnerNumberModel(0.1,0.1,0.9,0.05);
-    SpinnerNumberModel delta=new SpinnerNumberModel(0.1,0.1,0.9,0.05);
-    SpinnerNumberModel query=new SpinnerNumberModel(126,126,175,1);
-    SpinnerNumberModel clusters=new SpinnerNumberModel(5,4,10,1);
-    spinner1.setModel(lambda);
-    spinner2.setModel(threshold);
-    spinner3.setModel(delta);
-    spinner4.setModel(query);
-    spinner5.setModel(clusters);
-    textField1.setText(Globals.OUTPUT_PATH);
+    Gui() {
+        SpinnerNumberModel lambda = new SpinnerNumberModel(0.1, 0.1, 0.9, 0.05);
+        SpinnerNumberModel threshold = new SpinnerNumberModel(0.1, 0.1, 0.9, 0.05);
+        SpinnerNumberModel delta = new SpinnerNumberModel(0.1, 0.1, 0.9, 0.05);
+        SpinnerNumberModel query = new SpinnerNumberModel(126, 126, 175, 1);
+        SpinnerNumberModel clusters = new SpinnerNumberModel(5, 4, 10, 1);
+        SpinnerNumberModel summarylen = new SpinnerNumberModel(20 , 20 , 50 , 5);
+        lambdavalue.setModel(lambda);
+        thresholdvalue.setModel(threshold);
+        deltavalue.setModel(delta);
+        queryno.setModel(query);
+        numberoftopics.setModel(clusters);
+        summaryLength.setModel(summarylen);
 
+
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+        }
 
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Globals.LAMBDA_FOR_SENTENCE_SCORING = (Double) spinner1.getValue();
-                Globals.SIMILARITY_THRESHOLD = (Double) spinner2.getValue();
-                Globals.SEMANTIC_SIMILARITY_WEIGHTAGE = (Double) spinner3.getValue();
-                Globals.QUERY_NO = (Integer) spinner4.getValue();
-                Globals.OUTPUT_PATH = textField1.getText();
-                Globals.NUM_CLUSTERS = (Integer)spinner5.getValue();
+                Globals.LAMBDA_FOR_SENTENCE_SCORING = (Double) lambdavalue.getValue();
+                Globals.SIMILARITY_THRESHOLD = (Double) thresholdvalue.getValue();
+                Globals.SEMANTIC_SIMILARITY_WEIGHTAGE = (Double) deltavalue.getValue();
+                Globals.QUERY_NO = (Integer) queryno.getValue();
+                Globals.OUTPUT_PATH = outputpath.getText();
+                Globals.NUM_CLUSTERS = (Integer) numberoftopics.getValue();
+                Globals.DEFAULT_SUMMARY_LENGTH = (Integer) summaryLength.getValue();
+
                 QRelInput qrel = new QRelInput("qrel/en.qrels.126-175.2011.txt");
                 try {
                     qrel.start(Globals.QUERY_NO, Globals.OUTPUT_PATH);
@@ -48,11 +70,21 @@ public class Gui {
                     e1.printStackTrace();
 
                 }
-
             }
         });
 
 
+        browseOutputDir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser(new File("."));
+                fileChooser.setDialogTitle("Select output directory");
+                final int chooseStatus = fileChooser.showSaveDialog(RootPanel);
+                if (chooseStatus == JFileChooser.APPROVE_OPTION) {
+                    outputpath.setText(fileChooser.getSelectedFile().getAbsolutePath());
+                }
+            }
+        });
     }
 
 
@@ -65,4 +97,6 @@ public class Gui {
         frame.setVisible(true);
 
     }
+
+
 }
