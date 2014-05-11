@@ -7,18 +7,13 @@ public class Main {
         // [Note] : This has to be the first line in main
         init();
 
-        // if required
-//        index("/home/nidhi/IRsdata/");
-
-        Gui g=new Gui();
-        g.show();
-
-//        QRelInput qrel = new QRelInput("qrel/en.qrels.126-175.2011.txt");
-//        qrel.start(Globals.QUERY_NO, "/home/nidhi/ss.txt");
+//        Gui gui=new Gui();
+//        gui.show();
 
 
-
-
+        index("/home/nidhi/IRdata/");
+//        QRelInput qrel = new QRelInput(Globals.QREL_PATH);
+//        qrel.start(126,"output.txt");
 
     }
 
@@ -30,17 +25,11 @@ public class Main {
         LuceneUtils.TotalWordCount = Settings.getTotalNoOfWords();
     }
 
-
-    /**
-     * Quick handy method to index
-     * @param dir directory to index
-     * @throws IOException
-     * @throws XMLStreamException
-     */
     private static void index(String dir) throws IOException, XMLStreamException {
         Indxer indxer = new Indxer(Globals.INDEX_STORE_DIR);
         indxer.indxDir(dir);
         indxer.killWriter();
         System.out.println("done indexing!");
     }
+
 }

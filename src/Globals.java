@@ -11,6 +11,8 @@ public class Globals {
 
     public static final String QREL_TOPIC_FILE = "qrel/en.topics.126-175.2011.txt";
 
+    public static final String QREL_PATH = "qrel/en.qrels.126-175.2011.txt";
+
     public static final String TEXT_DATA_DIR = "temp/";
 
     public static String OUTPUT_PATH = "/home/nidhi/IRdemo/output.txt";
@@ -25,9 +27,9 @@ public class Globals {
 
     public static double LAMBDA_FOR_SENTENCE_SCORING = 0.75;
 
-    public static final int GUI_WIDTH = 600;
+    public static final int GUI_WIDTH = 800;
 
-    public static final int GUI_HEIGHT = 450;
+    public static final int GUI_HEIGHT = 650;
 
     public static int NUM_CLUSTERS = 5;
 

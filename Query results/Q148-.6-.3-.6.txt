@@ -1,0 +1,52 @@
+Summary created using AuTo Summarizer v[0.2]
+============================================================
+
+Query : Popularity of social networking sites [ QRel Query No. : 148 ]
+------------------------------------------------------------
+
+[1] : While the popularity of the two social media firms has yet to translate into the kind of revenue-generating machine that Google Inc developed with its search advertising business , some say Facebook and Twitter have become so central to the Internet experience that they are inherently valuable[1]
+[2] : The divergent strategies underscore the novelty of social networking and the lack of an established business model[1]
+[3] : Creating a better way to filter that information has great business potential , he said[1]
+[4] : Cybercrime , which costs U.S. companies and individuals billions of dollars a year , is spreading fast on Facebook because such scams target and exploit those naive to the dark side of social networking , security experts say[2]
+[5] : `` We do our best to keep Facebook safe , but we can not guarantee it , '' Facebook says in a warning in a section of the site on the terms and conditions of use , which members may not bother to read[2]
+[6] : `` Because Facebook is a closed system , we have a tremendous advantage over e-mail[2]
+[7] : The answer may be to try to carve out a separate path by becoming a niche website for a specific audience base that advertisers , hopefully , want to target[3]
+[8] : With the exception of Facebook , News Corp 's MySpace and privately held Twitter , only a couple of social media sites had more than 10 million U.S. users , comScore data shows[3]
+[9] : Members of Facebook , the world 's largest Internet social network with more than 250 million active users , saw delays logging in and posting to their online profiles[4]
+[10] : Security experts said a single group could have been behind the problems on Twitter , Facebook and the other sites as hackers evolve their ability to attack multiple sites at once[4]
+[11] : Some Twitter users appeared to be taking the incident in stride[4]
+[12] : The evolution of virtual money on social networking sites in Asia is partly due to a less developed online advertising market which drove Asian web businesses to seek new ways to profit[5]
+[13] : VIRTUAL RENTALS Like their Western counterparts , Asian social networking sites allow their users to chat , play games and share photos[5]
+[14] : Still , a recent New York Times article suggested signs of an exodus from Facebook as disillusioned users leave due to privacy concerns or complaints of rampant commercialism[5]
+[15] : Rupert Murdoch 's MySpace has been unusual among the major social networks in turning profitable through advertising sales , although is now undergoing a major overhaul , including ousting its CEO and firing hundreds of staff , in the face of worrying user metrics[5]
+[16] : The study released this week by the Pew Internet and American Life project also found that fewer than one in 10 teens were using Twitter , a surprising finding given overall popularity of the micro-blogging site[6]
+[17] : According to the study , 73 percent of teens who were online used social networking sites[6]
+[18] : The teen portion of the study was based on a telephone survey of 800 people , aged 12 to 17 , that was conducted from June to September of[6]
+[19] : The move , which Yahoo announced late on Tuesday , comes a couple of months after Yahoo announced a similar deal with Facebook , the world 's No. 1 social networking site[7]
+[20] : Earlier this month , Google Inc unveiled a new service dubbed Google Buzz that replicated many of the social networking features that have made services like Twitter and Facebook Internet success stories[7]
+[21] : Yahoo executives said that the company was looking at ways to make Twitter messages relevant to each property , such as by customizing the selection of messages that appear alongside an article about a particular sporting event , for example[7]
+[22] : SOCIAL NETWORKING ELECTION[8]
+[23] : Last month 's row over accusations that Prime Minister Gordon Brown had bullied his staff was an good illustration , with Twitter being used to strengthen Brown 's defense[8]
+[24] : But despite the hype about social networking , the humble email and a new form of call center may have more impact[8]
+[25] : Data protection authorities from a range of countries held a teleconference this week to discuss how they can work together to protect what they see as a steady erosion of privacy , and the European Union too is studying what role it can play[9]
+[26] : They may not be able to hold the social networking wave back , but policymakers are looking at what they can do to limit what they see as the `` Big Brother '' - like role of some sites[9]
+[27] : PRIVACY , MEET THE WEB The privacy debate has been around as long as the Internet , but the explosive growth of social networking , and deepening concern about the impact it may be having on social interaction , has intensified discussion in recent months[9]
+[28] : In 2009 and again this year , Canadian authorities challenged Facebook 's default privacy settings and its use of personal information for targeted advertising[9]
+[29] : Zuckerberg explained the move in January , saying social behaviour was shifting as a result of the Internet and that privacy was not the same now as it was even six years ago[9]
+[30] : No one wants to be seen be legislating against the freedom and fun of the Internet[9]
+
+References:
+------------------------------------------------------------
+[1] : en.2.263.191.2009.5.23
+[2] : en.15.132.412.2009.6.30
+[3] : en.13.10.482.2009.7.29
+[4] : en.3.322.163.2009.8.7
+[5] : en.2.281.366.2009.9.9
+[6] : en.3.347.413.2010.2.5
+[7] : en.15.167.459.2010.2.24
+[8] : en.15.172.247.2010.3.26
+[9] : en.3.360.25.2010.4.22
+
+
+
+- 2014/05/05 04:18:54

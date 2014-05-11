@@ -1,0 +1,52 @@
+Summary created using AuTo Summarizer v[0.2]
+============================================================
+
+Query : Popularity of social networking sites [ QRel Query No. : 148 ]
+------------------------------------------------------------
+
+[1] : But it may be difficult to pass such a law in Parliament , since no party is likely to support it[1]
+[2] : Moreover , the Sunderbans , the last resort of the Royal Bengal tiger , are on the verge of destruction owing to climate change[1]
+[3] : Despite the obvious risks , it looks like social networking sites are here to stay[1]
+[4] : Author Peter Bradwell said that while companies were using specific systems to share information , online social networking sites could also play a role , helping with productivity , innovation and democratic working[2]
+[5] : `` The report points out that the value of networking within an economic downturn is perhaps more important than ever and I believe it could mean the difference between a business collapsing or capitalising on the tricky conditions , '' he sa[2]
+[6] : `` Gideon has played an important role in helping us achieve our financial success , building a strong finance team and establishing the core financial operations of our company , '' Facebook said in a statement[3]
+[7] : Facebook has nearly 200 million users , making it the most popular social networking Website[3]
+[8] : The answer may be to try to carve out a separate path by becoming a niche website for a specific audience base that advertisers , hopefully , want to target[4]
+[9] : While this is no easy challenge -- given Facebook 's intention to become everything to everyone -- some small social media sites appear to be finding their footing and growing at rapid rates , albeit from a very low base[4]
+[10] : With the exception of Facebook , News Corp 's MySpace and privately held Twitter , only a couple of social media sites had more than 10 million U.S. users , comScore data shows[4]
+[11] : Being second rung to Facebook is no fun , especially as developers of applications that attract users to these sites , such as games , tend to flock the biggest players[4]
+[12] : Twitter , which allows people to broadcast short , 140-character text messages over the Internet , became a key form of communication in Iran amid the protests and clampdown that followed the country 's disputed June elections[5]
+[13] : In a blog post earlier on Thursday , Twitter co-founder Biz Stone said the company preferred not to speculate about the motivation of the malicious attack that knocked the site offline and made it inaccessible for several hours earlier in the day[5]
+[14] : Members of Facebook , the world 's largest Internet social network with more than 250 million active users , saw delays logging in and posting to their online profiles[5]
+[15] : Like Twitter , Facebook said the problems appeared to stem from a so-called denial of service attack , a technique in which hackers overwhelm a website 's servers with communications requests[5]
+[16] : Security experts said a single group could have been behind the problems on Twitter , Facebook and the other sites as hackers evolve their ability to attack multiple sites at once[5]
+[17] : `` History would tell us that it 's probably the same attacker or group of attackers that is launching both attacks , '' said Kevin Prince , the chief technology officer of security services provider Perimeter eSecurity[5]
+[18] : According to the study , 73 percent of teens who were online used social networking sites[6]
+[19] : The teen portion of the study was based on a telephone survey of 800 people , aged 12 to 17 , that was conducted from June to September of[6]
+[20] : The move , which Yahoo announced late on Tuesday , comes a couple of months after Yahoo announced a similar deal with Facebook , the world 's No. 1 social networking site[7]
+[21] : Earlier this month , Google Inc unveiled a new service dubbed Google Buzz that replicated many of the social networking features that have made services like Twitter and Facebook Internet success stories[7]
+[22] : Yahoo executives said that the company was looking at ways to make Twitter messages relevant to each property , such as by customizing the selection of messages that appear alongside an article about a particular sporting event , for example[7]
+[23] : According to some media reports , Microsoft and Google paid a combined $ 25 million for the right to include Twitter data in their search res[7]
+[24] : SOCIAL NETWORKING ELECTION[8]
+[25] : Last month 's row over accusations that Prime Minister Gordon Brown had bullied his staff was an good illustration , with Twitter being used to strengthen Brown 's defense[8]
+[26] : Opinions differ on Twitter 's likely role in swaying the election outcome , but the prime minister 's wife is in no doubt about its drawing power[8]
+[27] : But despite the hype about social networking , the humble email and a new form of call center may have more impact[8]
+[28] : Data protection authorities from a range of countries held a teleconference this week to discuss how they can work together to protect what they see as a steady erosion of privacy , and the European Union too is studying what role it can play[9]
+[29] : PRIVACY , MEET THE WEB The privacy debate has been around as long as the Internet , but the explosive growth of social networking , and deepening concern about the impact it may be having on social interaction , has intensified discussion in recent months[9]
+[30] : Zuckerberg explained the move in January , saying social behaviour was shifting as a result of the Internet and that privacy was not the same now as it was even six years ago[9]
+
+References:
+------------------------------------------------------------
+[1] : 1100221_opinion_story_12117849.utf8
+[2] : en.15.92.355.2008.10.30
+[3] : en.15.109.286.2009.4.1
+[4] : en.13.10.482.2009.7.29
+[5] : en.3.322.163.2009.8.7
+[6] : en.3.347.413.2010.2.5
+[7] : en.15.167.459.2010.2.24
+[8] : en.15.172.247.2010.3.26
+[9] : en.3.360.25.2010.4.22
+
+
+
+- 2014/05/05 04:35:57

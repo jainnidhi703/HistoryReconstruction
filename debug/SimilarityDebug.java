@@ -16,8 +16,8 @@ public class SimilarityDebug {
 
         init();
 
-        T1 = "RAM keeps things being worked with".toLowerCase();
-        T2 = "The CPU uses RAM as a short-term memory store".toLowerCase();
+        T1 = "Facebook created by Mark Zuckerberg is a social networking site".toLowerCase();
+        T2 = "Mark Zuckerberg launched a social networking site named Facebook".toLowerCase();
 
         double score = Similarity.sentence(T1, T2);
 

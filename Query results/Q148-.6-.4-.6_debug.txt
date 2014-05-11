@@ -1,0 +1,338 @@
+Total matching docs : 66
+
+Topics:
+------------------------------------------------------------
+[0] : facebook privacy users information 
+[1] : facebook users million company 
+[2] : myspace sites social networking 
+[3] : twitter social online percent 
+[4] : facebook internet site skype 
+
+Clusters:
+------------------------------------------------------------
+[0] : 1100221_opinion_story_12117849.utf8, en.3.360.25.2010.4.22, 
+[1] : en.15.167.459.2010.2.24, en.15.109.286.2009.4.1, 
+[2] : en.15.92.355.2008.10.30, en.13.10.482.2009.7.29, 
+[3] : en.3.347.413.2010.2.5, en.15.172.247.2010.3.26, 
+[4] : en.3.322.163.2009.8.7, en.2.319.119.2010.6.5, 
+
+Document score under each cluster:
+------------------------------------------------------------
+[ Cluster : 0 ] : 
+[0.163203] : 1100221_opinion_story_12117849.utf8
+[0.15598] : en.3.360.25.2010.4.22
+[0.150778] : 1040302_foreign_story_2957839.utf8
+[0.147047] : en.3.380.282.2007.7.16
+[0.144105] : en.15.192.188.2007.6.21
+[0.139124] : en.15.73.203.2008.6.27
+[0.1335] : en.15.69.76.2008.6.2
+[0.124095] : en.15.123.98.2009.5.10
+[0.118923] : en.15.135.153.2009.7.17
+[0.11208] : en.15.76.149.2008.7.21
+
+[ Cluster : 1 ] : 
+[0.177759] : en.15.167.459.2010.2.24
+[0.171144] : en.15.109.286.2009.4.1
+[0.17045] : en.2.263.191.2009.5.23
+[0.157146] : en.15.250.237.2008.3.13
+[0.152654] : en.3.332.498.2009.10.22
+[0.152386] : en.3.349.356.2010.2.13
+[0.147329] : en.3.360.304.2010.4.22
+[0.14216] : en.3.348.349.2010.2.10
+[0.140842] : en.15.67.341.2008.5.19
+[0.135868] : en.3.400.478.2007.10.25
+[0.135667] : en.3.375.285.2007.6.19
+[0.133845] : en.2.281.347.2009.9.16
+[0.13372] : en.15.66.289.2008.5.8
+[0.129183] : en.3.348.162.2010.2.6
+[0.128304] : en.15.110.376.2009.3.24
+[0.127155] : en.15.121.441.2009.4.28
+[0.126129] : en.15.238.21.2008.1.30
+[0.125931] : en.2.278.240.2009.8.24
+[0.125638] : en.13.8.481.2009.7.13
+[0.124356] : en.3.378.260.2007.7.8
+[0.12108] : en.15.68.7.2008.5.24
+[0.118705] : en.13.8.402.2009.7.14
+[0.118602] : en.15.95.245.2008.11.13
+[0.118125] : en.15.139.371.2009.8.11
+[0.112204] : en.15.125.105.2009.5.20
+[0.11188] : en.2.263.426.2009.5.24
+
+[ Cluster : 2 ] : 
+[0.16619] : en.15.92.355.2008.10.30
+[0.164997] : en.13.10.482.2009.7.29
+[0.162017] : en.2.281.366.2009.9.9
+[0.145356] : en.3.380.380.2007.7.17
+[0.138403] : en.3.398.105.2007.10.17
+[0.114749] : en.15.85.483.2008.9.18
+
+[ Cluster : 3 ] : 
+[0.189288] : en.3.347.413.2010.2.5
+[0.171741] : en.15.172.247.2010.3.26
+[0.166801] : en.15.201.453.2007.8.9
+[0.158003] : en.3.332.89.2009.10.17
+[0.150449] : en.2.280.27.2009.9.9
+[0.139696] : en.15.128.130.2009.6.5
+[0.136396] : en.2.260.104.2009.4.29
+[0.132217] : en.2.279.318.2009.8.28
+[0.128013] : en.3.356.228.2010.3.30
+[0.126301] : en.3.403.135.2007.11.7
+[0.118069] : en.2.298.390.2010.1.27
+[0.118058] : en.15.71.405.2008.6.16
+[0.117335] : en.13.1.366.2009.6.2
+
+[ Cluster : 4 ] : 
+[0.133767] : en.3.322.163.2009.8.7
+[0.129183] : en.2.319.119.2010.6.5
+[0.127466] : en.15.132.412.2009.6.30
+[0.127211] : en.2.319.194.2010.6.3
+[0.124861] : en.15.184.446.2010.5.30
+[0.117881] : en.3.383.153.2007.8.3
+[0.112975] : en.3.353.294.2010.3.10
+[0.108432] : en.15.109.261.2009.3.30
+[0.102903] : en.3.347.417.2010.2.1
+[0.100866] : en.2.317.20.2010.5.27
+[0.090135] : en.2.263.399.2009.5.24
+
+
+Sentence score under each cluster:
+------------------------------------------------------------
+[ Cluster : 0 ] : 
+[0.387276] : Despite the obvious risks , it looks like social networking sites are here to stay
+[0.368838] : PRIVACY , MEET THE WEB The privacy debate has been around as long as the Internet , but the explosive growth of social networking , and deepening concern about the impact it may be having on social interaction , has intensified discussion in recent months
+[0.34205] : Data protection authorities from a range of countries held a teleconference this week to discuss how they can work together to protect what they see as a steady erosion of privacy , and the European Union too is studying what role it can play
+[0.337729] : Zuckerberg explained the move in January , saying social behaviour was shifting as a result of the Internet and that privacy was not the same now as it was even six years ago
+[0.324951] : Moreover , the Sunderbans , the last resort of the Royal Bengal tiger , are on the verge of destruction owing to climate change
+[0.321975] : But it may be difficult to pass such a law in Parliament , since no party is likely to support it
+[0.320972] : The main reason behind the steady decline of the tiger population is not poaching , as is being projected
+[0.320472] : However , it is heart-warming to find that awareness is spreading among the masses at last
+[0.313297] : The success of tiger conservation depends on spreading public awareness on this issue
+[0.310278] : In 2009 and again this year , Canadian authorities challenged Facebook 's default privacy settings and its use of personal information for targeted advertising
+[0.305468] : Yours faithfully , Oishimaya Sen , Calcutta Web woes Sir Social networking sites have become very popular in recent times
+[0.296435] : FACEBOOK 'S GLOBAL TUG-OF-WAR With government authorities raising their concerns ever more loudly , Facebook and other sites have amended some of their practices , or highlighted the range of measures they say they are already taking to protect members ' privacy and data
+[0.29405] : They may not be able to hold the social networking wave back , but policymakers are looking at what they can do to limit what they see as the `` Big Brother '' - like role of some sites
+[0.293216] : So , public consensus should be the basis for enacting this law
+[0.293204] : A showdown between privacy and Internet freedom is looming
+[0.290219] : No one wants to be seen be legislating against the freedom and fun of the Internet
+[0.28686] : Although official estimates claim that 1,411 tigers are left , one doubts whether the number is as high in reality
+[0.285456] : Young people across the world are the primary users of these sites
+[0.283679] : However , privacy issues are the key concern in this online world
+[0.281972] : In the coming months , Reding and her team are expected to study the activities of sites such as Facebook and Google , which recently launched its own social network , and pay close attention to any perceived privacy slippages
+[0.278389] : The European Commission , the executive arm of the European Union and its 500 million citizens , does not regulate on privacy issues , leaving it up to the EU 's 27 member states , but it can issue guidelines or directives for corporate practices
+[0.278345] : `` What we 're going to do in the coming months and years is organise ourselves as enforcement agencies in an international way , '' Jacob Kohnstamm , the chairman of the Dutch Data Protection Authority , told privacy protection chiefs this week
+[0.277687] : Thomas Nortvedt , the head of digitial issues at the Norwegian Consumer Council , a government body , sees Facebook 's alteration of its privacy settings as a turning point
+[0.277494] : In Facebook 's case , the social networking tsunami has spread in barely six years from the Harvard dormroom of founder Mark Zuckerberg , 25 , to envelope almost half a billion people -- enough to be the world 's third most populous country
+[0.276971] : Incidents such as the Israeli soldier who announced details of an upcoming military raid via Facebook , and the murder conviction in Britain of a serial rapist who posed as a boy on the site , have fuelled the fears of both lawmakers and parents
+[0.276258] : Members ' eagerness to add contacts has given the sites a powerful global reach , attracting users from 7 to 70 years old , from skateboarders to investment bankers , and with them a deep and potentially rich vein of targeted advertising revenue
+[0.275515] : These sites also create a space where young people can share their thoughts freely and promote some sort of a cultural dialogue
+[0.27078] : In February , the Commission unveiled its `` Safer Social Networking Principles for the EU '' , a voluntary pact involving 25 websites that agreed to safety measures for users under 18 , including making profiles private and unsearchable by default
+[0.27031] : In India , young men and women are hardly concerned about safeguarding their privacy on these sites
+[0.269842] : A number of sites such as Orkut , Facebook and Twitter let teenagers live web lives with online friends
+[0.26828] : `` We can not expect citizens to trust Europe if we are not serious in defending the right to privacy , '' Viviane Reding , the European commissioner in charge of media and the information society , said in a speech in January , laying out her concerns
+[0.265449] : `` People have really gotten comfortable not only sharing more information and different kinds , but more openly and with more people , '' he told an audience at a technology conference
+[0.264679] : It would be a matter of deep shame if the national animal is allowed to become extinct through sheer negligence
+[0.263513] : Though the Commission was satisfied with Facebook 's further proposed privacy changes as of last August , a new investigation began this January in light of the site 's amendments to its privacy policy
+[0.263479] : The sites , led by Facebook with more than 400 million users , rely in large part on people 's willingness to share a wealth of personal information with an ever-expanding network of `` friends '' , either ones they actually know and see from time to time , or those they have met virtually through the Internet
+[0.261528] : Rather , it is the lack of forests in India
+[0.260988] : `` The privacy settings on Facebook have raised awareness on ... privacy as a whole , not only by the people but also by the governments and the regulating authorities , '' he told Reuters
+[0.259265] : But the agreement was drawn up before Facebook announced the changes to its privacy settings , a move that frustrated the EU
+[0.255845] : `` So that the gap between the online market being global and the enforcement being national is going to be filled up by actions like we start t
+[0.255654] : `` Facebook , MySpace or Twitter have become extremely popular , particularly among young people , '' she told the European Parliament
+[0.253679] : But one should be cautious and prudent while using them
+[0.25328] : That in turn has raised profound privacy issues , with governments in Europe and North America and Asia concerned about the potential for data theft , for people 's identities to be mined for income or children to be exploited via the Internet
+[0.25118] : `` They see that this is , if not a problem , then at least a challenge and something has to be done about it .
+[0.250139] : Political parties in India need a serious lesson in etiquette
+[0.244969] : We view it as our role in the system to constantly be innovating and be updating what our system is to reflect what the current social norms are , '' he said
+[0.240373] : An apt example of the risks of social networking is the kidnapping and murder of 16-year-old Adnan Patrawala from Mumbai -LRB- New age tragedy , Aug 23 , 2007 -RRB-
+[0.238077] : Yours faithfully , Ashok Kumar Ghosh , Calcutta Alarming numbers Sir Recent data have revealed what environmentalists have been fearing for years that the number of tigers left in India is falling fast -LRB- Science establishes tiger truth , Feb 13 -RRB-
+[0.236218] : DEFAULT The Telegraph - Calcutta -LRB- Kolkata -RRB- | Opinion | Letters to Editor 5 Letters to Editor Lessons in good behaviour Sir It is a good idea to punish political parties for violent behaviour by their supporters -LRB- Penalty kick , Feb 13 -RRB-
+[0.233802] : As Canada 's privacy commissioner , Jennifer Stoddart , told data protection experts on Tuesday : `` We want to send a strong message that you ca n't go on using people 's personal information without their consent ... Do your testing before , and make sure they comply with privacy legislation .
+[0.233189] : Facebook has added fuel to the debate , with the company deciding in December 2009 to substantially change its privacy settings , effectively making members ' profiles more openly accessible unless users altered the settings themselves
+[0.23316] : Officials want to emphasise to users , particularly young and vulnerable ones , that too much sensitive information can easily be posted to sites , and can then be mined by advertisers and third parties through applications like games or quizzes
+[0.232216] : As a result of the Canadian Privacy Commission 's investigation , Facebook agreed to adopt some recommendations , including explaining why users have to provide their date of birth at registration and introducing ` high ' , ` medium ' and ` low ' privacy settings for user-published content
+[0.228508] : `` It 's in the interests of social network sites to give users control of their privacy .
+[0.227619] : Authorities in Canada , Spain , Germany , Britain and the Netherlands are watching closely too
+[0.225422] : `` I ca n't understand that , '' Commissioner Reding said on the EU 's Safer Internet Day in February
+[0.222786] : But at the same time it has concentrated vast amounts of data -- telephone numbers and addresses , people 's simple likes and dislikes -- on the servers of a small number of companies
+[0.220805] : `` However , children are not always able to assess all risks associated with exposing personal data .
+[0.216612] : Indians should make a concerted effort to save the precious animal
+[0.215779] : With such a small population , the animal is now vulnerable to adversities , both natural and man-made
+[0.21494] : The people should also collectively help save one of the most graceful animals in the world
+[0.21426] : A law should be framed to make parties compensate for any damage to public property caused by their workers
+[0.213397] : Privacy chiefs keep watch over Facebook , social media BRUSSELS , Apr 22 -LRB- bdnews24.com / Reuters -RRB- - Over the past six years , social networking has been the Internet 's stand-out phenomenon , linking up more than one billion people eager to exchange videos , pictures or last-minute birthday wishes
+[0.200981] : The government should focus on critical issues like tiger conservation
+[0.199299] : But other recommendations -- such as limiting the ability of third-party applications to pull non-essential user information -- were not immediately applied
+[0.198797] : Otherwise , it would be just a matter of decades before the only tigers left in the world would be those recreated in cinema like the dinosaurs in Steven Spielbergs Jurassic Park
+[0.194919] : Norway filed complaints after a year-long study of the site 's terms and conditions
+[0.192959] : Yours faithfully , Deepungsu Pandit , Guwahati Sir It is alarming that there are only 1,411 tigers left in India
+[0.192283] : Such thoughtless activities can pose major security threats
+[0.188999] : That may well be the case -- and the trend for teenagers to share naked or near-naked pictures of one another online or via mobile phones may suggest mores are changing -- but privacy campaigners believe the slope is getting too slippery
+[0.166165] : But watchdogs also see privacy as a cornerstone of democratic societies that also needs defending
+[0.165333] : The media should campaign for this cause actively
+[0.146224] : `` That social norm is just something that has evolved
+[0.126542] : They put up vital data like cell-phone numbers and addresses on their profiles
+[0.111022] : Jungles are being encroached upon by urban settlements
+[0.085327] : Yours faithfully , A. Tripathi , Del
+[0.083565] : The parties should be penalized both monetarily and through a ban
+[0.068758] : Most accept friend requests at random
+[0.062156] : The kidnappers had managed to trap Adnan through Orkut
+
+[ Cluster : 1 ] : 
+[0.383639] : The move , which Yahoo announced late on Tuesday , comes a couple of months after Yahoo announced a similar deal with Facebook , the world 's No. 1 social networking site
+[0.372328] : Earlier this month , Google Inc unveiled a new service dubbed Google Buzz that replicated many of the social networking features that have made services like Twitter and Facebook Internet success stories
+[0.351368] : Facebook has nearly 200 million users , making it the most popular social networking Website
+[0.337439] : Yahoo executives said that the company was looking at ways to make Twitter messages relevant to each property , such as by customizing the selection of messages that appear alongside an article about a particular sporting event , for example
+[0.321977] : `` Gideon has played an important role in helping us achieve our financial success , building a strong finance team and establishing the core financial operations of our company , '' Facebook said in a statement
+[0.31594] : According to some media reports , Microsoft and Google paid a combined $ 25 million for the right to include Twitter data in their search res
+[0.313087] : The company does not disclose its revenue though a source close to the company said Facebook expects its revenue to increase 70 percent in 20
+[0.308146] : Yahoo also plans to display a live stream of Tweets within other online properties including its email service and sites devoted to sports , entertainment and finance later this year
+[0.30193] : Facebook would not comment on whether Yu was leaving to pursue another opportunity or whether he was pushed out of the company
+[0.300596] : Yahoo would not comment on any financial terms involved in the deal with Twitter
+[0.298927] : The company said on Tuesday that Gideon Yu , who has served as Facebook 's finance chief since August 2007 , will be leaving the company
+[0.296782] : In January , Facebook overtook Yahoo to become the second most visited website in the United States , according to a recent report by web analytics firm Compete
+[0.292149] : The partnership will allow web surfers to view the short , 140-character messages created by Twitter users , dubbed Tweets , directly within Yahoo sites as well as to publish their own Twitter messages without leaving Yahoo
+[0.288405] : `` Despite the poor economic climate , we are pleased that our financial performance is strong and we are well positioned for the next stage of our growth , '' the statement continued
+[0.284988] : `` We believe that the content and context side of things is very unique , '' Yahoo Vice President of Communities Jim Stoneham told Reuters in an interview
+[0.283817] : A separate study by comScore showed Yahoo maintaining its No. 2 rank with roughly 164 million unique US visitors , while Facebook was the No. 4 site with 112 visitors , behind third-ranked Microsoft Corp.
+[0.260629] : Yahoo partners with Twitter to boost social features SAN FRANCISCO , Feb 24 -LRB- bdnews24.com / Reuters -RRB- - Yahoo Inc plans to integrate Twitter into its collection of websites , as the company seeks to enhance the appeal of its online properties with popular social networking features
+[0.260048] : Facebook CFO to leave company SAN FRANCISCO , Apr 1 -LRB- bdnews24.com / Reuters -RRB- - Internet social media company Facebook is replacing its chief financial officer and seeking a replacement with `` public company experience .
+[0.259613] : Yahoo said that beginning on Tuesday its Internet search engine results will display up-to-the-second Tweets about various topics , matching the so-called `` real time search '' capabilities that Google and Microsoft announced in their own respective deals with Twitter last year
+[0.255197] : Facebook and Twitter - which said on Monday that users of its service generate more than 50 million Tweets every day - pose an increasing threat to established Internet giants like Yahoo and Google whose businesses depend on selling online ads to large audiences
+
+[ Cluster : 2 ] : 
+[0.346836] : Author Peter Bradwell said that while companies were using specific systems to share information , online social networking sites could also play a role , helping with productivity , innovation and democratic working
+[0.345903] : The answer may be to try to carve out a separate path by becoming a niche website for a specific audience base that advertisers , hopefully , want to target
+[0.314028] : With the exception of Facebook , News Corp 's MySpace and privately held Twitter , only a couple of social media sites had more than 10 million U.S. users , comScore data shows
+[0.286266] : While this is no easy challenge -- given Facebook 's intention to become everything to everyone -- some small social media sites appear to be finding their footing and growing at rapid rates , albeit from a very low base
+[0.285534] : Being second rung to Facebook is no fun , especially as developers of applications that attract users to these sites , such as games , tend to flock the biggest players
+[0.284284] : `` The report points out that the value of networking within an economic downturn is perhaps more important than ever and I believe it could mean the difference between a business collapsing or capitalising on the tricky conditions , '' he sa
+[0.282365] : His research concluded that trying to control the use of sites such as Facebook , which alone boasts more than 100 million users worldwide , could even harm organisations
+[0.280855] : `` The answer is not to close down staff access to social network platforms , nor is it investing blindly in collaborative platforms
+[0.278918] : `` In order to build a destination site , there are more challenges to gain that audience , '' Lipsman said
+[0.278006] : `` The promise of niche social networks and social networking applications is a more targeted audience around a specific interest that will be extremely attractive to advertisers seeking relevant content and conversations against which to place their ads , '' IDC analyst Caroline Dangson said
+[0.274275] : Facebook 's popularity with professionals and older users might be putting off some younger users , according to Chuck Schilling , a director at Nielsen Online
+[0.273672] : Advertisers go where users are , but it is no easy task to amass an audience
+[0.273121] : BIG GAP Clearly , the gap between the biggest social networks and the rest is huge
+[0.27066] : Robert Ainger , Corporate Director of Orange Business which co-produced the report , said it would be wrong of businesses to ignore the importance of networking in the current economic climate
+[0.266692] : `` Bans on Facebook or YouTube are in any case almost impossible to enforce ; firms may as well try to put a time limit on the numbers of minutes allowed each day for gossiping , '' he wrote
+[0.265846] : Application maker Slide had an audience of 32 million in the U.S. in June ; Rock You had 26 million , said comScore 's Lipsman
+[0.262319] : `` The original people who were on Facebook -- those of college age -- are becoming a bit disenchanted and will soon find their own outlets , now that their parents are coming to Facebook in droves , '' Schilling said
+[0.261599] : `` There will always be a place for niche sites that have a focus , whether the focus is gaming , or a regional focus , or a functional focus like Twitter , or a vertical or demographic focus , '' Gartner analyst Ray Valdes said , though he added that does not see them becoming as big as Facebook
+[0.256173] : `` Allowing workers to have more freedom and flexibility might seem counterintuitive , but it appears to create business more capable of maintaining stability .
+[0.253124] : Some of the second-tier social media sites have formed a consortium to address the problem
+[0.249218] : `` Smart '' businesses recognised that social networking could not easily be separated from `` professional '' networking , he argued
+[0.249033] : `` So it 's an increasingly viable business model to build an application that can reside or build off the infrastructure of other sites
+[0.24635] : `` In today 's difficult business environment , the instinctive reaction can be to batten down the hatches and return to the traditional ` command and control ' techniques that enable managers to closely monitor and measure productivity , '' he said
+[0.245145] : `` The fact that this is such a growing space overall does enable other players in the space to ride the coattails of some of these bigger sites , '' comScore analyst Andrew Lipsman said
+[0.239871] : Facebook had about 77 million U.S. users in June
+[0.233342] : However , he said there should be practical guidelines to limit non-work usage
+[0.231612] : Then there is Imeen , which focuses on music , and Eons , which targets the baby boomer generation
+[0.229792] : `` People are branching out from the popular sites
+[0.227966] : Advertisers are spotting an opportunity with smaller sites
+[0.225753] : So some Internet startups have chosen to become an application provider rather than try build a site
+[0.22061] : The report by Demos said encouraging employees to use networking technologies to build relationships and closer links with colleagues and customers could help businesses rather than damage them
+[0.219717] : Niche social sites seek growth under Facebook 's shadow BANGALORE , Jul 29 -LRB- bdnews24.com / Reuters -RRB- - What do you do when you 're a small online social network trying to compete against a behemoth like Facebook
+[0.207153] : The three have a strong presence on Facebook
+[0.206363] : Funadvice is a site where users give answers to all sorts of queries ; Sodahead lets people to participate in instant polls ; Fanpop gathers fans of movies , television and music under one roof
+[0.203142] : Ning.com , which allows users to build their own social networks , opinion aggregator Sodahead and fansite Fanpop have shown triple-digit growth and notched up a few million users very quickly
+[0.191703] : `` There 's a lot of room in the game .
+[0.191669] : `` Rather , we argue that we need to understand how , once we accept the implications of social networks , we can manage the new challenges and trade-offs .
+[0.18338] : United Online 's Classmates.com helps users track acquaintances from school and college
+[0.181584] : And steadily growing in double digits are older sites like Hi5 , Digg and LinkedIn
+[0.177344] : Social networking sites ` good for businesses ' LONDON , Oct 30 -LRB- bdnews24.com / Reuters -RRB- - Good news for workers addicted to Facebook , Bebo and MySpace -- a British think-tank says bosses should not stop their staff using social networking sites because they could actually benefit their firms
+[0.164743] : But there are many rapidly growing sites with 2 million to 10 million users , including Ning , Sodahead , Fanpop and Funadvice
+[0.162875] : They are exploring , '' he said
+[0.156596] : Along ethnic lines , BlackPlanet is for African Americans and MiGente eyes Latinos
+[0.13434] : Zynga provides social gaming applications
+[0.13283] : Behind some of these smaller sites are big names : Time Warner 's AOL owns Bebo and Google owns Orkut
+[0.114507] : Google-led OpenSocial 's members include Yahoo , Hi5 , MySpace , Friendster and LinkedIn
+
+[ Cluster : 3 ] : 
+[0.399127] : But despite the hype about social networking , the humble email and a new form of call center may have more impact
+[0.366517] : According to the study , 73 percent of teens who were online used social networking sites
+[0.339208] : SOCIAL NETWORKING ELECTION
+[0.337923] : Last month 's row over accusations that Prime Minister Gordon Brown had bullied his staff was an good illustration , with Twitter being used to strengthen Brown 's defense
+[0.330949] : The teen portion of the study was based on a telephone survey of 800 people , aged 12 to 17 , that was conducted from June to September of
+[0.3245] : Opinions differ on Twitter 's likely role in swaying the election outcome , but the prime minister 's wife is in no doubt about its drawing power
+[0.324047] : `` Older people are becoming more comfortable with the online environment and young people in the meantime have moved on to social networking and text messaging , '' Smith said
+[0.323204] : Smith said the report 's authors attributed the decline in blogging to the explosion of social networking sites such as Facebook , which emphasize short status updates over personal journals
+[0.321598] : The study released this week by the Pew Internet and American Life project also found that fewer than one in 10 teens were using Twitter , a surprising finding given overall popularity of the micro-blogging site
+[0.319522] : He also cited the ubiquity of cell phones
+[0.314325] : The battle has spread to social networking site Facebook , which has 21 million active users in Britain -- almost as many people as voted in the last general election
+[0.311777] : According to the report , only 14 percent of teenagers who use the Internet say they kept an online journal or blog , compared with a peak of 28 percent in 2006 -- and only 8 percent were using Twitter
+[0.310184] : Labour stresses the importance of telephone contact
+[0.306654] : Officials at the main parties say a British election is very different to a U.S. presidential race
+[0.304012] : Labour creates interactive graphics on campaign issues that bloggers can use on their Web sites
+[0.288247] : There 's less freedom in fundraising , less money , and a shorter campaign , so the scale of their operations is far smaller
+[0.285998] : Sarah Brown has built up a Twitter following of 1.2 million people , which BBC political editor Nick Robinson said makes her `` one of the most influential figures in British politics .
+[0.285371] : The opposition Conservatives have nine full-time staff in their digital team , the ruling Labour party five and the Liberal Democrats three
+[0.285042] : Twitter 's role in accelerating the news cycle is a major area of interest
+[0.282164] : `` Social media , and Facebook especially , have served as a fantastic tool for recruiting new supporters and getting them out on the campaign trail , '' says Jeremy Hunt , shadow culture secretary and Conservative spokesman on digital campaigning
+[0.281543] : He said teens may be shying away from Twitter because they see it as designed for celebrities , and because of reluctance to put their thoughts on such a public forum when they can post them to their Facebook page instead
+[0.27442] : All three main parties are following the Obama model of creating a database of potential supporters and , by carefully building up details on their views and interests , targeting them with more personal messages than is possible with other media
+[0.271344] : Blogging among adults has held steady since 2005 , Pew found , but it has dropped among Internet users between the age of 18 and 29 -- while rising in those over 30
+[0.269482] : By contrast , Obama had 100 at his base in Chicago and another 40 dotted around the battleground states
+[0.269452] : The parties are making use of the network 's ability to carry highly targeted advertising campaigns
+[0.269315] : `` UK parties should take note and invest much of their election funding on email , '' he suggests
+[0.264947] : Some of our projects and policies at HQ come directly from them and it makes them feel a part of it , '' says Mark Hanson , the Labour Party 's digital strategist
+[0.261683] : Blue State 's McGregor believes the way social media are used in `` activating the activists '' will be the untold story of this election
+[0.26122] : `` Twitter does n't win elections , people win elections , '' says Matthew McGregor , of Blue State Digital Media , the firm that provided the technical backbone for Obama 's digital campaign
+[0.255659] : When mainstream media carried a claim by the chief executive of the National Bullying Helpline that her charity had received calls from Brown 's office , a Twitter-based crowd of fact-checkers quickly raised a series of conflicts of interest
+[0.253966] : A University of Essex study this month found 58 percent of voters polled had received direct contact from a Conservative party source in the past six months against 46 percent for the Liberal Democrats and 35 percent for La
+[0.252187] : Much of the communication between young people now takes place on mobile devices , which do n't lend themselves to long-form writing
+[0.249975] : `` They were the first to use social networking and texting
+[0.24949] : PR consultancy Diffusion says the Conservatives have the heaviest official presence with a total of 154,000 friends , fans or members for their lawmakers , candidates and official party site
+[0.246561] : See Sarah Brown 's blog for Reuters , here : here BLOGGERS WOOED Both Labour and the Conservatives have adopted the US model of providing briefings for key bloggers , who write widely read online commentaries that can influence voters
+[0.242674] : The Conservative digital team is spending about 20 percent of its time on Twitter , a short text-based message service , primarily to attract the attention of journalists , says the Conservatives ' Head of Online Communities , Craig Elder
+[0.241125] : An unprecedented wave of initiatives -- from a new breed of digital campaigner to an army of online supporters , critics and satirists -- is prompting many observers to say this will be Britain 's first ` Internet election '
+[0.23917] : `` We want to make them part of the campaign
+[0.236516] : `` It was a little bit surprising , although there are definitely explanations given the state of the technological landscape , '' Pew researcher Aaron Smith told Reuters
+[0.229661] : The bank allows activists to make calls from home and feed back into a central database
+[0.227472] : US teens lose interest in blogging LOS ANGELES , Feb 05 -LRB- bdnews24.com / Reuters -RRB- - Blogging by teenagers and young adults has dropped by half over the past three years as they turn instead to texting and social networking sites such as Facebook , a new study shows
+[0.223537] : One in five Obama voters was on an email distribution list that helped raise hundreds of millions of dollars
+[0.213379] : `` But social media is a way of organizing people and I do n't buy the argument that what worked for Obama wo n't work in Britain .
+[0.21029] : British parties imitate Obama in e-election LONDON , Mar 26 -LRB- Reuters -RRB- - US President Barack Obama 's use of the Web on his way to the White House in 2008 has inspired British political parties to ramp up their digital campaigns for a general election expected in May
+[0.205292] : `` The biggest application of what we learnt from Obama is the Virtual Phone Bank , '' says Hanson
+[0.203714] : `` It was somewhat interesting in the sense that teens tend to be the early adopters , '' Smith said
+[0.193494] : Last October , when the Conservatives launched myconservatives.com -- their own social network -- they bought ads only on pages of Facebook members who had declared themselves supporters
+[0.16177] : Labour with 62,000 is in third place behind the Liberal Democrats on 68,000
+[0.110618] : The Conservatives allow members to create rapid online fundraising campaigns via myconservatives.com , and to embed adverts within their blogs
+[0.06237] : Its certainly unusual compared to what we 've seen with other technology .
+
+[ Cluster : 4 ] : 
+[0.321382] : Security experts said a single group could have been behind the problems on Twitter , Facebook and the other sites as hackers evolve their ability to attack multiple sites at once
+[0.306202] : Members of Facebook , the world 's largest Internet social network with more than 250 million active users , saw delays logging in and posting to their online profiles
+[0.290853] : `` History would tell us that it 's probably the same attacker or group of attackers that is launching both attacks , '' said Kevin Prince , the chief technology officer of security services provider Perimeter eSecurity
+[0.287984] : Twitter , which allows people to broadcast short , 140-character text messages over the Internet , became a key form of communication in Iran amid the protests and clampdown that followed the country 's disputed June elections
+[0.278425] : In a blog post earlier on Thursday , Twitter co-founder Biz Stone said the company preferred not to speculate about the motivation of the malicious attack that knocked the site offline and made it inaccessible for several hours earlier in the day
+[0.278167] : Like Twitter , Facebook said the problems appeared to stem from a so-called denial of service attack , a technique in which hackers overwhelm a website 's servers with communications requests
+[0.274997] : Twitter 's newfound fame makes it an easy target for hackers , said Steve Gibson , the president of Internet security research firm Gibson Research Corp.
+[0.272147] : Head of the international internet gateway said , `` I received the instruction at 11:37 pm and reopened the site a minute
+[0.269255] : The incidents also underscored the vulnerability of fast-growing Internet social networking sites that have been heralded as powerful new political tools to counter censorship and authoritarianism
+[0.268471] : In July a wave of similar attacks disrupted access to several high-profile U.S. and South Korean websites , including the White House site
+[0.267768] : A Facebook executive said Thursday 's cyber attacks were aimed at a Georgian blogger with accounts at the various affected sites , according to a report on technology news site CNET
+[0.267572] : Remember Twitter was down in 2007 and 2008 all the time , '' said Robert Scobble , a commentator on the technology industry who boasts 93,000 `` followers '' on Twitter , referring to a period when Twitter 's rapid traffic growth occasionally led to several service disruptions
+[0.264636] : While there are ways for websites to protect themselves from denial of service attacks , Prince said the defenses were expensive , whereas mounting an attack was a relatively simple feat for hackers
+[0.264201] : Twitter said in a blog post later on Thursday that its site was back up , though it said certain users would experience degraded service while it recovers completely
+[0.262839] : `` Google systems prevented substantive impact to our services , '' the statement said
+[0.261601] : Once access to Twitter had been restored , many of the site 's users posted short messages lamenting the disturbance
+[0.252252] : Some Twitter users appeared to be taking the incident in stride
+[0.250426] : `` Twitter has been working closely with other companies and services affected by what appears to be a single , massively coordinated attack , '' said Stone
+[0.24435] : The attacks , which came a month after the White House website was targeted in a similar online assault , left millions unable to carry out daily routines that have assumed an increasingly central part of their lives
+[0.238233] : Mango Telecom Services managing director , Mir Masud Kabir told bdnews24.com that he received a phone call from chairman of the telecoms regulator retired Major General Zia Ahmed , asking him to withdraw the restrictions on the networking site
+[0.236837] : South Korea 's spy agency said at the time that North Korea might have been behind the attacks
+[0.236306] : `` now I know Im addicted to Twitter ... I wasnt rite all day , '' Twitter user hotlilNINA posted
+[0.225258] : Hacker attacks silence Twitter , slow Facebook SAN FRANCISCO , Aug 7 -LRB- bdnews24.com / Reuters -RRB- - Twitter and Facebook suffered service problems from hacker attacks on Thursday , raising speculation about a coordinated campaign against the world 's most popular online social networks
+[0.223458] : For lawyer Zabi Nowald , it was just another day -- Twitter or no Twitter -- as he headed to work in downtown Los Angeles with a laptop in one hand and a Blackberry in the other
+[0.218087] : The number of worldwide unique visitors to the Twitter website reached 44.5 million in June , up 15-fold year-over - year , according to comScore data
+[0.209749] : Speculation swirled on the Internet that other sites , including Google , had also come under attack , after relatively lesser-known site LiveJournal said it , too , had been targeted by hackers on Thursday
+[0.202778] : `` None of my friends do Twitter ; none of my employers do , '' said Nowald , 27
+[0.199416] : Google said in an emailed statement that it was in contact with some non-Google sites that were impacted by Thursday 's attacks to help investigate
+[0.199044] : Facebook reopens Dhaka , June 5 -LRB- bdnews24.com -RRB- Facebook reopened in Bangladesh on Saturday night after being closed for one week
+[0.193994] : `` It affects my life zero
+[0.191349] : The government lifted restrictions on popular social networking site with some 875,000 users in Bangladesh at 11:38 pm
+[0.181054] : `` It 's just an annoyance
+[0.175376] : ANTISOCIAL ATTACKS Motives for denial-of-service attacks range from political to rabble-rousing to extortion , with criminal groups increasingly threatening to hobble popular websites that do n't pay demanded fees , according to security experts
+[0.109027] : I lost something I never had .
+[0.026969] : But those rumors could not be confirmed
+
