@@ -7,11 +7,12 @@ public class Main {
         // [Note] : This has to be the first line in main
         init();
 
-//        Gui gui=new Gui();
-//        gui.show();
+        Gui gui=new Gui();
+        gui.show();
 
 
-        index("/home/nidhi/IRdata/");
+//        index("/home/nidhi/IRdata/");
+
 //        QRelInput qrel = new QRelInput(Globals.QREL_PATH);
 //        qrel.start(126,"output.txt");
 

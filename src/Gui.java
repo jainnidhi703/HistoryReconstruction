@@ -1,3 +1,4 @@
+import com.itextpdf.text.DocumentException;
 import edu.stanford.nlp.util.StringUtils;
 import org.apache.lucene.index.IndexNotFoundException;
 
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -263,9 +265,10 @@ public class Gui {
 
             @Override
             protected Void doInBackground() throws Exception {
-                QRelTopicParser queryTopic = new QRelTopicParser(Globals.QREL_TOPIC_FILE ,(Integer)queryNumber.getValue());
+                int queryNo = (Integer)queryNumber.getValue();
+                QRelTopicParser queryTopic = new QRelTopicParser(Globals.QREL_TOPIC_FILE ,queryNo);
                 SearchQuery.setMainQuery(queryTopic.getTitle());
-
+                QRelInput query = new QRelInput(Globals.QREL_PATH);
                 statusLabel.setText("Retrieving . . .");
                 Retriever r = null;
                 try {
@@ -280,7 +283,8 @@ public class Gui {
 
                 List<DocumentClass> docs = null;
                 try {
-                    docs = r.topRelevantResults(SearchQuery.getMainQuery(), Globals.RETRIEVAL_RESULT_COUNT);
+//                    docs = r.topRelevantResults(SearchQuery.getMainQuery(), Globals.RETRIEVAL_RESULT_COUNT);
+                    docs = query.getDocsFromQrel(r,queryNo);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -308,7 +312,7 @@ public class Gui {
                 Collections.sort(sentences, new Comparator<Sentence>() {
                     @Override
                     public int compare(Sentence s1, Sentence s2) {
-                        return s1.getDate().compareTo(s2.getDate());
+                        return s1.getDateWithPlacement().compareTo(s2.getDateWithPlacement());
                     }
                 });
 
@@ -317,17 +321,28 @@ public class Gui {
                 String debugContent = ExportDocument.generateDebugContent(clusters);
                 String exportTo = outputPathFile.getText();
 
-                try {
-                    ExportDocument.toText(exportTo, "", SearchQuery.getMainQuery(), output);
-                    if(Globals.SHOW_DOC_SCORE_UNDER_CLUSTERS  || Globals.SHOW_SENTENCE_SCORE_UNDER_CLUSTER || Globals.SHOW_DOCS_UNDER_CLUSTERS || Globals.SHOW_TOPICS) {
-                            int extIndx = exportTo.lastIndexOf(".");
-                            exportTo = exportTo.substring(0, (extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".txt";
-                            StringUtils.printToFile(exportTo, debugContent);
-                        }
+                if(exportTo.endsWith(".pdf")) {
+                    try {
+                        ExportDocument.toPDF(exportTo, SearchQuery.getMainQuery(), "QRel Query No. : " + queryNo, output);
+                        int extIndx = exportTo.lastIndexOf(".");
+                        exportTo = exportTo.substring(0,(extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".pdf";
+                        ExportDocument.printToPDF(exportTo, debugContent);
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    } catch (DocumentException e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    try {
+                        ExportDocument.toText(exportTo, SearchQuery.getMainQuery(), "QRel Query No. : " + queryNo, output);
+                        int extIndx = exportTo.lastIndexOf(".");
+                        exportTo = exportTo.substring(0, (extIndx==-1)?exportTo.length():extIndx) + Globals.DEBUG_FILE_SUFFIX + ".txt";
+                        StringUtils.printToFile(exportTo, debugContent);
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-//                QRelInput query = new QRelInput(Globals.QREL_PATH);
+                }
+
 //                query.start((Integer)queryNumber.getValue(),outputPathFile.getText());
 
                 statusLabel.setText("Ready!");
