@@ -1,11 +1,20 @@
+import com.intellij.uiDesigner.core.GridConstraints;
 import com.itextpdf.text.DocumentException;
 import edu.stanford.nlp.util.StringUtils;
 import org.apache.lucene.index.IndexNotFoundException;
 
+import javax.activation.ActivationDataFlavor;
+import javax.activation.DataHandler;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
 import javax.xml.stream.XMLStreamException;
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DragSource;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -13,9 +22,7 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -24,6 +31,9 @@ import java.util.List;
 public class Gui {
 
     private boolean isIndexing = false;
+
+    Object[][] data=new Object[60][2];
+    Object headers[] = { "Sentences", "Required/Not"};
 
     public Gui() throws IOException, XMLStreamException {
 
@@ -81,6 +91,14 @@ public class Gui {
             public void actionPerformed(ActionEvent e) {
                 summarize();
             }
+
+        });
+
+        idealSummaryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                idealSummarize();
+            }
         });
 
 
@@ -90,6 +108,7 @@ public class Gui {
 
         this.summarizeButton.setEnabled(false);
         this.outputPathBrowse.setEnabled(true);
+        this.idealSummaryButton.setEnabled(false);
 
         SpinnerNumberModel queryNumberModel = new SpinnerNumberModel(126,126,175,1);
         queryNumber.setModel(queryNumberModel);
@@ -158,6 +177,27 @@ public class Gui {
         SpinnerNumberModel lengthModel = new SpinnerNumberModel(20,20,60,5);
         lengthSpinner.setModel(lengthModel);
 
+        table1.setDragEnabled(true);
+        table1.setModel(new DefaultTableModel(data, headers) {
+            @Override
+            public Class<?> getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return Boolean.class;
+                    default:
+                        return super.getColumnClass(column);
+                }
+            }
+        });
+        table1.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        table1.setDragEnabled(true);
+        table1.setFillsViewportHeight(true);
+        table1.setAutoCreateRowSorter(true);
+        table1.setDropMode(DropMode.INSERT_ROWS);
+        table1.setTransferHandler(new TableRowTransferHandler());
+        table1.getColumnModel().getColumn(0).setPreferredWidth((int) (Globals.GUI_WIDTH*.90));
         getSettings();
     }
 
@@ -260,7 +300,8 @@ public class Gui {
         worker.execute();
     }
 
-    private  void summarize(){
+    private void summarize(){
+//        final List<Sentence> sentences = new ArrayList<Sentence>((Integer) lengthSpinner.getValue());
         SwingWorker<Void,Integer> worker= new SwingWorker<Void,Integer>(){
 
             @Override
@@ -316,6 +357,16 @@ public class Gui {
                     }
                 });
 
+                //displaying the sentences in Gui
+                for (int i=0;i<(Integer)lengthSpinner.getValue();i++){
+                    data[i][0]=sentences.get(i);
+                    data[i][1]=false;
+                    DefaultTableModel model = (DefaultTableModel)table1.getModel();
+                    model.setValueAt(data[i][0],i,0);
+                    model.setValueAt(data[i][1],i,1);
+                }
+
+
                 statusLabel.setText("Exporting to file");
                 String output = ExportDocument.generateContent(sentences, clusters);
                 String debugContent = ExportDocument.generateDebugContent(clusters);
@@ -361,7 +412,7 @@ public class Gui {
                 summarizeButton.setEnabled(true);
                 lengthSpinner.setEnabled(true);
                 dataDirBrowse.setEnabled(true);
-;
+                idealSummaryButton.setEnabled(true);
 
                 PostRunner.run();
 
@@ -370,6 +421,80 @@ public class Gui {
         };
         // these paramaters shouldn't be allowed to change
         // while execution is running
+
+        idealSummaryButton.setEnabled(false);
+        lengthSpinner.setEnabled(false);
+        outputPathBrowse.setEnabled(false);
+        dataDirBrowse.setEnabled(false);
+        summarizeButton.setEnabled(false);
+
+        worker.execute();
+        return ;
+    }
+
+    private void idealSummarize(){
+        SwingWorker<Void,Integer> worker= new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+
+                int queryNo = (Integer)queryNumber.getValue();
+                QRelTopicParser queryTopic = new QRelTopicParser(Globals.QREL_TOPIC_FILE ,queryNo);
+                SearchQuery.setMainQuery(queryTopic.getTitle());
+                QRelInput query = new QRelInput(Globals.QREL_PATH);
+
+                List<String> idealSentences = new ArrayList<String>();
+
+                for(int i=0;i<(Integer)lengthSpinner.getValue();i++){
+                    if((Boolean)table1.getModel().getValueAt(i,1)==true) {
+                        idealSentences.add(table1.getModel().getValueAt(i, 0).toString());
+//                        System.out.println(i + "." + idealSentences.get(i));
+                    }
+
+                }
+
+                String idealExportTo = outputPathFile.getText();
+
+                String idealOutput = ExportDocument.generateIdealContent(idealSentences);
+                int extIndx = idealExportTo.lastIndexOf(".");
+                idealExportTo = idealExportTo.substring(0, (extIndx==-1)?idealExportTo.length():extIndx) +"_ideal" + ".txt";
+
+                if(idealExportTo.endsWith(".pdf")) {
+                    try {
+                        ExportDocument.toPDF(idealExportTo, SearchQuery.getMainQuery(), "QRel Query No. : " + queryNo, idealOutput);
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    } catch (DocumentException e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    try {
+                        ExportDocument.toText(idealExportTo, SearchQuery.getMainQuery(), "QRel Query No. : " + queryNo,idealOutput);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
+
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                // re-enable after thread finishes
+                outputPathBrowse.setEnabled(true);
+                summarizeButton.setEnabled(true);
+                lengthSpinner.setEnabled(true);
+                dataDirBrowse.setEnabled(true);
+                idealSummaryButton.setEnabled(true);
+
+                PostRunner.run();
+
+                System.out.println("Done!");
+            }
+        };
+
+
+        idealSummaryButton.setEnabled(false);
         lengthSpinner.setEnabled(false);
         outputPathBrowse.setEnabled(false);
         dataDirBrowse.setEnabled(false);
@@ -379,8 +504,91 @@ public class Gui {
 
     }
 
+    class TableRowTransferHandler extends TransferHandler {
 
+        private int[] rows    = null;
+        private int addIndex  = -1;
+        private int addCount  = 0;
+        private final DataFlavor localObjectFlavor;
+        private JComponent source = null;
 
+        public TableRowTransferHandler() {
+            super();
+            localObjectFlavor = new ActivationDataFlavor(Object[].class, DataFlavor.javaJVMLocalObjectMimeType, "Array of items");
+        }
+        @Override protected Transferable createTransferable(JComponent c) {
+            source = c;
+            JTable table = (JTable) c;
+            DefaultTableModel model = (DefaultTableModel)table.getModel();
+            ArrayList<Object> list = new ArrayList<Object>();
+            rows = table.getSelectedRows();
+            for(int i: rows) {
+                list.add(model.getDataVector().elementAt(i));
+            }
+            Object[] transferedObjects = list.toArray();
+            return new DataHandler(transferedObjects, localObjectFlavor.getMimeType());
+        }
+        @Override public boolean canImport(TransferSupport info) {
+            JTable t = (JTable)info.getComponent();
+            boolean b = info.isDrop() && info.isDataFlavorSupported(localObjectFlavor);
+            //XXX bug?
+            t.setCursor(b?DragSource.DefaultMoveDrop:DragSource.DefaultMoveNoDrop);
+            return b;
+        }
+        @Override public int getSourceActions(JComponent c) {
+            return COPY_OR_MOVE;
+        }
+        @Override public boolean importData(TransferSupport info) {
+            JTable target = (JTable)info.getComponent();
+            JTable.DropLocation dl  = (JTable.DropLocation)info.getDropLocation();
+            DefaultTableModel model = (DefaultTableModel)target.getModel();
+            int index = dl.getRow();
+            int max = model.getRowCount();
+            if(index<0 || index>max) {
+                index = max;
+            }
+            addIndex = index;
+            target.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            try{
+                Object[] values = (Object[])info.getTransferable().getTransferData(localObjectFlavor);
+                if(source==target) { addCount = values.length; }
+                for(int i=0;i<values.length;i++) {
+                    int idx = index++;
+                    model.insertRow(idx, (Vector)values[i]);
+                    target.getSelectionModel().addSelectionInterval(idx, idx);
+                }
+                return true;
+            }catch(UnsupportedFlavorException ex) {
+                ex.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+        @Override protected void exportDone(JComponent c, Transferable t, int act) {
+            cleanup(c, act == MOVE);
+        }
+        private void cleanup(JComponent src, boolean remove) {
+            if(remove && rows != null) {
+                JTable table = (JTable)src;
+                src.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                DefaultTableModel model = (DefaultTableModel)table.getModel();
+                if(addCount > 0) {
+                    for(int i=0;i<rows.length;i++) {
+                        if(rows[i]>=addIndex) {
+                            rows[i] += addCount;
+                        }
+                    }
+                }
+                for(int i=rows.length-1;i>=0;i--) {
+                    model.removeRow(rows[i]);
+                }
+            }
+            rows     = null;
+            addCount = 0;
+            addIndex = -1;
+        }
+    }
 
     private JPanel rootJPanel;
     private JTextField dataDirField;
@@ -396,5 +604,9 @@ public class Gui {
     private JSpinner setLambda;
     private JSpinner setDelta;
     private JSpinner setThreshold;
+    private JTable table1;
+    private JPanel sentencePanel;
+    private JScrollPane tableScrollPane;
+    private JButton idealSummaryButton;
 
 }

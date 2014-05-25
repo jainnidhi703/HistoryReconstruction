@@ -118,6 +118,21 @@ public class ExportDocument {
         return sb.toString();
     }
 
+    public static String generateIdealContent(List<String> sentences) {
+        if(sentences.isEmpty()) return "";
+
+        StringBuilder sb = new StringBuilder();
+        int lineNum = 1;
+        for (String s : sentences) {
+            if(Globals.SHOW_LINE_NUM)
+                sb.append("[").append(lineNum++).append("] : ");
+            sb.append(s).append("\n");
+        }
+        sb.append("\n");
+
+        return sb.toString();
+    }
+
     public static String generateDebugContent(List<Cluster> clusters) {
         if(clusters.isEmpty()) return "";
 
