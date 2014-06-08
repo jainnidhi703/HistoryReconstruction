@@ -16,7 +16,8 @@ import java.util.List;
 /**
  * Exports results to Various file formats
  */
-public class ExportDocument {
+public class
+        ExportDocument {
 
     private static final String HEADER = "Summary created using " + Globals.APP_NAME + " v[" + Globals.APP_VERSION + "]\n" +
             "============================================================\n\n";
@@ -29,6 +30,12 @@ public class ExportDocument {
      */
     private static String getTitle(String title, String subTitle) {
         return "Query : " + title + " [ "+ subTitle + " ]\n------------------------------------------------------------\n\n";
+    }
+    /**
+     * set  Parameters
+     */
+    private static String getParameters() {
+        return "Lambda: " + Globals.LAMBDA_FOR_SENTENCE_SCORING + "\t \t Delta: " + Globals.SEMANTIC_SIMILARITY_WEIGHTAGE + "\t \t Threshold: " + Globals.SIMILARITY_THRESHOLD+"\n------------------------------------------------------------\n\n";
     }
 
     /**
@@ -52,8 +59,9 @@ public class ExportDocument {
      */
     public static void toText(String path,String queryTitle, String querySubtitle, String content) throws IOException {
         final String subTitle = getTitle(queryTitle, querySubtitle);
+        final String params = getParameters();
         final String footer = getFooter();
-        String contentToWrite = HEADER + subTitle + content + footer;
+        String contentToWrite = HEADER + subTitle +params+ content + footer;
         FileWriter fw = new FileWriter(path);
         fw.write(contentToWrite);
         fw.close();
@@ -70,8 +78,9 @@ public class ExportDocument {
      */
     public static void toPDF(String path, String queryTitle, String querySubtitle, String content) throws FileNotFoundException, DocumentException {
         final String subTitle = getTitle(queryTitle, querySubtitle);
+        final String params = getParameters();
         final String footer = getFooter();
-        String contentToWrite = HEADER + subTitle + content + footer;
+        String contentToWrite = HEADER + subTitle +params+ content + footer;
 
         com.itextpdf.text.Document doc = new com.itextpdf.text.Document();
         PdfWriter.getInstance(doc, new FileOutputStream(path));

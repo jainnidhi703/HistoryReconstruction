@@ -128,4 +128,23 @@ public class QRelInput {
         }
         return null;
     }
+
+
+    public int getNumberOfRelevantDocs(Integer queryNo) throws IOException,NumberFormatException{
+        int cnt = 0;
+        BufferedReader br = new BufferedReader(new FileReader(qRelPath));
+        String str = br.readLine();
+        while(str !=null) {
+
+            String[] spl = str.split(" ");
+            if (!spl[0].equals("")) {
+                if (queryNo == Integer.parseInt(spl[0]) && str.endsWith("1")) {
+                    cnt++;
+                }
+            }
+            str = br.readLine();
+        }
+
+        return cnt;
+    }
 }

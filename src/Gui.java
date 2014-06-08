@@ -1,4 +1,4 @@
-import com.intellij.uiDesigner.core.GridConstraints;
+
 import com.itextpdf.text.DocumentException;
 import edu.stanford.nlp.util.StringUtils;
 import org.apache.lucene.index.IndexNotFoundException;
@@ -113,8 +113,9 @@ public class Gui {
         SpinnerNumberModel queryNumberModel = new SpinnerNumberModel(126,126,175,1);
         queryNumber.setModel(queryNumberModel);
         try {
+            QRelInput q = new QRelInput(Globals.QREL_PATH);
             QRelTopicParser queryTopic= new QRelTopicParser(Globals.QREL_TOPIC_FILE,(Integer)queryNumber.getValue());
-            queryTitleLabel.setText("The Query selected is " + queryNumber.getValue()  + " and the topic is " + queryTopic.getTitle());
+            queryTitleLabel.setText("The Query selected is " + queryNumber.getValue()  + " and the topic is " + queryTopic.getTitle()+" with "+q.getNumberOfRelevantDocs((Integer)queryNumber.getValue()) + " relevant docs.");
         } catch (IOException e1) {
             e1.printStackTrace();
         } catch (XMLStreamException e1) {
@@ -126,8 +127,9 @@ public class Gui {
             public void stateChanged(ChangeEvent e) {
                 int value = (Integer) queryNumber.getValue();
                 try {
+                    QRelInput q = new QRelInput(Globals.QREL_PATH);
                     QRelTopicParser queryTopic= new QRelTopicParser(Globals.QREL_TOPIC_FILE,value);
-                    queryTitleLabel.setText("The Query selected is " + value + " and the topic is " + queryTopic.getTitle());
+                    queryTitleLabel.setText("The Query selected is " + value + " and the topic is " + queryTopic.getTitle() +" with "+q.getNumberOfRelevantDocs(value) +" relevant docs.");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 } catch (XMLStreamException e1) {
